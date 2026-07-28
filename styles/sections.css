@@ -508,3 +508,388 @@ header .display-4 {
   }
 }
 
+/* ---------- Featured / More Projects layout ---------- */
+#projects .row.g-4 {
+  align-items: stretch;
+}
+
+.projects-header {
+  padding-top: var(--space-2);
+  padding-bottom: 0;
+}
+
+.projects-subtitle {
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+
+.projects-subtitle-note {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Ordering — featured first, toggle, more-header, then non-featured cards */
+#projects .row > .projects-featured-header { order: 0; }
+#projects .row > [data-featured="1"] { order: 1; }
+#projects .row > [data-featured="2"] { order: 2; }
+#projects .row > [data-featured="3"] { order: 3; }
+#projects .row > [data-featured="4"] { order: 4; }
+#projects .row > .projects-more-toggle { order: 5; }
+#projects .row > .projects-more-header { order: 6; }
+#projects .row > .col-12.col-md-6:not([data-featured]) { order: 10; }
+
+/* Hide non-featured cards and more-header by default */
+#projects .row > .col-12.col-md-6:not([data-featured]),
+#projects .row > .projects-more-header {
+  display: none;
+}
+
+/* Toggle button — always visible */
+.projects-more-toggle {
+  display: flex;
+  justify-content: center;
+}
+
+.projects-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 1.4rem;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast),
+    border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.projects-toggle-btn:hover,
+.projects-toggle-btn:focus-visible {
+  background: rgba(55, 183, 195, 0.15);
+  border-color: var(--accent);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.projects-toggle-btn .iconify {
+  font-size: 1.15rem;
+}
+
+/* Expanded state — show all */
+#projects.show-all .row > .col-12.col-md-6:not([data-featured]),
+#projects.show-all .row > .projects-more-header {
+  display: block;
+}
+
+/* ---------- Contact sidebar toggle ---------- */
+/* Sidebar itself: animate its resize on collapse */
+.social-sidebar {
+  transition: padding var(--transition-med), gap var(--transition-med),
+    background var(--transition-med), border-color var(--transition-med),
+    box-shadow var(--transition-med);
+}
+
+/* Toggle floats as a small chevron tab on the LEFT edge of the pill, vertically centered */
+.social-sidebar-toggle {
+  position: absolute;
+  left: -0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.7rem;
+  height: 1.7rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(7, 25, 82, 0.95);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
+  z-index: 2;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+    right var(--transition-med), left var(--transition-med), color var(--transition-fast);
+}
+
+.social-sidebar-toggle:hover,
+.social-sidebar-toggle:focus-visible {
+  background: var(--accent);
+  border-color: var(--accent);
+  outline: none;
+}
+
+.social-sidebar-toggle .iconify {
+  font-size: 1rem;
+}
+
+/* Collapsed: hide icon links; sidebar shell fades away leaving only the toggle */
+.social-sidebar.is-collapsed {
+  padding: 0;
+  gap: 0;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.social-sidebar.is-collapsed .social-sidebar-link {
+  display: none;
+}
+
+/* When collapsed, the toggle recenters itself as the standalone element */
+.social-sidebar.is-collapsed .social-sidebar-toggle {
+  position: relative;
+  right: auto;
+  top: auto;
+  left: auto;
+  transform: none;
+}
+
+/* Light theme */
+:root[data-theme="light"] .social-sidebar-toggle {
+  background: #ffffff;
+  color: var(--text);
+  border-color: rgba(7, 25, 82, 0.15);
+  box-shadow: 0 4px 12px rgba(7, 25, 82, 0.12);
+}
+
+:root[data-theme="light"] .social-sidebar-toggle:hover,
+:root[data-theme="light"] .social-sidebar-toggle:focus-visible {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ---------- Theme toggle button ---------- */
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+    transform var(--transition-fast);
+  margin-top: 0.2rem;
+}
+
+.theme-toggle-btn:hover,
+.theme-toggle-btn:focus-visible {
+  background: rgba(55, 183, 195, 0.2);
+  border-color: var(--accent);
+  outline: none;
+  transform: rotate(15deg);
+}
+
+.theme-toggle-btn .iconify {
+  font-size: 1.25rem;
+  color: #ffe38f;
+}
+
+/* Show sunny icon in dark mode (toggle target = light), moon in light mode */
+.theme-toggle-btn .theme-icon-light { display: none; }
+:root[data-theme="light"] .theme-toggle-btn .theme-icon-dark { display: none; }
+:root[data-theme="light"] .theme-toggle-btn .theme-icon-light { display: inline-block; }
+
+:root[data-theme="light"] .theme-toggle-btn .iconify {
+  color: #4a5568;
+}
+
+/* ---------- Light theme touch-ups ---------- */
+:root[data-theme="light"] .theme-toggle-btn {
+  background: rgba(7, 25, 82, 0.06);
+  border-color: rgba(7, 25, 82, 0.2);
+}
+
+/* Card & panel readability in light mode: soften white overlays that turn invisible */
+:root[data-theme="light"] .project-block,
+:root[data-theme="light"] .skill-block {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+:root[data-theme="light"] .project-block:hover,
+:root[data-theme="light"] .skill-block:hover {
+  background: rgba(8, 131, 149, 0.05) !important;
+  border-color: var(--border-strong);
+}
+
+/* Education + Experience feature panels (need #id prefix to beat hardcoded rules) */
+:root[data-theme="light"] #education .education-feature,
+:root[data-theme="light"] #experience .experience-feature {
+  background: #eaeff8;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+:root[data-theme="light"] #education .education-course-card,
+:root[data-theme="light"] #education .education-tags span {
+  background: rgba(7, 25, 82, 0.04);
+  border-color: rgba(7, 25, 82, 0.1);
+  color: var(--text);
+}
+
+:root[data-theme="light"] #education .education-course-card strong,
+:root[data-theme="light"] #education .education-course-title {
+  color: var(--accent-strong);
+}
+
+:root[data-theme="light"] #education .education-course-card em,
+:root[data-theme="light"] #education .education-note,
+:root[data-theme="light"] #education .education-subtitle,
+:root[data-theme="light"] #experience .experience-feature-subtitle {
+  color: var(--muted);
+}
+
+:root[data-theme="light"] #education .education-divider {
+  border-color: rgba(7, 25, 82, 0.1);
+}
+
+:root[data-theme="light"] #education .education-date,
+:root[data-theme="light"] #experience .experience-feature-date {
+  color: #b8791d;
+}
+
+/* Accent-highlighted spans stay readable in light mode */
+:root[data-theme="light"] .ats-highlight {
+  color: var(--accent-strong);
+  border-bottom-color: rgba(8, 131, 149, 0.45);
+}
+
+/* Section titles adopt darker underline in light mode */
+:root[data-theme="light"] .section-title::after {
+  background: linear-gradient(90deg, var(--accent), rgba(8, 131, 149, 0.25));
+}
+
+/* Navbar + Footer in light mode — match the light-blue-grey used by the body/projects section */
+:root[data-theme="light"] .navbar,
+:root[data-theme="light"] .footer {
+  background: rgba(242, 245, 251, 0.92);
+  border-bottom: 1px solid rgba(7, 25, 82, 0.08);
+}
+
+:root[data-theme="light"] .footer {
+  border-top: 1px solid rgba(7, 25, 82, 0.08);
+  border-bottom: none;
+}
+
+:root[data-theme="light"] .navbar-brand,
+:root[data-theme="light"] .nav-link,
+:root[data-theme="light"] .footer-link {
+  color: var(--text) !important;
+}
+
+:root[data-theme="light"] .navbar-toggler-icon {
+  filter: invert(1);
+  opacity: 0.6;
+}
+
+/* Social sidebar container in light mode */
+:root[data-theme="light"] .social-sidebar {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.75));
+  border: 1px solid rgba(7, 25, 82, 0.1);
+  box-shadow: var(--shadow-sm);
+}
+
+/* The generic sidebar link background — leave branded LinkedIn/Discord/GitHub/Email as-is */
+:root[data-theme="light"] .social-sidebar-link {
+  border-color: rgba(7, 25, 82, 0.08);
+}
+
+/* GitHub icon inherits color:#fff which is invisible on the light sidebar — force dark */
+:root[data-theme="light"] .social-link-github {
+  color: #171515;
+}
+
+:root[data-theme="light"] .social-link-github:hover {
+  background: rgba(7, 25, 82, 0.08);
+  border-color: rgba(7, 25, 82, 0.25);
+}
+
+/* Modals in light mode — match the light-blue-grey used by the body/projects section */
+:root[data-theme="light"] .modal-content {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+:root[data-theme="light"] .modal-header,
+:root[data-theme="light"] .modal-footer {
+  background: rgba(7, 25, 82, 0.05);
+  border-color: var(--border);
+}
+
+:root[data-theme="light"] .btn-close-white {
+  filter: invert(1) grayscale(1);
+}
+
+/* Featured capstone section inside project modal — swap dark gradient for light-blue-grey card */
+:root[data-theme="light"] .project-feature {
+  background: #eaeff8;
+  border-color: rgba(7, 25, 82, 0.12);
+  box-shadow: 0 12px 32px rgba(7, 25, 82, 0.1);
+}
+
+:root[data-theme="light"] .project-feature-capstone {
+  border-color: rgba(184, 121, 29, 0.4);
+  box-shadow: 0 12px 32px rgba(7, 25, 82, 0.1);
+}
+
+:root[data-theme="light"] .project-feature-kicker {
+  background: rgba(184, 121, 29, 0.14);
+  border-color: rgba(184, 121, 29, 0.4);
+  color: #8a5a15;
+}
+
+:root[data-theme="light"] .project-feature-copy h6,
+:root[data-theme="light"] .project-feature-copy p {
+  color: var(--text);
+}
+
+:root[data-theme="light"] .project-feature-links a {
+  color: var(--accent-strong);
+}
+
+:root[data-theme="light"] .project-feature-links a:hover {
+  color: #033f4a;
+}
+
+:root[data-theme="light"] .project-poster-image {
+  border-color: rgba(7, 25, 82, 0.1);
+  box-shadow: 0 12px 32px rgba(7, 25, 82, 0.1);
+}
+
+/* Education + Experience pills in light mode — original variants use pale text that vanishes on white */
+:root[data-theme="light"] #education .education-pill,
+:root[data-theme="light"] #experience .experience-pill {
+  background: rgba(7, 25, 82, 0.04);
+  border-color: rgba(7, 25, 82, 0.15);
+  color: var(--text);
+}
+
+:root[data-theme="light"] #education .education-pill-primary,
+:root[data-theme="light"] #experience .experience-pill-primary {
+  background: rgba(8, 131, 149, 0.1);
+  border-color: rgba(8, 131, 149, 0.4);
+  color: var(--accent-strong);
+}
+
+:root[data-theme="light"] #education .education-pill-success {
+  background: rgba(46, 125, 50, 0.1);
+  border-color: rgba(46, 125, 50, 0.4);
+  color: #2e7d32;
+}
+

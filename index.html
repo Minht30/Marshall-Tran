@@ -9,11 +9,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles/variables.css">
-  <link rel="stylesheet" href="styles/base.css">
-  <link rel="stylesheet" href="styles/layout.css">
-  <link rel="stylesheet" href="styles/components.css">
-  <link rel="stylesheet" href="styles/sections.css">
+  <link rel="stylesheet" href="styles/variables.css?v=11">
+  <link rel="stylesheet" href="styles/base.css?v=11">
+  <link rel="stylesheet" href="styles/layout.css?v=11">
+  <link rel="stylesheet" href="styles/components.css?v=11">
+  <link rel="stylesheet" href="styles/sections.css?v=11">
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark" aria-label="Main navigation">
@@ -29,6 +29,12 @@
           <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
           <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
           <li class="nav-item"><a class="nav-link" href="#connect">Connect</a></li>
+          <li class="nav-item ms-lg-2">
+            <button id="theme-toggle" type="button" class="theme-toggle-btn" aria-label="Toggle light and dark theme" title="Toggle theme">
+              <span class="iconify theme-icon-dark" data-icon="mdi:weather-sunny" aria-hidden="true"></span>
+              <span class="iconify theme-icon-light" data-icon="mdi:weather-night" aria-hidden="true"></span>
+            </button>
+          </li>
         </ul>
       </div>
     </div>
@@ -36,13 +42,15 @@
   <main class="container-xl mx-auto" style="max-width: 900px;">
     <header class="text-center my-5">
       <h1 class="display-4 fw-bold" id="name">Minh "Marshall" Tran</h1>
-      <h2 class="h4 mb-2" id="title">Software Engineer | Java · React · REST APIs · Full-Stack Development</h2>
+      <h2 class="h4 mb-2" id="title">Front-End Developer with Full-Stack Fundamentals</h2>
       <div class="mb-2" id="university">Toronto Metropolitan University</div>
-      <p class="lead fst-italic" id="tagline">Distributed Systems, REST APIs, Testing, Enterprise Web Delivery</p>
+      <p class="lead fst-italic" id="tagline">Design-to-Code · Accessibility · REST APIs · Enterprise Web Delivery</p>
     </header>
     <section id="about" class="mb-5" tabindex="0">
       <h3 class="section-title">About</h3>
-      <p>Software Engineering graduate from Toronto Metropolitan University graduating in May 2026, with experience building distributed systems, REST APIs, and full-stack applications in Java, Python, and JavaScript. Proven in Agile delivery, software testing across <span class="ats-highlight">230 test cases</span>, and enterprise-scale web systems.</p>
+      <p>I'm a <span class="ats-highlight">Computer Engineering (Co-op)</span> student at Toronto Metropolitan University graduating May 2026, currently on the <span class="ats-highlight">Dean's List</span>, spending most of my time in the space between design and code. Over the past year at the <span class="ats-highlight">City of Brampton</span>, I turned <span class="ats-highlight">Figma</span> and <span class="ats-highlight">Adobe XD</span> files into working, accessible pages for a municipal web platform spanning <span class="ats-highlight">1,500+ pages</span> — pushing accessibility compliance from <span class="ats-highlight">63 to 90</span> and QA audit scores from <span class="ats-highlight">74 to 90</span>, work that earned recognition as a <span class="ats-highlight">Top 5% Siteimprove user in 2024</span>.</p>
+      <p>Outside of work, I build things that ship: a <span class="ats-highlight">React Native</span> capstone with real-time <span class="ats-highlight">Firebase</span> sync, a <span class="ats-highlight">Java</span> banking system with encrypted authentication, and a testing suite against an open-source <span class="ats-highlight">Spring Boot</span> project with 48 pull requests behind it. I like projects with a real user at the end of them, not just a demo.</p>
+      <p class="mb-0"><strong>Currently open to new-grad <span class="ats-highlight">front-end</span> and <span class="ats-highlight">full-stack</span> roles starting May 2026.</strong></p>
     </section>
     <section id="skills" class="mb-5" tabindex="0">
       <h3 class="section-title">Skills</h3>
@@ -62,44 +70,74 @@
         </div>
         <div class="col-12 col-md-6 col-lg-3">
           <div class="skill-block">
-            <h4>Backend & APIs</h4>
+            <h4>Backend &amp; APIs</h4>
             <ul class="list-unstyled">
               <li><span class="iconify" data-icon="mdi:language-java" title="Java"></span> Java</li>
+              <li><span class="iconify" data-icon="mdi:language-python"></span> Python</li>
+              <li><span class="iconify" data-icon="mdi:language-php"></span> PHP</li>
               <li><span class="iconify" data-icon="mdi:api" title="REST APIs"></span> REST APIs</li>
-              <li><span class="iconify" data-icon="mdi:code-json" title="JSON"></span> JSON</li>
-              <li><span class="iconify" data-icon="mdi:database"></span> SQL</li>
+              <li><span class="iconify" data-icon="mdi:database"></span> PostgreSQL</li>
               <li><span class="iconify" data-icon="mdi:firebase"></span> Firebase</li>
-              <li><span class="iconify" data-icon="mdi:language-python"></span> FastAPI</li>
             </ul>
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
           <div class="skill-block">
-            <h4>Enterprise & IT Systems</h4>
+            <h4>Design, CMS &amp; Compliance</h4>
             <ul class="list-unstyled">
-              <li><span class="iconify" data-icon="mdi:domain"></span> Active Directory</li>
-              <li><span class="iconify" data-icon="mdi:microsoft-office"></span> Office 365</li>
-              <li><span class="iconify" data-icon="mdi:email-outline"></span> Microsoft Exchange</li>
-              <li><span class="iconify" data-icon="mdi:microsoft-azure"></span> Azure</li>
+              <li><span class="iconify" data-icon="mdi:marker"></span> Figma</li>
+              <li><span class="iconify" data-icon="mdi:adobe"></span> Adobe XD</li>
               <li><span class="iconify" data-icon="mdi:microsoft-sharepoint"></span> SharePoint Online</li>
-              <li><span class="iconify" data-icon="mdi:chart-bar"></span> Power BI</li>
+              <li><span class="iconify" data-icon="mdi:wordpress"></span> WordPress</li>
+              <li><span class="iconify" data-icon="mdi:human-male-height-variant"></span> AODA / WCAG 2.1</li>
+              <li><span class="iconify" data-icon="mdi:shield-check"></span> Siteimprove</li>
             </ul>
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
           <div class="skill-block">
-            <h4>Testing & DevOps</h4>
+            <h4>QA, Testing &amp; DevOps</h4>
             <ul class="list-unstyled">
+              <li><span class="iconify" data-icon="mdi:web"></span> Selenium</li>
               <li><span class="iconify" data-icon="mdi:test-tube"></span> JUnit</li>
+              <li><span class="iconify" data-icon="mdi:send-outline"></span> Postman</li>
               <li><span class="iconify" data-icon="mdi:hammer-wrench"></span> Maven</li>
               <li><span class="iconify" data-icon="mdi:docker"></span> Docker</li>
-              <li><span class="iconify" data-icon="mdi:source-branch"></span> GitHub Actions (CI/CD)</li>
-              <li><span class="iconify" data-icon="mdi:database"></span> PostgreSQL</li>
-              <li><span class="iconify" data-icon="mdi:git"></span> Git & GitHub</li>
+              <li><span class="iconify" data-icon="mdi:git"></span> Git / GitHub Actions</li>
             </ul>
           </div>
         </div>
       </div>    </section>
+    <!--Certifications & Recognition-->
+    <section id="recognition" class="mb-5" tabindex="0">
+      <h3 class="section-title">Certifications &amp; Recognition</h3>
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <div class="skill-block">
+            <h4><span class="iconify" data-icon="mdi:trophy-award"></span> Top 5% Siteimprove User &mdash; 2024</h4>
+            <p class="mb-0">Recognized in <span class="ats-highlight">December 2024</span> as one of the <span class="ats-highlight">top 5% of Siteimprove users globally</span> for <span class="ats-highlight">accessibility</span> and <span class="ats-highlight">quality assurance</span> impact across a 1,500+ page municipal web platform. <a href="PDF file - References/Siteimprove_Certificate_2024.pdf" target="_blank" rel="noopener">View certificate</a>.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="skill-block">
+            <h4><span class="iconify" data-icon="mdi:certificate"></span> Meta Front-End Developer</h4>
+            <p class="mb-0">Professional Certificate &middot; Coursera. Coursework in <span class="ats-highlight">React</span>, <span class="ats-highlight">responsive design</span>, and modern front-end tooling.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="skill-block">
+            <h4><span class="iconify" data-icon="mdi:school"></span> Dean's List &mdash; TMU</h4>
+            <p class="mb-0">Academic honours <span class="ats-highlight">2025&ndash;2026</span> in the B.Eng. Computer Engineering (Co-op) program.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="skill-block">
+            <h4><span class="iconify" data-icon="mdi:human-male-height-variant"></span> AODA / WCAG 2.1</h4>
+            <p class="mb-0">Applied working knowledge of <span class="ats-highlight">AODA</span> and <span class="ats-highlight">WCAG 2.1 (Level AAA)</span> across production municipal content and enterprise workflows.</p>
+          </div>
+        </div>
+      </div>
+    </section>
     <!--Education-->
     <section id="education" class="mb-5" tabindex="0">
       <h3 class="section-title">Education</h3>
@@ -127,7 +165,7 @@
         <ul class="education-highlights">
           <li>Enrolled in the Software Engineering Option: 7-course specialisation covering software architecture (<span class="ats-highlight">COE 692</span>), requirements analysis (<span class="ats-highlight">COE 691</span>), distributed and cloud computing (<span class="ats-highlight">COE 892</span>), software testing and QA (<span class="ats-highlight">COE 891</span>), project management (<span class="ats-highlight">CPS 714</span>), advanced algorithms (<span class="ats-highlight">CPS 688</span>), and computer networks (<span class="ats-highlight">COE 768</span>).</li>
           <li>Completed <span class="ats-highlight">COE 70A/B</span> Computer Engineering Capstone Design, a two-semester group project applying end-to-end system design, requirements mapping, implementation, and testing.</li>
-          <li>Completed a <span class="ats-highlight">12-month Co-op</span> at the City of Brampton from <span class="ats-highlight">Sep 2024 - Sep 2025</span>, applying software engineering skills in a production enterprise environment.</li>
+          <li>Completed a <span class="ats-highlight">12-month Co-op</span> at the City of Brampton from <span class="ats-highlight">Sep 2024 - Aug 2025</span>, applying software engineering skills in a production enterprise environment.</li>
         </ul>
 
         <div class="education-divider"></div>
@@ -233,7 +271,7 @@
                 <span>Public Sector</span>
               </div>
             </div>
-            <div class="experience-feature-date">Sep 2024 - Sep 2025</div>
+            <div class="experience-feature-date">Sep 2024 - Aug 2025</div>
           </div>
           <div class="experience-feature-pills">
             <span class="experience-pill experience-pill-primary">12-month Co-op</span>
@@ -241,7 +279,7 @@
             <span class="experience-pill">7-member Agile team</span>
           </div>
           <ul class="experience-feature-list">
-            <li>Ranked in the <span class="ats-highlight">top 5% globally in Siteimprove</span>, improving accessibility from 66 to 89 and QA from 74 to 90 across <span class="ats-highlight">1,500+ pages</span>.</li>
+            <li>Ranked in the <span class="ats-highlight">top 5% globally in Siteimprove</span>, improving accessibility from 63 to 90 and QA from 74 to 90 across <span class="ats-highlight">1,500+ pages</span>.</li>
             <li>Built and optimized enterprise content systems using <span class="ats-highlight">HTML</span>, <span class="ats-highlight">CSS</span>, <span class="ats-highlight">JavaScript</span>, and <span class="ats-highlight">SharePoint Online</span> for stronger usability and cross-browser support.</li>
             <li>Delivered SharePoint-based enterprise workflows in a <span class="ats-highlight">7-member Agile team</span>, implementing troubleshooting and structured updates that improved reliability.</li>
           </ul>
@@ -275,21 +313,22 @@
             <div class="experience-feature-date">Jan 2025 - Mar 2025</div>
           </div>
           <div class="experience-feature-pills">
-            <span class="experience-pill experience-pill-primary">Frontend + API</span>
-            <span class="experience-pill">20% booking efficiency</span>
-            <span class="experience-pill">15% revenue growth</span>
+            <span class="experience-pill experience-pill-primary">Wix Studio</span>
+            <span class="experience-pill">20% booking lift</span>
+            <span class="experience-pill">200+ new clients</span>
           </div>
           <ul class="experience-feature-list">
-            <li>Built responsive systems using <span class="ats-highlight">HTML</span>, <span class="ats-highlight">CSS</span>, and <span class="ats-highlight">JavaScript</span> for stronger mobile usability.</li>
-            <li>Developed <span class="ats-highlight">REST APIs</span> and <span class="ats-highlight">SQL</span>-connected workflows that improved booking efficiency by <span class="ats-highlight">20%</span> and increased revenue by <span class="ats-highlight">15%</span>.</li>
-            <li>Implemented <span class="ats-highlight">WCAG 2.1</span> accessibility standards and frontend improvements that reduced friction in client intake systems.</li>
+            <li>Rebuilt the client intake flow in <span class="ats-highlight">Wix Studio</span>; qualified consultation bookings rose <span class="ats-highlight">20%</span>, bringing in <span class="ats-highlight">200+ new clients</span>.</li>
+            <li>Set up event tracking that fed lead data into <span class="ats-highlight">Google Sheets</span> automatically, replacing manual reporting for 200+ active clients.</li>
+            <li>Functional testing cut client-side submission errors by <span class="ats-highlight">25%</span>.</li>
+            <li>Wrote the technical documentation the team used to onboard new hires.</li>
           </ul>
           <div class="experience-feature-skills">
             <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:language-html5"></span> HTML</span>
             <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:language-css3"></span> CSS</span>
             <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:language-javascript"></span> JavaScript</span>
             <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:marker"></span> Wix Studio</span>
-            <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:database"></span> SQL</span>
+            <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:google-spreadsheet"></span> Google Sheets</span>
           </div>
         </article>
 
@@ -334,13 +373,27 @@
     <section id="projects" class="mb-5" tabindex="0">
       <h3 class="section-title">Projects</h3>
       <div class="row g-4">
+        <div class="col-12 projects-header projects-featured-header">
+          <h4 class="projects-subtitle">Featured</h4>
+          <p class="projects-subtitle-note mb-0">The four projects I'd point a hiring manager at first.</p>
+        </div>
+        <div class="col-12 projects-header projects-more-toggle">
+          <button id="toggle-more-projects" type="button" class="projects-toggle-btn" aria-expanded="false" aria-controls="projects">
+            <span class="iconify" data-icon="mdi:plus-circle-outline"></span>
+            <span class="projects-toggle-label">Show all 12 projects</span>
+          </button>
+        </div>
+        <div class="col-12 projects-header projects-more-header">
+          <h4 class="projects-subtitle">More Projects</h4>
+          <p class="projects-subtitle-note mb-0">Additional coursework, co-op, and freelance work.</p>
+        </div>
         <!-- Project : Outdoor Cat Tracker -->
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6" data-featured="2">
           <div class="project-block project-summary" tabindex="0" role="button" aria-label="Open Project Modal" data-bs-toggle="modal" data-bs-target="#projectModalOutdoorCatTracker">
             <div class="d-flex align-items-center mb-2">
               <h4 class="me-2">Outdoor Cat Tracker - TMU Capstone</h4>
             </div>
-            <div class="project-date text-warning">TMU Capstone | Sep 2025 - Present</div>
+            <div class="project-date">TMU Capstone | Sep 2025 - Apr 2026</div>
             <ul>
               <li>Built a cross-platform mobile app with <span class="ats-highlight">GPS hardware</span> integration, real-time location tracking, and secure authentication as a 4-member TMU capstone project.</li>
               <li>Connected a GPS microcontroller to a <span class="ats-highlight">React Native</span> app via <span class="ats-highlight">Firebase/Firestore</span> for real-time geolocation and OAuth-based authentication across iOS and Android.</li>
@@ -379,13 +432,13 @@
               <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:lan-connect"></span> TCP/IP Sockets</span>
               <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:source-branch"></span> Multi-threading</span>
             </div>
-            <a href="https://github.com/quangminhtra/Bank-System---COE817" target="_blank" class="neumorphic-btn" aria-label="GitHub Repository">
+            <a href="https://github.com/Minht30/Bank-System" target="_blank" class="neumorphic-btn" aria-label="GitHub Repository">
               <svg width="32" height="32" fill="#0092E4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2.2467A10.00042,10.00042,0,0,0,8.83752,21.73419c.5.08752.6875-.21247.6875-.475,0-.23749-.01251-1.025-.01251-1.86249C7,19.85919,6.35,18.78423,6.15,18.22173A3.636,3.636,0,0,0,5.125,16.8092c-.35-.1875-.85-.65-.01251-.66248A2.00117,2.00117,0,0,1,6.65,17.17169a2.13742,2.13742,0,0,0,2.91248.825A2.10376,2.10376,0,0,1,10.2,16.65923c-2.225-.25-4.55-1.11254-4.55-4.9375a3.89187,3.89187,0,0,1,1.025-2.6875,3.59373,3.59373,0,0,1,.1-2.65s.83747-.26251,2.75,1.025a9.42747,9.42747,0,0,1,5,0c1.91248-1.3,2.75-1.025,2.75-1.025a3.59323,3.59323,0,0,1,.1,2.65,3.869,3.869,0,0,1,1.025,2.6875c0,3.83747-2.33752,4.6875-4.5625,4.9375a2.36814,2.36814,0,0,1,.675,1.85c0,1.33752-.01251,2.41248-.01251,2.75,0,.26251.1875.575.6875.475A10.0053,10.0053,0,0,0,12,2.2467Z"></path></svg>
             </a>
           </div>
         </div>
         <!-- Project : COE891 Software Testing - TASKANA -->
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6" data-featured="4">
           <div class="project-block project-summary" tabindex="0" role="button" aria-label="Open Project Modal" data-bs-toggle="modal" data-bs-target="#projectModalTaskanaTesting">
             <div class="d-flex align-items-center mb-2">
               <h4 class="me-2">COE891 Software Testing - TASKANA</h4>
@@ -407,13 +460,13 @@
               <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:robot-outline"></span> Ollama (LLM)</span>
               <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:source-branch"></span> CI/CD</span>
             </div>
-            <a href="https://github.com/quangminhtra/coe891-taskana-testing" target="_blank" class="neumorphic-btn" aria-label="GitHub Repository">
+            <a href="https://github.com/Minht30/Taskana_Test" target="_blank" class="neumorphic-btn" aria-label="GitHub Repository">
               <svg width="32" height="32" fill="#0092E4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2.2467A10.00042,10.00042,0,0,0,8.83752,21.73419c.5.08752.6875-.21247.6875-.475,0-.23749-.01251-1.025-.01251-1.86249C7,19.85919,6.35,18.78423,6.15,18.22173A3.636,3.636,0,0,0,5.125,16.8092c-.35-.1875-.85-.65-.01251-.66248A2.00117,2.00117,0,0,1,6.65,17.17169a2.13742,2.13742,0,0,0,2.91248.825A2.10376,2.10376,0,0,1,10.2,16.65923c-2.225-.25-4.55-1.11254-4.55-4.9375a3.89187,3.89187,0,0,1,1.025-2.6875,3.59373,3.59373,0,0,1,.1-2.65s.83747-.26251,2.75,1.025a9.42747,9.42747,0,0,1,5,0c1.91248-1.3,2.75-1.025,2.75-1.025a3.59323,3.59323,0,0,1,.1,2.65,3.869,3.869,0,0,1,1.025,2.6875c0,3.83747-2.33752,4.6875-4.5625,4.9375a2.36814,2.36814,0,0,1,.675,1.85c0,1.33752-.01251,2.41248-.01251,2.75,0,.26251.1875.575.6875.475A10.0053,10.0053,0,0,0,12,2.2467Z"></path></svg>
             </a>
           </div>
         </div>
         <!-- Project : TTC Transit Tracker -->
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6" data-featured="3">
           <div class="project-block project-summary" tabindex="0" role="button" aria-label="Open Project Modal" data-bs-toggle="modal" data-bs-target="#projectModalTTCTransitTracker">
             <div class="d-flex align-items-center mb-2">
               <h4 class="me-2">TTC Transit Tracker - TMU</h4>
@@ -460,7 +513,7 @@
               <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:api"></span> REST API</span>
               <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:database-edit"></span> SQL</span>
             </div>
-            <a href="https://github.com/quangminhtra/Gym-Tracker-TMU-" target="_blank" class="neumorphic-btn" aria-label="GitHub Repository">
+            <a href="https://github.com/Minht30/Gym-Tracker-TMU-" target="_blank" class="neumorphic-btn" aria-label="GitHub Repository">
               <svg width="32" height="32" fill="#0092E4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2.2467A10.00042,10.00042,0,0,0,8.83752,21.73419c.5.08752.6875-.21247.6875-.475,0-.23749-.01251-1.025-.01251-1.86249C7,19.85919,6.35,18.78423,6.15,18.22173A3.636,3.636,0,0,0,5.125,16.8092c-.35-.1875-.85-.65-.01251-.66248A2.00117,2.00117,0,0,1,6.65,17.17169a2.13742,2.13742,0,0,0,2.91248.825A2.10376,2.10376,0,0,1,10.2,16.65923c-2.225-.25-4.55-1.11254-4.55-4.9375a3.89187,3.89187,0,0,1,1.025-2.6875,3.59373,3.59373,0,0,1,.1-2.65s.83747-.26251,2.75,1.025a9.42747,9.42747,0,0,1,5,0c1.91248-1.3,2.75-1.025,2.75-1.025a3.59323,3.59323,0,0,1,.1,2.65,3.869,3.869,0,0,1,1.025,2.6875c0,3.83747-2.33752,4.6875-4.5625,4.9375a2.36814,2.36814,0,0,1,.675,1.85c0,1.33752-.01251,2.41248-.01251,2.75,0,.26251.1875.575.6875.475A10.0053,10.0053,0,0,0,12,2.2467Z"></path></svg>
             </a>
           </div>
@@ -562,7 +615,7 @@
           </div>
         </div>
         <!-- Project : GrowGreen Web Reorganization -->
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6" data-featured="1">
           <div class="project-block project-summary" tabindex="0" role="button" aria-label="Open Project Modal" data-bs-toggle="modal" data-bs-target="#projectModalGrowGreen">
             <div class="d-flex align-items-center mb-2">
               <h4 class="me-2">GrowGreen Web Reorganization</h4>
@@ -632,7 +685,7 @@
               <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:animation-play-outline"></span> Sensor Integration</span>
               <span class="badge bg-accent me-1"><span class="iconify" data-icon="mdi:robot-industrial"></span> Hardware Automation</span>
             </div>
-            <a href="https://github.com/quangminhtra/EEBOT-MAZED-PROJECT_COE_538" target="_blank" class="neumorphic-btn" aria-label="GitHub Repository">
+            <a href="https://github.com/Minht30/EEBOT-MAZED-PROJECT_COE_538" target="_blank" class="neumorphic-btn" aria-label="GitHub Repository">
               <svg width="32" height="32" fill="#0092E4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2.2467A10.00042,10.00042,0,0,0,8.83752,21.73419c.5.08752.6875-.21247.6875-.475,0-.23749-.01251-1.025-.01251-1.86249C7,19.85919,6.35,18.78423,6.15,18.22173A3.636,3.636,0,0,0,5.125,16.8092c-.35-.1875-.85-.65-.01251-.66248A2.00117,2.00117,0,0,1,6.65,17.17169a2.13742,2.13742,0,0,0,2.91248.825A2.10376,2.10376,0,0,1,10.2,16.65923c-2.225-.25-4.55-1.11254-4.55-4.9375a3.89187,3.89187,0,0,1,1.025-2.6875,3.59373,3.59373,0,0,1,.1-2.65s.83747-.26251,2.75,1.025a9.42747,9.42747,0,0,1,5,0c1.91248-1.3,2.75-1.025,2.75-1.025a3.59323,3.59323,0,0,1,.1,2.65,3.869,3.869,0,0,1,1.025,2.6875c0,3.83747-2.33752,4.6875-4.5625,4.9375a2.36814,2.36814,0,0,1,.675,1.85c0,1.33752-.01251,2.41248-.01251,2.75,0,.26251.1875.575.6875.475A10.0053,10.0053,0,0,0,12,2.2467Z"></path></svg>
             </a>
           </div>
@@ -663,7 +716,7 @@
 
               <p class="mt-2 mb-4">
                 GitHub:
-                <a href="https://github.com/quangminhtra/Bank-System---COE817" target="_blank" rel="noopener">github.com/quangminhtra/Bank-System---COE817</a>
+                <a href="https://github.com/Minht30/Bank-System" target="_blank" rel="noopener">github.com/Minht30/Bank-System</a>
               </p>
 
               <h6>Highlights</h6>
@@ -715,7 +768,7 @@
 
               <p class="mt-2 mb-4">
                 GitHub:
-                <a href="https://github.com/quangminhtra/coe891-taskana-testing" target="_blank" rel="noopener">github.com/quangminhtra/coe891-taskana-testing</a>
+                <a href="https://github.com/Minht30/Taskana_Test" target="_blank" rel="noopener">github.com/Minht30/Taskana_Test</a>
               </p>
 
               <h6>Highlights</h6>
@@ -723,7 +776,7 @@
                 <li>Wrote 40+ test methods covering 230 test cases using CFG, ISP, logic-based, and mutation testing strategies against a Java/Spring Boot REST API.</li>
                 <li>Configured Maven build system and Docker-based multi-database CI pipelines supporting H2, PostgreSQL, and Oracle-compatible schemas.</li>
                 <li>Applied Ollama LLM for AI-assisted test case generation and evaluated output quality against manually authored JUnit suites.</li>
-                <li>Participated in code reviews across 47 pull requests in a 4-member team while maintaining structured test documentation throughout the SDLC.</li>
+                <li>Participated in code reviews across 48 pull requests in a 4-member team while maintaining structured test documentation throughout the SDLC.</li>
               </ul>
 
               <h6>Project Visuals</h6>
@@ -929,7 +982,7 @@
 
               <p class="mt-2 mb-4">
                 GitHub:
-                <a href="https://github.com/quangminhtra/Gym-Tracker-TMU-" target="_blank" rel="noopener">github.com/quangminhtra/Gym-Tracker-TMU-</a>
+                <a href="https://github.com/Minht30/Gym-Tracker-TMU-" target="_blank" rel="noopener">github.com/Minht30/Gym-Tracker-TMU-</a>
               </p>
 
               <h6>Highlights</h6>
@@ -1199,22 +1252,27 @@
     <section id="connect" class="mb-5" tabindex="0">
       <h3 class="section-title">Connect</h3>
       <div class="d-flex flex-wrap gap-4 align-items-center">
-        <a href="https://www.linkedin.com/in/minhtran3005/" class="connect-link" aria-label="LinkedIn" target="_blank" rel="noopener"><span class="iconify" data-icon="mdi:linkedin"></span> LinkedIn</a>
-        <a href="https://github.com/quangminhtra/" class="connect-link" aria-label="GitHub" target="_blank" rel="noopener"><span class="iconify" data-icon="mdi:github"></span> GitHub</a>
+        <a href="https://www.linkedin.com/in/minht30/" class="connect-link" aria-label="LinkedIn" target="_blank" rel="noopener"><span class="iconify" data-icon="mdi:linkedin"></span> LinkedIn</a>
+        <a href="https://github.com/Minht30/" class="connect-link" aria-label="GitHub" target="_blank" rel="noopener"><span class="iconify" data-icon="mdi:github"></span> GitHub</a>
         <a href="mailto:qminh30k3@gmail.com" class="connect-link" aria-label="Email"><span class="iconify" data-icon="mdi:email"></span> Email</a>
-        <a href="PDF file - References/Marshall_Tran_Resume.pdf" class="connect-link" aria-label="Download Resume" target="_blank" rel="noopener"><span class="iconify" data-icon="mdi:file-download"></span> Resume</a>
-        <a href="PDF file - References/Reference-Letters.pdf" class="connect-link" aria-label="Download Reference Letter" target="_blank" rel="noopener"><span class="iconify" data-icon="mdi:file-certificate"></span> Reference Letter</a>
+        <a href="PDF file - References/Marshall_Tran_Resume_Full_Stack.pdf" class="connect-link" aria-label="Download Resume" target="_blank" rel="noopener"><span class="iconify" data-icon="mdi:file-download"></span> Resume</a>
+        <a href="PDF file - References/Employer_Endorsement_City_of_Brampton.pdf" class="connect-link" aria-label="Employer Endorsement from City of Brampton" target="_blank" rel="noopener"><span class="iconify" data-icon="mdi:file-account"></span> Employer Endorsement</a>
+        <a href="PDF file - References/Letter_of_Recommendation_Dr_Salem.pdf" class="connect-link" aria-label="Academic Recommendation from Dr. Meranda Salem" target="_blank" rel="noopener"><span class="iconify" data-icon="mdi:school"></span> Academic Recommendation</a>
+        <a href="PDF file - References/Siteimprove_Certificate_2024.pdf" class="connect-link" aria-label="Siteimprove Top 5% Certificate" target="_blank" rel="noopener"><span class="iconify" data-icon="mdi:trophy-award"></span> Siteimprove Certificate</a>
       </div>
     </section>
   </main>
   <aside class="social-sidebar" aria-label="Social sidebar">
-    <a href="https://www.linkedin.com/in/minhtran3005/" class="social-sidebar-link social-link-linkedin" aria-label="LinkedIn" target="_blank" rel="noopener">
+    <button id="sidebar-toggle" class="social-sidebar-toggle" type="button" aria-label="Collapse contact bar" aria-expanded="true" title="Collapse contact bar">
+      <span class="iconify" data-icon="mdi:chevron-left" aria-hidden="true"></span>
+    </button>
+    <a href="https://www.linkedin.com/in/minht30/" class="social-sidebar-link social-link-linkedin" aria-label="LinkedIn" target="_blank" rel="noopener">
       <span class="iconify" data-icon="mdi:linkedin"></span>
     </a>
     <a href="https://discord.com/users/761958890853498882" class="social-sidebar-link social-link-discord" aria-label="Discord" target="_blank" rel="noopener">
       <span class="iconify" data-icon="mdi:discord"></span>
     </a>
-    <a href="https://github.com/quangminhtra/" class="social-sidebar-link social-link-github" aria-label="GitHub" target="_blank" rel="noopener">
+    <a href="https://github.com/Minht30/" class="social-sidebar-link social-link-github" aria-label="GitHub" target="_blank" rel="noopener">
       <span class="iconify" data-icon="mdi:github"></span>
     </a>
     <a href="mailto:qminh30k3@gmail.com" class="social-sidebar-link social-link-email" aria-label="Email">
@@ -1240,9 +1298,9 @@
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
-  <script src="scripts/main.js"></script>
-  <script src="scripts/navigation.js"></script>
-  <script src="scripts/animations.js"></script>
+  <script src="scripts/main.js?v=11"></script>
+  <script src="scripts/navigation.js?v=11"></script>
+  <script src="scripts/animations.js?v=11"></script>
 </body>
 </html>
 

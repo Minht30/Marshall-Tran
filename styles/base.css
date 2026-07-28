@@ -5,13 +5,14 @@ html {
 body {
   background:
     radial-gradient(circle at top, rgba(55, 183, 195, 0.14), transparent 35%),
-    linear-gradient(180deg, #081c4a 0%, var(--bg) 45%, #06153d 100%);
+    linear-gradient(180deg, var(--bg-gradient-top) 0%, var(--bg) 45%, var(--bg-gradient-bottom) 100%);
   color: var(--text);
   font-family: 'Inter', 'SF Pro', Arial, sans-serif;
   min-height: 100vh;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  transition: background 320ms ease, color 320ms ease;
 }
 
 a {
