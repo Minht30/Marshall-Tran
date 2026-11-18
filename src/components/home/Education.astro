@@ -1,0 +1,363 @@
+---
+// Education: the degree, the courses that mattered most (each linked to where I used it), and the capstone research.
+import { Image } from 'astro:assets';
+import Icon from '../Icon.astro';
+import DocPreview from '../DocPreview.astro';
+import tmuLogo from '../../icons/org/tmu.svg';
+import poster from '../../../Images/outdoor-cat-tracker/capstone-poster.png';
+
+const groups = [
+  {
+    title: 'Software engineering',
+    courses: [
+      { code: 'COE 318', name: 'Software Systems' },
+      { code: 'COE 528', name: 'Object-Oriented Analysis and Design' },
+      { code: 'COE 691', name: 'Software Requirements Analysis and Specification' },
+      { code: 'COE 692', name: 'Software Design and Architecture' },
+      {
+        code: 'COE 891',
+        name: 'Software Testing and QA',
+        used: { label: 'TASKANA testing', href: '/projects/taskana-testing' },
+      },
+      {
+        code: 'CPS 714',
+        name: 'Software Project Management',
+        used: { label: 'Gym Facility Tracker', href: '/projects/gym-facility-tracker' },
+      },
+    ],
+  },
+  {
+    title: 'Systems, networks and security',
+    courses: [
+      {
+        code: 'COE 538',
+        name: 'Microprocessor Systems',
+        used: { label: 'EEBOT maze robot', href: '/projects/eebot-maze-robot' },
+      },
+      { code: 'COE 628', name: 'Operating Systems' },
+      { code: 'COE 768', name: 'Computer Networks' },
+      {
+        code: 'COE 817',
+        name: 'Network Security',
+        used: { label: 'Secure Banking System', href: '/projects/secure-banking-system' },
+      },
+      {
+        code: 'COE 892',
+        name: 'Distributed Cloud Computing',
+        used: { label: 'TTC Transit Tracker', href: '/projects/ttc-transit-tracker' },
+      },
+    ],
+  },
+  {
+    title: 'Data and intelligent systems',
+    courses: [
+      { code: 'COE 428', name: 'Algorithms and Data Structures' },
+      {
+        code: 'CPS 510',
+        name: 'Database Systems I',
+      },
+      {
+        code: 'CPS 843',
+        name: 'Introduction to Computer Vision',
+        used: { label: 'YOLO11 PPE detection', href: '/projects/yolo11-ppe-detection' },
+      },
+      { code: 'ELE 888', name: 'Intelligent Systems' },
+    ],
+  },
+];
+---
+
+<section class="sec edu" id="education" aria-labelledby="edu-title">
+  <div class="anim-title">
+    <h2 class="h2" id="edu-title">
+      Education
+    </h2>
+  </div>
+
+  <article class="degree reveal">
+    <div class="degree__logo">
+      <Image src={tmuLogo} alt="Toronto Metropolitan University" width={160} />
+    </div>
+    <div class="degree__main">
+      <p class="degree__when">Sep 2021 - June 2026</p>
+      <h3 class="degree__title">Bachelor of Engineering (Honours), Computer Engineering</h3>
+      <p class="degree__sub">
+        Toronto Metropolitan University, Co-operative Program, Software Engineering Option
+      </p>
+      <ul class="degree__marks">
+        <li>
+          <Icon name="briefcase" size={18} /> 12-month co-op, City of Brampton
+        </li>
+        <li>
+          <Icon name="medal" size={18} /> Dean's List, 2025 - 2026
+        </li>
+        <li>
+          <Icon name="circle-notch" size={18} /> Iron Ring, Feb 28, 2026
+        </li>
+        <li>
+          <Icon name="certificate" size={18} /> Meta Front-End Developer certificate, Coursera, 2024
+        </li>
+      </ul>
+    </div>
+    <div class="degree__doc">
+      <DocPreview doc="tmuDegree" size="compact" bare />
+    </div>
+  </article>
+
+  <div class="courses">
+    <h3 class="h3">Relevant courses</h3>
+    <div class="courses__grid">
+      {groups.map((g) => (
+        <section class="cg reveal" aria-label={g.title}>
+          <h4 class="cg__title">{g.title}</h4>
+          <ul>
+            {g.courses.map((c) => (
+              <li>
+                <span class="cg__code">{c.code}</span>
+                <span class="cg__name">
+                  {c.name}
+                  {(c.used ? ([] as { label: string; href: string }[]).concat(c.used) : []).map((u) => (
+                    <a class="cg__used" href={u.href}>
+                      <Icon name="arrow-elbow-down-right" size={14} />
+                      {u.label}
+                    </a>
+                  ))}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <article class="research reveal" aria-labelledby="research-title">
+    <a
+      class="research__poster"
+      href="/work/outdoor-cat-tracker#poster-title"
+      aria-label="Open the capstone research on the Outdoor Cat Tracker page"
+    >
+      <Image src={poster} alt="" widths={[320, 560]} width={560} sizes="(min-width: 1024px) 260px, 50vw" />
+    </a>
+    <div>
+      <p class="research__kind">Research, COE 70A/B Engineering Capstone Design, Sep 2025 - Apr 2026</p>
+      <h3 class="research__title" id="research-title">
+        Long-range outdoor pet tracking without a cellular plan
+      </h3>
+      <p class="research__body">
+        With three teammates and Dr. Meranda Salem, we researched how to track an outdoor cat with GPS and
+        LoRa radio instead of a paid cellular link. Field tests in Pickering reached 1 km on a suburban road
+        and 200 m through a forest, where an Apple AirTag lost the same cat at about 30 m. My part was the
+        mobile app that shows it.
+      </p>
+      <a class="research__go" href="/work/outdoor-cat-tracker">
+        Read the case study and poster <Icon name="arrow-right" size={16} />
+      </a>
+    </div>
+  </article>
+</section>
+
+<style>
+  .degree {
+    display: grid;
+    grid-template-columns: 180px 1fr 240px;
+    gap: var(--space-4);
+    align-items: center;
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    background: var(--surface-raised);
+    border: 1px solid var(--rule);
+  }
+  .degree__logo {
+    display: grid;
+    place-items: center;
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: #fff;
+    box-shadow: inset 0 0 0 1px rgb(10 25 60 / 0.08);
+  }
+  .degree__logo :global(img) {
+    width: 100%;
+    height: auto;
+  }
+  .degree__when {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent-ink);
+  }
+  .degree__title {
+    margin: 0.3rem 0;
+    font: 700 clamp(24px, 2.4vw, 32px)/1.15 var(--font-sans);
+    letter-spacing: -0.02em;
+  }
+  .degree__sub {
+    margin: 0;
+    color: var(--muted);
+  }
+  .degree__marks {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem var(--space-3);
+  }
+  .degree__marks li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .degree__marks :global(svg) {
+    flex: none;
+    color: var(--accent-ink);
+  }
+  .degree__doc :global(.sheet) {
+    max-width: none;
+  }
+
+  .courses {
+    margin-top: var(--space-5);
+  }
+  .courses__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+  .cg {
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--surface-raised);
+    border: 1px solid var(--rule);
+  }
+  .cg__title {
+    margin: 0 0 var(--space-2);
+    font: 700 17px/1.2 var(--font-sans);
+  }
+  .cg ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .cg li {
+    display: grid;
+    grid-template-columns: 76px 1fr;
+    gap: 0.6rem;
+    align-items: baseline;
+  }
+  .cg__code {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent-ink);
+    white-space: nowrap;
+  }
+  .cg__name {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .cg__used {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.25rem;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-ink);
+    text-decoration: none;
+  }
+  .cg__used:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .research {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: var(--space-4);
+    align-items: center;
+    margin-top: var(--space-5);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    background: var(--slab);
+    color: var(--on-slab);
+  }
+  .research__poster {
+    display: block;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 20px 50px -20px rgb(0 0 0 / 0.6);
+    transform: rotate(-2deg);
+    transition: transform 500ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .research__poster:hover {
+    transform: rotate(0) translateY(-4px);
+  }
+  .research__poster :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .research__kind {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+  .research__title {
+    margin: 0.4rem 0 var(--space-2);
+    font: 700 clamp(24px, 2.6vw, 36px)/1.15 var(--font-sans);
+    letter-spacing: -0.02em;
+  }
+  .research__body {
+    margin: 0;
+    max-width: 62ch;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  .research__go {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: var(--space-3);
+    color: inherit;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  @media (max-width: 1023px) {
+    .degree {
+      grid-template-columns: 140px 1fr;
+    }
+    .degree__doc {
+      grid-column: 1 / -1;
+      max-width: 340px;
+    }
+    .courses__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 767px) {
+    .degree,
+    .research {
+      grid-template-columns: 1fr;
+      padding: var(--space-3);
+    }
+    .degree__logo {
+      max-width: 160px;
+    }
+    .degree__marks,
+    .courses__grid {
+      grid-template-columns: 1fr;
+    }
+    .research__poster {
+      max-width: 240px;
+    }
+  }
+</style>

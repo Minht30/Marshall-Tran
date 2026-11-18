@@ -1,0 +1,895 @@
+header {
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  inset: -18% auto auto 50%;
+  width: 28rem;
+  height: 28rem;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(55, 183, 195, 0.18) 0%, rgba(55, 183, 195, 0.06) 35%, transparent 72%);
+  filter: blur(10px);
+  pointer-events: none;
+  animation: heroGlowDrift 12s ease-in-out infinite;
+}
+
+header > * {
+  position: relative;
+  z-index: 1;
+}
+
+header .display-4 {
+  letter-spacing: -0.04em;
+  margin-bottom: 0.75rem;
+}
+
+#title {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+#university,
+#tagline {
+  color: var(--muted);
+}
+
+#tagline {
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#about p,
+.modal-body p,
+.exp-block li,
+.project-block li {
+  line-height: 1.65;
+}
+
+#skills .skill-block h4,
+#projects .project-block h4,
+#experience .exp-block h4,
+#education .exp-block h4 {
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+#projects .project-block ul,
+#experience .exp-block ul,
+#education .exp-block ul {
+  padding-left: 1.15rem;
+}
+
+.modal-body figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem auto;
+}
+
+.modal-body figure img,
+.modal-body figure video {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.modal-body figcaption {
+  width: 100%;
+  margin-top: 0.75rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.project-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 1.5rem;
+  align-items: start;
+  padding: 1.35rem;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03)),
+    rgba(8, 19, 47, 0.86);
+}
+
+.project-feature-capstone {
+  border-color: rgba(255, 216, 102, 0.32);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
+}
+
+.project-feature-copy h6 {
+  margin-bottom: 0.75rem;
+}
+
+.project-feature-copy p {
+  margin-bottom: 1rem;
+}
+
+.project-feature-kicker {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 216, 102, 0.14);
+  border: 1px solid rgba(255, 216, 102, 0.32);
+  color: #ffe38f;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.project-feature-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+.project-feature-links a {
+  color: #8fd7ff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.project-feature-links a:hover {
+  color: #b8e6ff;
+}
+
+.project-feature-figure {
+  margin: 0;
+}
+
+.project-poster-image {
+  width: 100%;
+  max-width: 680px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
+}
+
+#connect .d-flex {
+  gap: 1rem !important;
+}
+
+@media (max-width: 768px) {
+  header::before {
+    width: 20rem;
+    height: 20rem;
+  }
+
+  #connect .d-flex {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  .connect-link {
+    justify-content: center;
+  }
+
+  .project-feature {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+}
+
+#education .education-feature {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04)),
+    rgba(6, 20, 53, 0.92);
+  border: 1px solid rgba(102, 181, 255, 0.32);
+  border-radius: 28px;
+  padding: 2rem;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.28);
+}
+
+#education .education-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+#education .education-header h4 {
+  margin-bottom: 0.4rem;
+  font-size: clamp(1.55rem, 3vw, 2rem);
+}
+
+#education .education-subtitle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+#education .education-subtitle a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+#education .education-date {
+  color: #ffd866;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#education .education-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.35rem;
+}
+
+#education .education-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font-weight: 600;
+}
+
+#education .education-pill-primary {
+  background: rgba(102, 181, 255, 0.16);
+  border-color: rgba(102, 181, 255, 0.4);
+  color: #b9ddff;
+}
+
+#education .education-pill-success {
+  background: rgba(176, 226, 124, 0.12);
+  border-color: rgba(176, 226, 124, 0.36);
+  color: #d7f3b2;
+}
+
+#education .education-highlights {
+  padding-left: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+#education .education-highlights li {
+  margin-bottom: 0.9rem;
+  line-height: 1.75;
+}
+
+#education .education-divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04));
+  margin: 1.8rem 0 1.25rem;
+}
+
+#education .education-course-title {
+  margin-bottom: 0.9rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+#education .education-course-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+#education .education-course-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1rem 1rem 0.9rem;
+  min-height: 128px;
+}
+
+#education .education-course-card strong {
+  display: block;
+  color: var(--text);
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+#education .education-course-card span {
+  display: block;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+#education .education-course-card em {
+  display: block;
+  color: #9fd0ff;
+  font-style: italic;
+  font-size: 0.94rem;
+}
+
+#education .education-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+#education .education-tags span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+
+#education .education-note {
+  margin: 0;
+  color: var(--muted);
+  font-style: italic;
+}
+
+@media (max-width: 991.98px) {
+  #education .education-course-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767.98px) {
+  #education .education-feature {
+    padding: 1.4rem;
+    border-radius: 22px;
+  }
+
+  #education .education-header {
+    flex-direction: column;
+  }
+
+  #education .education-date {
+    white-space: normal;
+  }
+
+  #education .education-course-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+#experience .experience-stack {
+  display: grid;
+  gap: 1.35rem;
+}
+
+#experience .experience-feature {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04)),
+    rgba(6, 20, 53, 0.92);
+  border: 1px solid rgba(102, 181, 255, 0.24);
+  border-radius: 24px;
+  padding: 1.6rem 1.7rem;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
+}
+
+#experience .experience-feature-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 0.9rem;
+}
+
+#experience .experience-feature-header h4 {
+  margin-bottom: 0.3rem;
+}
+
+#experience .experience-feature-subtitle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  color: var(--muted);
+}
+
+#experience .experience-feature-subtitle a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+#experience .experience-feature-date {
+  color: #d8e6ee;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#experience .experience-feature-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+}
+
+#experience .experience-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font-weight: 600;
+}
+
+#experience .experience-pill-primary {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #d8e6ee;
+}
+
+#experience .experience-feature-list {
+  padding-left: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+#experience .experience-feature-list li {
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+}
+
+#experience .experience-feature-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+@media (max-width: 767.98px) {
+  #experience .experience-feature {
+    padding: 1.3rem;
+    border-radius: 20px;
+  }
+
+  #experience .experience-feature-header {
+    flex-direction: column;
+  }
+
+  #experience .experience-feature-date {
+    white-space: normal;
+  }
+}
+#connect .d-flex {
+  gap: 1rem !important;
+}
+
+@media (max-width: 768px) {
+  #connect .d-flex {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  .connect-link {
+    justify-content: center;
+  }
+
+  .social-sidebar {
+    right: 0.7rem;
+    gap: 0.6rem;
+  }
+
+  .social-sidebar-link {
+    width: 2.85rem;
+    height: 2.85rem;
+    border-radius: 12px;
+  }
+
+  .social-sidebar-link .iconify {
+    font-size: 1.25rem;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  .social-sidebar {
+    left: 0.55rem !important;
+    right: auto !important;
+    gap: 0.6rem;
+    padding: 0.7rem 0.5rem;
+  }
+
+  .social-sidebar-link {
+    width: 3.15rem;
+    height: 3.15rem;
+    border-radius: 14px;
+  }
+
+  .social-sidebar-link .iconify {
+    font-size: 1.45rem;
+  }
+}
+
+/* ---------- Featured / More Projects layout ---------- */
+#projects .row.g-4 {
+  align-items: stretch;
+}
+
+.projects-header {
+  padding-top: var(--space-2);
+  padding-bottom: 0;
+}
+
+.projects-subtitle {
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+
+.projects-subtitle-note {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Ordering — featured first, toggle, more-header, then non-featured cards */
+#projects .row > .projects-featured-header { order: 0; }
+#projects .row > [data-featured="1"] { order: 1; }
+#projects .row > [data-featured="2"] { order: 2; }
+#projects .row > [data-featured="3"] { order: 3; }
+#projects .row > [data-featured="4"] { order: 4; }
+#projects .row > .projects-more-toggle { order: 5; }
+#projects .row > .projects-more-header { order: 6; }
+#projects .row > .col-12.col-md-6:not([data-featured]) { order: 10; }
+
+/* Hide non-featured cards and more-header by default */
+#projects .row > .col-12.col-md-6:not([data-featured]),
+#projects .row > .projects-more-header {
+  display: none;
+}
+
+/* Toggle button — always visible */
+.projects-more-toggle {
+  display: flex;
+  justify-content: center;
+}
+
+.projects-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 1.4rem;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast),
+    border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.projects-toggle-btn:hover,
+.projects-toggle-btn:focus-visible {
+  background: rgba(55, 183, 195, 0.15);
+  border-color: var(--accent);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.projects-toggle-btn .iconify {
+  font-size: 1.15rem;
+}
+
+/* Expanded state — show all */
+#projects.show-all .row > .col-12.col-md-6:not([data-featured]),
+#projects.show-all .row > .projects-more-header {
+  display: block;
+}
+
+/* ---------- Contact sidebar toggle ---------- */
+/* Sidebar itself: animate its resize on collapse */
+.social-sidebar {
+  transition: padding var(--transition-med), gap var(--transition-med),
+    background var(--transition-med), border-color var(--transition-med),
+    box-shadow var(--transition-med);
+}
+
+/* Toggle floats as a small chevron tab on the LEFT edge of the pill, vertically centered */
+.social-sidebar-toggle {
+  position: absolute;
+  left: -0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.7rem;
+  height: 1.7rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(7, 25, 82, 0.95);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
+  z-index: 2;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+    right var(--transition-med), left var(--transition-med), color var(--transition-fast);
+}
+
+.social-sidebar-toggle:hover,
+.social-sidebar-toggle:focus-visible {
+  background: var(--accent);
+  border-color: var(--accent);
+  outline: none;
+}
+
+.social-sidebar-toggle .iconify {
+  font-size: 1rem;
+}
+
+/* Collapsed: hide icon links; sidebar shell fades away leaving only the toggle */
+.social-sidebar.is-collapsed {
+  padding: 0;
+  gap: 0;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.social-sidebar.is-collapsed .social-sidebar-link {
+  display: none;
+}
+
+/* When collapsed, the toggle recenters itself as the standalone element */
+.social-sidebar.is-collapsed .social-sidebar-toggle {
+  position: relative;
+  right: auto;
+  top: auto;
+  left: auto;
+  transform: none;
+}
+
+/* Light theme */
+:root[data-theme="light"] .social-sidebar-toggle {
+  background: #ffffff;
+  color: var(--text);
+  border-color: rgba(7, 25, 82, 0.15);
+  box-shadow: 0 4px 12px rgba(7, 25, 82, 0.12);
+}
+
+:root[data-theme="light"] .social-sidebar-toggle:hover,
+:root[data-theme="light"] .social-sidebar-toggle:focus-visible {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ---------- Theme toggle button ---------- */
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+    transform var(--transition-fast);
+  margin-top: 0.2rem;
+}
+
+.theme-toggle-btn:hover,
+.theme-toggle-btn:focus-visible {
+  background: rgba(55, 183, 195, 0.2);
+  border-color: var(--accent);
+  outline: none;
+  transform: rotate(15deg);
+}
+
+.theme-toggle-btn .iconify {
+  font-size: 1.25rem;
+  color: #ffe38f;
+}
+
+/* Show sunny icon in dark mode (toggle target = light), moon in light mode */
+.theme-toggle-btn .theme-icon-light { display: none; }
+:root[data-theme="light"] .theme-toggle-btn .theme-icon-dark { display: none; }
+:root[data-theme="light"] .theme-toggle-btn .theme-icon-light { display: inline-block; }
+
+:root[data-theme="light"] .theme-toggle-btn .iconify {
+  color: #4a5568;
+}
+
+/* ---------- Light theme touch-ups ---------- */
+:root[data-theme="light"] .theme-toggle-btn {
+  background: rgba(7, 25, 82, 0.06);
+  border-color: rgba(7, 25, 82, 0.2);
+}
+
+/* Card & panel readability in light mode: soften white overlays that turn invisible */
+:root[data-theme="light"] .project-block,
+:root[data-theme="light"] .skill-block {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+:root[data-theme="light"] .project-block:hover,
+:root[data-theme="light"] .skill-block:hover {
+  background: rgba(8, 131, 149, 0.05) !important;
+  border-color: var(--border-strong);
+}
+
+/* Education + Experience feature panels (need #id prefix to beat hardcoded rules) */
+:root[data-theme="light"] #education .education-feature,
+:root[data-theme="light"] #experience .experience-feature {
+  background: #eaeff8;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+:root[data-theme="light"] #education .education-course-card,
+:root[data-theme="light"] #education .education-tags span {
+  background: rgba(7, 25, 82, 0.04);
+  border-color: rgba(7, 25, 82, 0.1);
+  color: var(--text);
+}
+
+:root[data-theme="light"] #education .education-course-card strong,
+:root[data-theme="light"] #education .education-course-title {
+  color: var(--accent-strong);
+}
+
+:root[data-theme="light"] #education .education-course-card em,
+:root[data-theme="light"] #education .education-note,
+:root[data-theme="light"] #education .education-subtitle,
+:root[data-theme="light"] #experience .experience-feature-subtitle {
+  color: var(--muted);
+}
+
+:root[data-theme="light"] #education .education-divider {
+  border-color: rgba(7, 25, 82, 0.1);
+}
+
+:root[data-theme="light"] #education .education-date,
+:root[data-theme="light"] #experience .experience-feature-date {
+  color: #b8791d;
+}
+
+/* Accent-highlighted spans stay readable in light mode */
+:root[data-theme="light"] .ats-highlight {
+  color: var(--accent-strong);
+  border-bottom-color: rgba(8, 131, 149, 0.45);
+}
+
+/* Section titles adopt darker underline in light mode */
+:root[data-theme="light"] .section-title::after {
+  background: linear-gradient(90deg, var(--accent), rgba(8, 131, 149, 0.25));
+}
+
+/* Navbar + Footer in light mode — match the light-blue-grey used by the body/projects section */
+:root[data-theme="light"] .navbar,
+:root[data-theme="light"] .footer {
+  background: rgba(242, 245, 251, 0.92);
+  border-bottom: 1px solid rgba(7, 25, 82, 0.08);
+}
+
+:root[data-theme="light"] .footer {
+  border-top: 1px solid rgba(7, 25, 82, 0.08);
+  border-bottom: none;
+}
+
+:root[data-theme="light"] .navbar-brand,
+:root[data-theme="light"] .nav-link,
+:root[data-theme="light"] .footer-link {
+  color: var(--text) !important;
+}
+
+:root[data-theme="light"] .navbar-toggler-icon {
+  filter: invert(1);
+  opacity: 0.6;
+}
+
+/* Social sidebar container in light mode */
+:root[data-theme="light"] .social-sidebar {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.75));
+  border: 1px solid rgba(7, 25, 82, 0.1);
+  box-shadow: var(--shadow-sm);
+}
+
+/* The generic sidebar link background — leave branded LinkedIn/Discord/GitHub/Email as-is */
+:root[data-theme="light"] .social-sidebar-link {
+  border-color: rgba(7, 25, 82, 0.08);
+}
+
+/* GitHub icon inherits color:#fff which is invisible on the light sidebar — force dark */
+:root[data-theme="light"] .social-link-github {
+  color: #171515;
+}
+
+:root[data-theme="light"] .social-link-github:hover {
+  background: rgba(7, 25, 82, 0.08);
+  border-color: rgba(7, 25, 82, 0.25);
+}
+
+/* Modals in light mode — match the light-blue-grey used by the body/projects section */
+:root[data-theme="light"] .modal-content {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+:root[data-theme="light"] .modal-header,
+:root[data-theme="light"] .modal-footer {
+  background: rgba(7, 25, 82, 0.05);
+  border-color: var(--border);
+}
+
+:root[data-theme="light"] .btn-close-white {
+  filter: invert(1) grayscale(1);
+}
+
+/* Featured capstone section inside project modal — swap dark gradient for light-blue-grey card */
+:root[data-theme="light"] .project-feature {
+  background: #eaeff8;
+  border-color: rgba(7, 25, 82, 0.12);
+  box-shadow: 0 12px 32px rgba(7, 25, 82, 0.1);
+}
+
+:root[data-theme="light"] .project-feature-capstone {
+  border-color: rgba(184, 121, 29, 0.4);
+  box-shadow: 0 12px 32px rgba(7, 25, 82, 0.1);
+}
+
+:root[data-theme="light"] .project-feature-kicker {
+  background: rgba(184, 121, 29, 0.14);
+  border-color: rgba(184, 121, 29, 0.4);
+  color: #8a5a15;
+}
+
+:root[data-theme="light"] .project-feature-copy h6,
+:root[data-theme="light"] .project-feature-copy p {
+  color: var(--text);
+}
+
+:root[data-theme="light"] .project-feature-links a {
+  color: var(--accent-strong);
+}
+
+:root[data-theme="light"] .project-feature-links a:hover {
+  color: #033f4a;
+}
+
+:root[data-theme="light"] .project-poster-image {
+  border-color: rgba(7, 25, 82, 0.1);
+  box-shadow: 0 12px 32px rgba(7, 25, 82, 0.1);
+}
+
+/* Education + Experience pills in light mode — original variants use pale text that vanishes on white */
+:root[data-theme="light"] #education .education-pill,
+:root[data-theme="light"] #experience .experience-pill {
+  background: rgba(7, 25, 82, 0.04);
+  border-color: rgba(7, 25, 82, 0.15);
+  color: var(--text);
+}
+
+:root[data-theme="light"] #education .education-pill-primary,
+:root[data-theme="light"] #experience .experience-pill-primary {
+  background: rgba(8, 131, 149, 0.1);
+  border-color: rgba(8, 131, 149, 0.4);
+  color: var(--accent-strong);
+}
+
+:root[data-theme="light"] #education .education-pill-success {
+  background: rgba(46, 125, 50, 0.1);
+  border-color: rgba(46, 125, 50, 0.4);
+  color: #2e7d32;
+}
+

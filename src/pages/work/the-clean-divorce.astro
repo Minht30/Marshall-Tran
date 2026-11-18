@@ -1,0 +1,521 @@
+---
+// The Clean Divorce: a business-first case study. Facts come from the Riipen project and the founder's feedback.
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CaseFacts from '../../components/CaseFacts.astro';
+import DocPreview from '../../components/DocPreview.astro';
+import NameNote from '../../components/NameNote.astro';
+import NextCase from '../../components/NextCase.astro';
+import Icon from '../../components/Icon.astro';
+import TechTag from '../../components/TechTag.astro';
+import roadmap from '../../../Images/clean-divorce/The-Clean_Divorce-Road-Map.png';
+import form from '../../../Images/clean-divorce/The-Clean-Divorce-Form.png';
+import service from '../../../Images/clean-divorce/The-CleanDivorce-service.png';
+
+const entry = (await getEntry('work', 'the-clean-divorce'))!;
+const steps = [
+  {
+    icon: 'magnifying-glass',
+    verb: 'Research',
+    text: 'Went through the existing site and assessment tool as a visitor would, and listed where people could get stuck.',
+    tags: ['UX research'],
+  },
+  {
+    icon: 'pencil-ruler',
+    verb: 'Redesign',
+    text: 'Led the redesign of the client assessment tool in Wix Studio, so each question leads clearly to the next step.',
+    tags: ['Wix Studio'],
+  },
+  {
+    icon: 'database',
+    verb: 'Migrate',
+    text: 'Moved the existing client assessment data into the new flow, so nothing collected before was lost.',
+    tags: ['Data migration'],
+  },
+  {
+    icon: 'chart-line-up',
+    verb: 'Track and hand over',
+    text: 'Set up event tracking that sends lead data to Google Sheets, then wrote the technical documentation for handover.',
+    tags: ['JavaScript', 'Google Sheets'],
+  },
+];
+---
+
+<Base title="The Clean Divorce" description={entry.data.summary}>
+  <div class="pg">
+    <p class="crumb">
+      <a href="/projects">Projects</a>
+      <span aria-hidden="true">/</span>
+      <span>The Clean Divorce</span>
+    </p>
+
+    <header class="open">
+      <div class="anim-title">
+        <p class="open__ctx">{entry.data.context}</p>
+        <h1 class="open__title" transition:name="title-the-clean-divorce">
+          The Clean Divorce
+        </h1>
+      </div>
+      <p class="open__lead reveal">
+        A divorce mediation practice in Ottawa whose website has one job: help a stressed visitor find the
+        right next step. I led the redesign of its client assessment tool and connected it to the team's
+        reporting.
+      </p>
+    </header>
+
+    <CaseFacts
+      objective="Make the client assessment tool easier to complete, and get every new lead to the team without manual reporting."
+      role="Web Developer through Riipen, with Advance Ontario. I researched the site, led the assessment tool redesign, migrated the data and wrote the handover documentation."
+      duration="Jan - Mar 2025, 3 months, remote"
+      team="A Riipen student team, working with the project manager and founder"
+      tech={['Wix Studio', 'JavaScript', 'Google Sheets']}
+      results={[
+        { value: '5.0', label: 'Riipen rating from the founder' },
+        { value: 'Live', label: 'still running on thecleandivorce.com' },
+        { value: 'Auto', label: 'lead data sent straight to Google Sheets' },
+      ]}
+      live={{ label: 'Visit the live site', href: 'https://thecleandivorce.com/' }}
+    />
+
+    <section class="sec biz" aria-labelledby="biz-title">
+      <div>
+        <div class="anim-title">
+          <h2 class="h2" id="biz-title">
+            The business problem
+          </h2>
+        </div>
+        <p class="lead">
+          For a small practice, the website is the front desk. People arrive unsure whether they need a
+          divorce, a separation or just advice, and the assessment tool is where that decision starts.
+        </p>
+      </div>
+      <ul class="biz__list">
+        <li>
+          <span class="biz__icon">
+            <Icon name="compass" size={22} />
+          </span>
+          <span>
+            <b>Visitors needed a clear path.</b> The tool should guide people to the right service, not ask
+            them to work it out alone.
+          </span>
+        </li>
+        <li>
+          <span class="biz__icon">
+            <Icon name="tray-arrow-down" size={22} />
+          </span>
+          <span>
+            <b>Leads needed to reach the team.</b> Results were reported by hand, which is slow and easy to
+            miss.
+          </span>
+        </li>
+        <li>
+          <span class="biz__icon">
+            <Icon name="files" size={22} />
+          </span>
+          <span>
+            <b>Existing data had to survive.</b> Earlier assessments had to move into the new flow intact.
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="sec sec--tight" aria-labelledby="screens-title">
+      <div class="anim-title">
+        <h2 class="h2" id="screens-title">
+          The site today
+        </h2>
+      </div>
+      <div class="screens">
+        <figure class="screens__main">
+          <div class="tray">
+            <div class="win">
+              <div class="win__bar">
+                <span class="win__url">thecleandivorce.com / Freedom Roadmap</span>
+              </div>
+              <div
+                class="scroller"
+                tabindex="0"
+                aria-label="The Freedom Roadmap page. Hover or focus to scroll through the whole page."
+              >
+                <Image
+                  src={roadmap}
+                  alt="The Clean Divorce Freedom Roadmap page, a long step-by-step guide through the separation process"
+                  widths={[640, 960, 1278]}
+                  width={1278}
+                  sizes="(min-width: 1024px) 700px, 100vw"
+                />
+                <span class="scroller__hint" aria-hidden="true">
+                  Hover to scroll the page
+                </span>
+              </div>
+            </div>
+          </div>
+          <figcaption>The Freedom Roadmap: the whole process on one page, step by step.</figcaption>
+        </figure>
+        <div class="screens__side">
+          <figure>
+            <div class="tray">
+              <div class="win">
+                <div class="win__bar">
+                  <span class="win__url">thecleandivorce.com / assessment</span>
+                </div>
+                <Image
+                  src={form}
+                  alt="The client assessment form with clear questions and large answer fields"
+                  widths={[480, 800]}
+                  width={800}
+                  sizes="(min-width: 1024px) 460px, 100vw"
+                />
+              </div>
+            </div>
+            <figcaption>The assessment form, where the visitor's next step starts.</figcaption>
+          </figure>
+          <figure>
+            <div class="tray">
+              <div class="win">
+                <div class="win__bar">
+                  <span class="win__url">thecleandivorce.com / services</span>
+                </div>
+                <div class="crop">
+                  <Image
+                    src={service}
+                    alt={entry.data.coverAlt}
+                    widths={[480, 800]}
+                    width={800}
+                    sizes="(min-width: 1024px) 460px, 100vw"
+                    transition:name="cover-the-clean-divorce"
+                  />
+                </div>
+              </div>
+            </div>
+            <figcaption>The services page the assessment points people to.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec--tight" aria-labelledby="how-title">
+      <div class="anim-title">
+        <h2 class="h2" id="how-title">
+          Design and implementation
+        </h2>
+      </div>
+      <ol class="steps" data-observe>
+        {steps.map((s, i) => (
+          <li style={`--i:${i}`}>
+            <span class="steps__icon">
+              <Icon name={s.icon} size={24} />
+            </span>
+            <span class="steps__n">0{i + 1}</span>
+            <h3>{s.verb}</h3>
+            <p>{s.text}</p>
+            <div class="steps__tags">
+              {s.tags.map((t) => (
+                <TechTag name={t} />
+              ))}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="sec sec--tight voice" aria-label="Client references">
+      <div class="voice__quote">
+        <figure>
+          <blockquote>
+            "Maris's blend of software development, technical problem-solving, and collaborative leadership
+            made a significant impact on the success of this project."
+          </blockquote>
+          <figcaption>
+            Suzanne Winlove-Smith, Project Manager, The Clean Divorce. Endorsement letter, March 2025.
+          </figcaption>
+        </figure>
+        <NameNote />
+        <ul class="voice__points">
+          <li>Led the user interface, responsive across desktop, tablet and mobile.</li>
+          <li>Designed the data capture and storage through Wix, with automated data flow.</li>
+          <li>Hosted the regular meetings and turned requirements into tasks.</li>
+          <li>Rated 5.0 on Riipen by the founder.</li>
+        </ul>
+      </div>
+      <div class="voice__docs">
+        <DocPreview doc="cleanDivorceLetter" />
+        <DocPreview doc="cleanDivorceFeedback" />
+      </div>
+    </section>
+
+    <NextCase current="the-clean-divorce" />
+  </div>
+</Base>
+
+<style>
+  .open {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-5);
+    align-items: end;
+    padding: var(--space-5) 0 0;
+  }
+  .open__ctx {
+    margin: 0 0 var(--space-2);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent-ink);
+  }
+  .open__title {
+    margin: 0;
+    font: 700 clamp(52px, 7vw, 108px)/0.95 var(--font-sans);
+    letter-spacing: -0.045em;
+  }
+  .open__lead {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.6;
+    max-width: 46ch;
+  }
+
+  .biz {
+    display: grid;
+    grid-template-columns: 6fr 6fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+  .biz__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .biz__list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2);
+    align-items: start;
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--surface-raised);
+    border: 1px solid var(--rule);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .biz__list b {
+    color: var(--ink);
+  }
+  .biz__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--surface-sunken);
+    color: var(--accent-ink);
+  }
+
+  .screens {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+    align-items: start;
+  }
+  .screens figure {
+    margin: 0;
+  }
+  .screens figcaption {
+    margin-top: 0.7rem;
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .screens__side {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .scroller {
+    position: relative;
+    height: 640px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .scroller :global(img) {
+    width: 100%;
+    transition: transform 9s cubic-bezier(0.45, 0, 0.2, 1);
+  }
+  .scroller:hover :global(img),
+  .scroller:focus-visible :global(img) {
+    transform: translateY(calc(-100% + 640px));
+  }
+  .scroller:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: -2px;
+  }
+  .scroller__hint {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius-pill);
+    background: var(--ground);
+    color: var(--ink);
+    font: 500 14px/1 var(--font-sans);
+    border: 1px solid var(--rule-strong);
+    transition: opacity 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .scroller:hover .scroller__hint,
+  .scroller:focus-visible .scroller__hint {
+    opacity: 0;
+  }
+  .win :global(img) {
+    display: block;
+    width: 100%;
+  }
+  .crop {
+    height: 300px;
+    overflow: hidden;
+  }
+  .crop :global(img) {
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .steps {
+    list-style: none;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-2);
+  }
+  .steps li {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--surface-raised);
+    border: 1px solid var(--rule);
+  }
+  .steps__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: var(--action);
+    color: var(--on-action);
+  }
+  .steps__n {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    font: 700 15px/1 var(--font-sans);
+    color: var(--muted);
+  }
+  .steps h3 {
+    margin: 0.3rem 0 0;
+    font: 700 22px/1.2 var(--font-sans);
+    letter-spacing: -0.015em;
+  }
+  .steps p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .steps__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.3rem;
+  }
+  :global(.js-anim) .steps li {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 700ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 700ms cubic-bezier(0.32, 0.72, 0, 1);
+    transition-delay: calc(var(--i) * 110ms);
+  }
+  :global(.js-anim) .steps:global(.is-in) li {
+    opacity: 1;
+    transform: none;
+  }
+
+  .voice {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+  .voice figure {
+    margin: 0;
+  }
+  .voice blockquote {
+    margin: 0;
+    font: 600 clamp(26px, 3vw, 40px)/1.2 var(--font-sans);
+    letter-spacing: -0.02em;
+  }
+  .voice figcaption {
+    margin-top: var(--space-2);
+    color: var(--muted);
+    font-size: 16px;
+  }
+  .voice {
+    align-items: start;
+  }
+  .voice__points {
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .voice__points li {
+    position: relative;
+    padding-left: 1.4rem;
+    font-size: 17px;
+  }
+  .voice__points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+  .voice__docs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+  }
+
+  @media (max-width: 1023px) {
+    .open,
+    .biz,
+    .screens,
+    .voice {
+      grid-template-columns: 1fr;
+    }
+    .steps {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 767px) {
+    .steps {
+      grid-template-columns: 1fr;
+    }
+    .scroller {
+      height: 460px;
+    }
+    .scroller:hover :global(img),
+    .scroller:focus-visible :global(img) {
+      transform: translateY(calc(-100% + 460px));
+    }
+  }
+</style>

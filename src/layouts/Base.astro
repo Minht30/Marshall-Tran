@@ -1,0 +1,202 @@
+---
+import '@fontsource-variable/geist';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import '../styles/components.css';
+import { ClientRouter } from 'astro:transitions';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import DocReader from '../components/DocReader.astro';
+import SocialBar from '../components/SocialBar.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+const { title, description = site.description, image } = Astro.props;
+const fullTitle = title
+  ? `${title} | ${site.name}`
+  : `${site.name} | Front-end developer and computer engineering graduate`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#06153d" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <!-- Apply a saved theme before first paint so the page never flashes the wrong one. -->
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+        } catch (e) {}
+      })();
+      document.addEventListener('astro:after-swap', function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t) document.documentElement.dataset.theme = t;
+        } catch (e) {}
+      });
+    </script>
+    <ClientRouter />
+    <slot name="head" />
+  </head>
+  <body id="top">
+    <a class="skip" href="#main">
+      Skip to content
+    </a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <SocialBar />
+    <DocReader />
+
+    <script>
+      const reduce = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Theme toggle: remembers the choice; until then the system setting decides.
+      function setupTheme() {
+        const btn = document.getElementById('theme-toggle');
+        if (!btn || btn.dataset.ready) return;
+        btn.dataset.ready = '1';
+        const label = () => {
+          const light =
+            document.documentElement.dataset.theme === 'light' ||
+            (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: light)').matches);
+          btn.setAttribute('aria-checked', String(!light));
+          btn.setAttribute('aria-label', 'Night theme');
+          return light;
+        };
+        label();
+        btn.addEventListener('click', () => {
+          const next = label() ? 'dark' : 'light';
+          document.documentElement.dataset.theme = next;
+          try {
+            localStorage.setItem('theme', next);
+          } catch {}
+          label();
+        });
+      }
+
+      // Mobile menu
+      function setupMenu() {
+        const btn = document.getElementById('menu-toggle');
+        const nav = btn?.closest('.nav');
+        if (!btn || !nav || btn.dataset.ready) return;
+        btn.dataset.ready = '1';
+        const set = (open: boolean) => {
+          nav.classList.toggle('is-open', open);
+          btn.setAttribute('aria-expanded', String(open));
+          btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        };
+        btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+        nav.querySelectorAll('.nav__links a').forEach((a) => a.addEventListener('click', () => set(false)));
+      }
+      document.addEventListener('keydown', (e) => {
+        const btn = document.getElementById('menu-toggle');
+        if (e.key === 'Escape' && btn?.getAttribute('aria-expanded') === 'true') btn.click();
+      });
+
+      // Figures marked data-countup="1500" count from zero to their real value when they come into view.
+      // The final text is already in the HTML, so screen readers and no-JS visitors read the real number.
+      function countUp(el: HTMLElement) {
+        if (el.dataset.counted) return;
+        el.dataset.counted = '1';
+        const target = Number(el.dataset.countup);
+        const final = el.textContent ?? '';
+        const decimals = (el.dataset.countup!.split('.')[1] ?? '').length;
+        const start = performance.now();
+        const dur = 1400;
+        const step = (now: number) => {
+          const t = Math.min(1, (now - start) / dur);
+          const eased = 1 - Math.pow(1 - t, 4);
+          const v = (target * eased).toFixed(decimals);
+          const shown = Number(v).toLocaleString('en-CA', { minimumFractionDigits: decimals });
+          el.textContent = t < 1 ? final.replace(/\d[\d,.]*/, shown) : final;
+          if (t < 1) requestAnimationFrame(step);
+        };
+        el.setAttribute('aria-label', final);
+        requestAnimationFrame(step);
+      }
+
+      // Motion: split headlines marked .anim-title into masked words, reveal blocks marked .reveal.
+      function setupMotion() {
+        if (reduce() || !('IntersectionObserver' in window)) {
+          document.documentElement.classList.remove('js-anim');
+          return;
+        }
+        document.documentElement.classList.add('js-anim');
+        document
+          .querySelectorAll<HTMLElement>('.anim-title :is(h1, h2), h1.anim-title, h2.anim-title')
+          .forEach((el) => {
+            if (el.dataset.split) return;
+            el.dataset.split = '1';
+            el.setAttribute('aria-label', (el.textContent ?? '').replace(/\s+/g, ' ').trim());
+            let i = 0;
+            const walk = (node: Node) => {
+              [...node.childNodes].forEach((n) => {
+                if (n.nodeType === 3) {
+                  const frag = document.createDocumentFragment();
+                  (n.textContent ?? '').split(/(\s+)/).forEach((part) => {
+                    if (!part) return;
+                    if (/^\s+$/.test(part)) {
+                      frag.appendChild(document.createTextNode(part));
+                      return;
+                    }
+                    const w = document.createElement('span');
+                    w.className = 'w';
+                    w.setAttribute('aria-hidden', 'true');
+                    const s = document.createElement('span');
+                    s.textContent = part;
+                    s.style.setProperty('--i', String(i++));
+                    w.appendChild(s);
+                    frag.appendChild(w);
+                  });
+                  n.parentNode?.replaceChild(frag, n);
+                } else if (n.nodeType === 1) walk(n);
+              });
+            };
+            walk(el);
+          });
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-in');
+                e.target.querySelectorAll<HTMLElement>('[data-countup]').forEach(countUp);
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0, rootMargin: '0px 0px -15% 0px' },
+        );
+        document.querySelectorAll('.anim-title, .reveal, [data-observe]').forEach((el) => io.observe(el));
+      }
+
+      document.addEventListener('astro:page-load', () => {
+        setupTheme();
+        setupMenu();
+        setupMotion();
+      });
+    </script>
+  </body>
+</html>

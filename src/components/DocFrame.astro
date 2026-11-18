@@ -1,0 +1,105 @@
+---
+// A real document shown whole inside drawing crop marks. Selecting it opens the reader (DocReader in the layout).
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  caption: string;
+  readerCaption: string;
+  label: string;
+  tone?: 'slab' | 'accent';
+}
+const { src, alt, caption, readerCaption, label, tone = 'accent' } = Astro.props;
+const full = await getImage({ src, width: Math.min(src.width, 1800), format: 'webp' });
+---
+
+<figure class:list={['doc', `doc--${tone}`]}>
+  <button
+    class="doc__open"
+    type="button"
+    data-doc-full={full.src}
+    data-doc-caption={readerCaption}
+    data-doc-alt={alt}
+    aria-label={label}
+  >
+    <Image
+      src={src}
+      alt={alt}
+      widths={[480, 720, 1000]}
+      width={1000}
+      sizes="(min-width: 1024px) 560px, 100vw"
+    />
+  </button>
+  <figcaption>
+    <span>{caption}</span>
+    <span class="doc__hint">Select to read</span>
+  </figcaption>
+</figure>
+
+<style>
+  .doc {
+    margin: 0;
+  }
+  .doc--accent {
+    color: var(--accent);
+  }
+  .doc--slab {
+    color: inherit;
+  }
+  .doc__open {
+    --mark: currentColor;
+    --m: 22px;
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border: 0;
+    color: inherit;
+    cursor: zoom-in;
+    background:
+      linear-gradient(var(--mark), var(--mark)) top left / var(--m) 1.5px no-repeat,
+      linear-gradient(var(--mark), var(--mark)) top left / 1.5px var(--m) no-repeat,
+      linear-gradient(var(--mark), var(--mark)) top right / var(--m) 1.5px no-repeat,
+      linear-gradient(var(--mark), var(--mark)) top right / 1.5px var(--m) no-repeat,
+      linear-gradient(var(--mark), var(--mark)) bottom left / var(--m) 1.5px no-repeat,
+      linear-gradient(var(--mark), var(--mark)) bottom left / 1.5px var(--m) no-repeat,
+      linear-gradient(var(--mark), var(--mark)) bottom right / var(--m) 1.5px no-repeat,
+      linear-gradient(var(--mark), var(--mark)) bottom right / 1.5px var(--m) no-repeat;
+    transition: background-size 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .doc__open:hover,
+  .doc__open:focus-visible {
+    --m: 40px;
+  }
+  /* The sheet stays paper-white in both themes: it is a photo of a real document. */
+  .doc__open :global(img) {
+    width: 100%;
+    height: auto;
+    background: #fbfcfd;
+    box-shadow: var(--shadow-md);
+    transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .doc__open:hover :global(img) {
+    transform: translateY(-3px);
+  }
+  figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-top: 0.6rem;
+    font: 500 13px/1.4 var(--font-sans);
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .doc--slab figcaption {
+    color: inherit;
+    opacity: 0.85;
+  }
+  .doc__hint {
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+</style>

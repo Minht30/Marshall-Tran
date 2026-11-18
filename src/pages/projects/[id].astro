@@ -1,0 +1,325 @@
+---
+// One page per project in src/content/projects: what it is, my role, highlights, every screenshot, tools and links.
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Zoomable from '../../components/Zoomable.astro';
+import Status from '../../components/Status.astro';
+import TechTag from '../../components/TechTag.astro';
+import ProjectLinks from '../../components/ProjectLinks.astro';
+import Icon from '../../components/Icon.astro';
+
+export async function getStaticPaths() {
+  const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+  return all.map((entry, i) => ({
+    params: { id: entry.id },
+    props: { entry, next: all[(i + 1) % all.length] },
+  }));
+}
+const { entry, next } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const gallery = d.gallery.length > 0 ? d.gallery : [{ src: d.cover, alt: d.coverAlt, caption: d.title }];
+const groupLabel = {
+  coursework: 'Engineering coursework',
+  brampton: 'City of Brampton co-op',
+  client: 'Client work',
+  personal: 'Personal product',
+};
+---
+
+<Base title={d.title} description={`${d.tagline}. ${d.context}.`}>
+  <div class="pg">
+    <p class="crumb">
+      <a href="/projects">Projects</a>
+      <span aria-hidden="true">/</span>
+      <span>{d.title}</span>
+    </p>
+
+    <header class="head">
+      <div class="anim-title">
+        <p class="head__ctx">
+          {groupLabel[d.group]}, {d.context}
+        </p>
+        <h1 class="head__title">{d.title}</h1>
+        <p class="head__tag">{d.tagline}</p>
+      </div>
+      <div class="head__side reveal">
+        <Status status={d.status} />
+        {d.role && (
+          <p class="head__role">
+            <Icon name="user" size={18} />
+            <span>
+              <b>My role.</b> {d.role}
+            </span>
+          </p>
+        )}
+        <ProjectLinks links={d.links} note={d.codeNote} />
+        {d.note && <p class="head__note">{d.note}</p>}
+      </div>
+    </header>
+
+    <section class="over" aria-label="Overview">
+      <div class="over__text">
+        <div class="prose">
+          <Content />
+        </div>
+        {d.highlights.length > 0 && (
+          <ul class="hl" data-observe>
+            {d.highlights.map((h, i) => (
+              <li style={`--i:${i}`}>{h}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <aside class="over__stack">
+        <h2 class="over__h">Tools and skills</h2>
+        <div class="over__tags">
+          {d.stack.map((t) => (
+            <TechTag name={t} size="md" />
+          ))}
+        </div>
+      </aside>
+    </section>
+
+    <section class="sec sec--tight" aria-labelledby="gal-title">
+      <h2 class="h3" id="gal-title">
+        Screens and figures
+      </h2>
+      <p class="muted">Select any image to see it full size.</p>
+      <div class="gal">
+        {gallery.map((g, i) => (
+          <figure class="gal__item reveal">
+            <div class="gal__frame">
+              <Zoomable
+                src={g.src}
+                alt={g.alt}
+                caption={`Figure ${i + 1}: ${g.caption}`}
+                widths={[480, 800, 1200]}
+                sizes="(min-width: 1024px) 580px, 100vw"
+              />
+            </div>
+            <figcaption>
+              <b>Figure {i + 1}.</b> {g.caption}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+
+    <nav class="nx" aria-label="More projects">
+      <a href="/projects" class="nx__back">
+        <Icon name="arrow-left" size={16} /> All projects
+      </a>
+      <a href={`/projects/${next.id}`} class="nx__next">
+        <span class="nx__label">Next project</span>
+        <b>{next.data.title}</b>
+        <Icon name="arrow-right" size={18} />
+      </a>
+    </nav>
+  </div>
+</Base>
+
+<style>
+  .head {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-5);
+    align-items: end;
+    padding: var(--space-5) 0 var(--space-4);
+  }
+  .head__ctx {
+    margin: 0 0 var(--space-2);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent-ink);
+  }
+  .head__title {
+    margin: 0;
+    font: 700 clamp(44px, 6vw, 88px)/0.98 var(--font-sans);
+    letter-spacing: -0.04em;
+  }
+  .head__tag {
+    margin: var(--space-2) 0 0;
+    font-size: 20px;
+    color: var(--muted);
+  }
+  .head__side {
+    display: grid;
+    gap: var(--space-2);
+    justify-items: start;
+  }
+  .head__role {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .head__role :global(svg) {
+    flex: none;
+    margin-top: 3px;
+    color: var(--accent-ink);
+  }
+  .head__note {
+    margin: 0;
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .over {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-5);
+    padding: var(--space-4) 0;
+    border-top: 1px solid var(--rule);
+  }
+  .prose :global(p) {
+    margin: 0 0 var(--space-3);
+    font-size: 19px;
+    line-height: 1.6;
+    max-width: 60ch;
+  }
+  .hl {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.8rem;
+  }
+  .hl li {
+    position: relative;
+    padding-left: 1.6rem;
+    font-size: 17px;
+    line-height: 1.55;
+    max-width: 64ch;
+  }
+  .hl li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+  :global(.js-anim) .hl li {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 600ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 600ms cubic-bezier(0.32, 0.72, 0, 1);
+    transition-delay: calc(var(--i) * 90ms);
+  }
+  :global(.js-anim) .hl:global(.is-in) li {
+    opacity: 1;
+    transform: none;
+  }
+  .over__stack {
+    align-self: start;
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--surface-raised);
+    border: 1px solid var(--rule);
+  }
+  .over__h {
+    margin: 0 0 var(--space-2);
+    font: 700 17px/1.2 var(--font-sans);
+  }
+  .over__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .gal {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+  .gal__item {
+    margin: 0;
+  }
+  .gal__frame {
+    display: grid;
+    place-items: center;
+    min-height: 260px;
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    background: var(--surface-sunken);
+    border: 1px solid var(--rule);
+  }
+  .gal__frame :global(.zoom) {
+    width: auto;
+    max-width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .gal__frame :global(.zoom img) {
+    width: auto;
+    max-width: 100%;
+    max-height: 520px;
+  }
+  .gal__item figcaption {
+    margin-top: 0.7rem;
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .gal__item figcaption b {
+    color: var(--ink);
+  }
+  .nx {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-5) 0 var(--space-7);
+    border-top: 1px solid var(--rule);
+  }
+  .nx a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nx__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+  }
+  .nx__next {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    column-gap: var(--space-2);
+    text-align: right;
+  }
+  .nx__label {
+    grid-column: 1;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .nx__next b {
+    grid-column: 1;
+    font: 700 clamp(22px, 2.6vw, 32px)/1.1 var(--font-sans);
+    letter-spacing: -0.02em;
+  }
+  .nx__next :global(svg) {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .nx__next:hover b {
+    color: var(--accent-ink);
+  }
+  @media (max-width: 1023px) {
+    .head,
+    .over {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 767px) {
+    .gal {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

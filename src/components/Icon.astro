@@ -1,0 +1,25 @@
+---
+// Phosphor icons (regular weight), inlined as SVG so they inherit the text colour.
+const icons = import.meta.glob('/node_modules/@phosphor-icons/core/assets/regular/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+}) as Record<string, string>;
+
+interface Props {
+  name: string;
+  size?: number;
+  label?: string;
+}
+const { name, size = 18, label } = Astro.props;
+const raw = icons[`/node_modules/@phosphor-icons/core/assets/regular/${name}.svg`];
+if (!raw) throw new Error(`Unknown Phosphor icon: ${name}`);
+const svg = raw
+  .replace(
+    '<svg',
+    `<svg width="${size}" height="${size}" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'} focusable="false"`,
+  )
+  .replace(/fill="#000000"/g, 'fill="currentColor"');
+---
+
+<Fragment set:html={svg} />

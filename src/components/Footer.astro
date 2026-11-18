@@ -1,0 +1,186 @@
+---
+// The footer: who I am in one line, where to go next, how to reach me, and what I'm looking for.
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+
+const year = new Date().getFullYear();
+const pages = [
+  { label: 'Projects', href: '/projects' },
+  { label: 'Experience', href: '/#experience' },
+  { label: 'Education', href: '/#education' },
+  { label: 'Story', href: '/story' },
+  { label: 'Credentials', href: '/credentials' },
+];
+const reach = [
+  { label: 'Email', href: `mailto:${site.contact.email}`, icon: 'envelope-simple' },
+  { label: 'LinkedIn', href: site.contact.linkedin, icon: 'linkedin-logo' },
+  { label: 'GitHub', href: site.contact.github, icon: 'github-logo' },
+  { label: 'Resume (PDF)', href: site.resume, icon: 'file-text' },
+];
+---
+
+<footer class="foot">
+  <div class="pg foot__in">
+    <div class="foot__me">
+      <p class="foot__name">
+        <span class="foot__mono" aria-hidden="true">
+          MT
+        </span>
+        {site.name}
+      </p>
+      <p class="foot__line">
+        Front-end developer and Computer Engineering graduate, TMU 2026. I build accessible, working
+        interfaces.
+      </p>
+      <p class="foot__status">
+        <span class="foot__dot" aria-hidden="true"></span>
+        {site.status}. {site.relocation}.
+      </p>
+    </div>
+
+    <nav class="foot__col" aria-label="Footer">
+      <h2 class="foot__h">Explore</h2>
+      <ul>
+        {pages.map((p) => (
+          <li>
+            <a href={p.href}>{p.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="foot__col">
+      <h2 class="foot__h">Get in touch</h2>
+      <ul>
+        {reach.map((r) => (
+          <li>
+            <a
+              href={r.href}
+              {...(r.href.startsWith('http') || r.href.endsWith('.pdf')
+                ? { target: '_blank', rel: 'noopener' }
+                : {})}
+            >
+              <Icon name={r.icon} size={16} />
+              {r.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  <div class="pg foot__base">
+    <span>
+      © {year} {site.name}. Toronto, Ontario.
+    </span>
+    <a href="#top" class="foot__top">
+      Back to top <Icon name="arrow-up" size={14} />
+    </a>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    margin-top: var(--space-6);
+    border-top: 1px solid var(--rule);
+    background: linear-gradient(180deg, var(--surface-sunken), transparent 120%);
+  }
+  .foot__in {
+    display: grid;
+    grid-template-columns: 6fr 3fr 3fr;
+    gap: var(--space-5);
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-5);
+  }
+  .foot__name {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0;
+    font: 700 22px/1.2 var(--font-sans);
+    letter-spacing: -0.015em;
+  }
+  .foot__mono {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+    color: #061334;
+    font: 800 15px/1 var(--font-sans);
+  }
+  .foot__line {
+    margin: var(--space-2) 0 0;
+    max-width: 46ch;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .foot__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: var(--space-3) 0 0;
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--rule-strong);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .foot__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ok-ink);
+  }
+  .foot__h {
+    margin: 0 0 var(--space-2);
+    font: 700 15px/1.2 var(--font-sans);
+  }
+  .foot__col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .foot__col a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 200ms;
+  }
+  .foot__col a:hover {
+    color: var(--accent-ink);
+  }
+  .foot__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-5);
+    border-top: 1px solid var(--rule);
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .foot__top {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--accent-ink);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  @media (max-width: 767px) {
+    .foot__in {
+      grid-template-columns: 1fr 1fr;
+    }
+    .foot__me {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

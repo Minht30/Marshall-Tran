@@ -1,0 +1,92 @@
+---
+// An image shown whole (never cropped) that opens at full size in the page viewer when selected.
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+  sizes: string;
+  widths?: number[];
+  eager?: boolean;
+  class?: string;
+  /** Optional view-transition name, so the image can morph between pages. */
+  vt?: string;
+}
+const { src, alt, caption, sizes, widths = [480, 800, 1200], eager = false, vt } = Astro.props;
+const full = await getImage({ src, width: Math.min(src.width, 2000), format: 'webp' });
+const max = Math.min(src.width, Math.max(...widths));
+---
+
+<button
+  type="button"
+  class:list={['zoom', Astro.props.class]}
+  data-doc-full={full.src}
+  data-doc-alt={alt}
+  data-doc-caption={caption ?? alt}
+  aria-label={`Enlarge image: ${alt}`}
+>
+  <Image
+    src={src}
+    alt={alt}
+    widths={widths.filter((w) => w <= src.width)}
+    width={max}
+    sizes={sizes}
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : undefined}
+    transition:name={vt}
+  />
+  <span class="zoom__hint" aria-hidden="true">
+    <Icon name="magnifying-glass-plus" size={18} />
+  </span>
+</button>
+
+<style>
+  .zoom {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+    font: inherit;
+    color: inherit;
+  }
+  .zoom :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .zoom__hint {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--action);
+    color: var(--on-action);
+    box-shadow: 0 6px 16px -6px rgb(10 25 60 / 0.5);
+    opacity: 0;
+    transform: scale(0.8);
+    transition:
+      opacity 280ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 400ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .zoom:hover .zoom__hint,
+  .zoom:focus-visible .zoom__hint {
+    opacity: 1;
+    transform: none;
+  }
+  @media (hover: none) {
+    .zoom__hint {
+      opacity: 0.9;
+      transform: none;
+    }
+  }
+</style>

@@ -1,0 +1,324 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Chapter from '../components/Chapter.astro';
+import Cta from '../components/Cta.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+const chapters = (await getCollection('milestones')).sort((a, b) => a.data.order - b.data.order);
+const nextId = `ch-${chapters.length + 1}`;
+const goals = [
+  {
+    icon: 'rocket-launch',
+    title: 'A full-time role',
+    text: 'Start as a front-end or full-stack developer, anywhere in Canada.',
+  },
+  {
+    icon: 'seal-check',
+    title: 'Toward my P.Eng',
+    text: 'Build the engineering experience Professional Engineers Ontario asks for.',
+  },
+  { icon: 'translate', title: 'French at B2', text: 'Move my French from elementary to a confident B2.' },
+  {
+    icon: 'sparkle',
+    title: 'Keep learning AI',
+    text: 'Go deeper into building with AI, the way I already do with Claude and Ollama.',
+  },
+  {
+    icon: 'cloud',
+    title: 'AWS certification',
+    text: 'Earn an AWS certification to back up the cloud side of my work.',
+  },
+];
+---
+
+<Base
+  title="My story"
+  description="Five years in Canada, from starting over to earning my Iron Ring and a Computer Engineering degree from Toronto Metropolitan University."
+>
+  <div class="pg">
+    <header class="intro anim-title">
+      <p class="label">My story</p>
+      <h1 class="h1 intro__title">
+        Five years. <em>One journey.</em>
+      </h1>
+      <p class="lead">
+        From starting over in Canada to earning my Iron Ring. I'm {site.name}, a computer engineering graduate
+        from Toronto Metropolitan University.
+      </p>
+      <Cta href="#ch-1" icon="arrow-down">
+        Start at the beginning
+      </Cta>
+    </header>
+
+    <div class="journey">
+      <ol class="rail" aria-label="Jump to a year">
+        {chapters
+          .filter((c) => c.data.rail)
+          .map((c) => (
+            <li>
+              <a href={`#ch-${c.data.order}`} data-for={`ch-${c.data.order}`}>
+                {c.data.rail!.year}
+                <span>{c.data.rail!.label}</span>
+              </a>
+            </li>
+          ))}
+        <li>
+          <a href={`#${nextId}`} data-for={nextId}>
+            2027
+            <span>What's next</span>
+          </a>
+        </li>
+      </ol>
+      <div>
+        {chapters.map((c) => (
+          <Chapter entry={c} />
+        ))}
+        <section class="ch next" id={nextId} aria-labelledby="next-title">
+          <div class="anim-title">
+            <div class="next__meta">
+              <span class="next__year">2027</span>
+              <span class="label">What's next</span>
+            </div>
+            <h2 class="h2" id="next-title">
+              The next chapter
+            </h2>
+          </div>
+          <p class="lead">With the degree and the Iron Ring done, these are my goals for the year ahead.</p>
+          <ol class="goals" data-observe>
+            {goals.map((g, i) => (
+              <li class="goal" style={`--i:${i}`}>
+                <span class="goal__icon">
+                  <Icon name={g.icon} size={24} />
+                </span>
+                <h3 class="goal__title">{g.title}</h3>
+                <p>{g.text}</p>
+                <span class="goal__tag">Goal for 2027</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      </div>
+    </div>
+
+    <div class="close">
+      <p class="close__line">
+        Five years. One journey. <span>From starting over in Canada to earning my Iron Ring.</span>
+      </p>
+      <div class="close__ctas">
+        <Cta href="/projects">View projects</Cta>
+        <Cta href="/#contact" variant="ghost" icon="envelope-simple">
+          Get in touch
+        </Cta>
+      </div>
+    </div>
+  </div>
+</Base>
+
+<script>
+  // Year rail follows the reader. Chapters without their own rail entry light up the previous one.
+  function setupRail() {
+    const links = [...document.querySelectorAll<HTMLAnchorElement>('.rail a')];
+    if (!links.length) return;
+    const ids = links.map((a) => a.dataset.for);
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          let n = Number(e.target.id.replace('ch-', ''));
+          while (n > 0 && !ids.includes(`ch-${n}`)) n--;
+          links.forEach((a) => a.toggleAttribute('aria-current', a.dataset.for === `ch-${n}`));
+        });
+      },
+      { rootMargin: '-40% 0px -55% 0px' },
+    );
+    document.querySelectorAll('.ch').forEach((c) => io.observe(c));
+  }
+  document.addEventListener('astro:page-load', setupRail);
+</script>
+
+<style>
+  .intro {
+    max-width: 900px;
+    padding: var(--space-6) 0 var(--space-7);
+  }
+  .intro__title {
+    margin: var(--space-2) 0 var(--space-3);
+  }
+  .intro__title em {
+    font-style: normal;
+    color: var(--accent-ink);
+  }
+  .journey {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--space-5);
+  }
+  .rail {
+    position: sticky;
+    top: calc(var(--nav-height) + var(--space-4));
+    align-self: start;
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 var(--space-2);
+    border-left: 1px solid var(--rule);
+    display: grid;
+    gap: var(--space-2);
+  }
+  .rail a {
+    display: block;
+    position: relative;
+    font: 500 14px/1.3 var(--font-sans);
+    color: var(--muted);
+    text-decoration: none;
+    padding: 0.25rem 0;
+    transition: color 180ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .rail a::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--space-2) - 1px);
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: transparent;
+    transition: background-color 180ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .rail a:hover,
+  .rail a[aria-current] {
+    color: var(--ink);
+  }
+  .rail a[aria-current]::before {
+    background: var(--accent);
+  }
+  .rail span {
+    display: block;
+    font: 400 12px/1.3 var(--font-sans);
+  }
+  .ch.next {
+    display: block;
+    padding: var(--space-6) 0;
+    scroll-margin-top: calc(var(--nav-height) + var(--space-3));
+  }
+  .next__meta {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+  .next__year {
+    font: 700 clamp(40px, 5vw, 64px)/1 var(--font-sans);
+    letter-spacing: -0.04em;
+    color: var(--accent-ink);
+  }
+  .goals {
+    list-style: none;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+  @media (max-width: 1100px) {
+    .goals {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 600px) {
+    .goals {
+      grid-template-columns: 1fr;
+    }
+  }
+  .goal {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--surface-raised);
+    border: 1px dashed var(--rule-strong);
+    transition:
+      border-color 280ms,
+      transform 400ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .goal:hover {
+    border-color: var(--accent);
+    border-style: solid;
+    transform: translateY(-4px);
+  }
+  .goal__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: var(--mark-bg);
+    color: var(--accent-ink);
+  }
+  .goal__title {
+    margin: 0.3rem 0 0;
+    font: 700 19px/1.25 var(--font-sans);
+  }
+  .goal p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .goal__tag {
+    justify-self: start;
+    margin-top: 0.3rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: var(--radius-pill);
+    background: var(--wip-bg);
+    color: var(--wip-ink);
+    border: 1px solid var(--wip-line);
+    font: 600 12px/1 var(--font-sans);
+  }
+  :global(.js-anim) .goals .goal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 700ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 700ms cubic-bezier(0.32, 0.72, 0, 1),
+      border-color 280ms;
+    transition-delay: calc(var(--i) * 90ms);
+  }
+  :global(.js-anim) .goals:global(.is-in) .goal {
+    opacity: 1;
+    transform: none;
+  }
+  .close {
+    padding: var(--space-7) 0;
+    border-top: 1px solid var(--rule);
+  }
+  .close__line {
+    font: 600 64px/1.02 var(--font-sans);
+    letter-spacing: -0.03em;
+    margin: 0;
+    max-width: 18ch;
+  }
+  .close__line span {
+    color: var(--muted);
+  }
+  .close__ctas {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-top: var(--space-4);
+  }
+  @media (max-width: 1023px) {
+    .journey {
+      grid-template-columns: 1fr;
+    }
+    .rail {
+      display: none;
+    }
+  }
+  @media (max-width: 767px) {
+    .close__line {
+      font-size: 40px;
+    }
+  }
+</style>
