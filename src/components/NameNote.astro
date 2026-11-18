@@ -1,0 +1,29 @@
+---
+// Some letters were written when I went by Maris. This short note tells readers it is the same person.
+import Icon from './Icon.astro';
+---
+
+<p class="name-note">
+  <Icon name="info" size={16} />
+  <span>"Maris" was my preferred name at the time. These letters are about me, Minh Marshall Tran.</span>
+</p>
+
+<style>
+  .name-note {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    margin: var(--space-2) 0 0;
+    padding: 0.45rem 0.8rem;
+    border-radius: var(--radius-pill);
+    background: var(--mark-bg);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .name-note :global(svg) {
+    flex: none;
+    margin-top: 1px;
+    color: var(--accent-ink);
+  }
+</style>

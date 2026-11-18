@@ -1,0 +1,76 @@
+---
+// Home: built for a 10-second scan first (who, numbers, skills, education), then experience,
+// a way into the projects, credentials, the story and contact. Projects live on /projects.
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/home/Hero.astro';
+import Profile from '../components/home/Profile.astro';
+import Skills from '../components/home/Skills.astro';
+import Education from '../components/home/Education.astro';
+import Experience from '../components/home/Experience.astro';
+import Band from '../components/home/Band.astro';
+import CredentialsStrip from '../components/home/CredentialsStrip.astro';
+import Contact from '../components/home/Contact.astro';
+import mrSub from '../../Images/story/mr-sub-toronto.jpg';
+import brampton from '../../Images/story/brampton-council-team.jpg';
+import ring from '../../Images/story/iron-ring-team.jpg';
+import hall from '../../Images/story/convocation-hall.jpg';
+
+const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const projects = await getCollection('projects');
+const total = work.length + projects.length;
+const inProgress = [...work, ...projects].filter((p) => p.data.status === 'in-progress').length;
+---
+
+<Base>
+  <div class="pg home">
+    <Hero />
+    <Profile />
+    <Skills />
+    <Education />
+    <Experience />
+
+    <Band
+      id="work"
+      href="/projects"
+      kicker="Projects"
+      title="Explore my projects"
+      body="Case studies, City of Brampton work, client sites, coursework and products I build on my own, each with screenshots, tools and source code."
+      cta="Explore projects"
+      images={work.map((w) => w.data.cover)}
+      stats={[
+        { value: String(total), label: 'projects' },
+        { value: String(work.length), label: 'case studies' },
+        { value: String(total - inProgress), label: 'completed' },
+        { value: String(inProgress), label: 'in progress' },
+      ]}
+      flip
+    />
+
+    <CredentialsStrip />
+
+    <Band
+      href="/story"
+      kicker="Five years in Canada"
+      title="Read my story, from my first job at Mr. Sub to the Iron Ring"
+      cta="Read the story"
+      images={[mrSub, brampton, ring, hall]}
+    />
+
+    <Contact />
+  </div>
+</Base>
+
+<style>
+  /* One rhythm for the home page: each section adds space above itself only, so gaps never double up. */
+  .home :global(.sec),
+  .home :global(.sk),
+  .home :global(.band-wrap) {
+    padding-top: var(--space-6);
+    padding-bottom: 0;
+  }
+  .home :global(.contact) {
+    margin-top: var(--space-6);
+    padding-bottom: var(--space-7);
+  }
+</style>

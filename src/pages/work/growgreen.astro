@@ -1,0 +1,634 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Proof from '../../components/Proof.astro';
+import NextCase from '../../components/NextCase.astro';
+import CaseFacts from '../../components/CaseFacts.astro';
+import { docs } from '../../data/site';
+import homeShot from '../../../Images/growgreen/GrowGreen_homepage.png';
+import plansShot from '../../../Images/growgreen/Environment-Pages-Programs.png';
+import projectsShot from '../../../Images/growgreen/Environment-Projects-Page.png';
+import detailShot from '../../../Images/growgreen/Environment-Projects-Pages-Loafers-Lake-Wetland-Restoration.png';
+
+const entry = (await getEntry('work', 'growgreen'))!;
+const views = [
+  {
+    key: 'home',
+    src: homeShot,
+    url: 'brampton.ca / Grow Green',
+    alt: 'The Grow Green homepage',
+    note: 'The landing page: four quick links to the strategy pages, then six large tiles, one per theme, so the first choice is always a topic.',
+  },
+  {
+    key: 'plans',
+    src: plansShot,
+    url: 'brampton.ca / Grow Green / Plans and Initiatives',
+    alt: 'The Plans and Initiatives page: a two-column list of programs, each with a round photo, title and one-line description',
+    note: 'Plans and Initiatives: every program gets the same pattern, a photo, a title and one line on what it does, so a long list stays scannable.',
+  },
+  {
+    key: 'projects',
+    src: projectsShot,
+    url: 'brampton.ca / Grow Green / All Projects',
+    alt: 'The All Projects page listing environmental projects as cards',
+    note: 'All Projects: one index for every project, each leading to its own detail page.',
+  },
+  {
+    key: 'detail',
+    src: detailShot,
+    url: 'brampton.ca / Grow Green / Projects / Loafers Lake Wetland Restoration',
+    alt: 'The Loafers Lake Wetland Restoration project page',
+    note: 'A project detail page, Loafers Lake Wetland Restoration: the same side menu stays in place, so residents can step back up to the section at any time.',
+  },
+];
+const themes = [
+  'Preparing for Climate Change',
+  'Restoring Natural Spaces',
+  'Managing Energy and Emissions',
+  'Creating Sustainable Communities',
+  'Reducing Waste',
+  'Protecting Water',
+];
+const flow = [
+  {
+    verb: 'Plan',
+    text: 'Page structure and layouts mocked up before any build, so stakeholders agreed on the shape first.',
+    tags: ['Adobe XD', 'Visio'],
+  },
+  {
+    verb: 'Build',
+    text: '65+ pages rebuilt from scratch, with reusable layouts and interactive content components.',
+    tags: ['SharePoint Online', 'HTML', 'CSS', 'Bootstrap', 'jQuery'],
+  },
+  {
+    verb: 'Check',
+    text: 'Accessibility audits and fixes against AODA and WCAG 2.1, plus SEO clean-up.',
+    tags: ['WCAG 2.1', 'Siteimprove', 'SEO'],
+  },
+  {
+    verb: 'Report',
+    text: 'Reports, presentations and recommendations to content coordinators, designers and stakeholders.',
+    tags: ['Stakeholder reviews'],
+  },
+];
+---
+
+<Base title="GrowGreen" description={entry.data.summary}>
+  <div class="pg">
+    <p class="crumb">
+      <a href="/projects">Projects</a>
+      <span aria-hidden="true">/</span>
+      <span>GrowGreen</span>
+    </p>
+
+    <header class="open">
+      <div class="anim-title">
+        <p class="label">City of Brampton co-op, Jan - Jul 2025</p>
+        <h1 class="open__title" aria-label="GrowGreen" transition:name="title-growgreen">
+          Grow<span class="hl">Green</span>
+        </h1>
+      </div>
+      <p class="open__lead reveal">
+        I rebuilt the City of Brampton's environment section from the ground up: 65+ public pages on
+        brampton.ca, planned first, then built in SharePoint Online to be accessible and easy to navigate.
+      </p>
+    </header>
+    <CaseFacts
+      objective="Rebuild the City's environment section so residents can find any environmental program by topic, on pages that meet AODA and WCAG 2.1."
+      role="Web Content Technologist, co-op. I planned the page structure, built the pages in SharePoint Online and audited them for accessibility."
+      duration="Jan - Jul 2025, part of my 12-month co-op"
+      team="City content coordinators, designers and stakeholders"
+      tech={[
+        'SharePoint Online',
+        'HTML',
+        'CSS',
+        'Bootstrap',
+        'jQuery',
+        'WCAG 2.1',
+        'Siteimprove',
+        'Adobe XD',
+      ]}
+      results={[
+        { value: '65+', label: 'public pages rebuilt from scratch' },
+        { value: '6', label: 'environmental themes, one clear path' },
+        { value: 'Live', label: 'on brampton.ca today' },
+      ]}
+      live={{ label: 'Visit the live site', href: 'https://www.brampton.ca/EN/residents/Environment' }}
+    />
+
+    <section class="scroll-sec" aria-label="The GrowGreen homepage">
+      <div class="tray">
+        <div class="win">
+          <div class="win__bar">
+            <span class="win__url">brampton.ca / Environment and Climate Change / Grow Green</span>
+          </div>
+          <div
+            class="scroller"
+            tabindex="0"
+            aria-label="GrowGreen homepage. Hover or focus to scroll through the whole page."
+          >
+            <Image
+              src={homeShot}
+              alt="The Grow Green homepage on brampton.ca: a maple-leaf hero, four quick links, an announcement, six theme tiles and the contact block"
+              widths={[640, 960, 1280, 1800]}
+              width={1800}
+              sizes="(min-width: 1240px) 1160px, 100vw"
+              loading="eager"
+              transition:name="cover-growgreen"
+            />
+            <span class="scroller__hint" aria-hidden="true">
+              Hover to scroll the page
+            </span>
+          </div>
+        </div>
+      </div>
+      <p class="cap">The GrowGreen landing page on brampton.ca.</p>
+    </section>
+
+    <section class="sec">
+      <div class="anim-title">
+        <h2 class="h2">One section, one clear path</h2>
+      </div>
+      <p class="lead">
+        Residents arrive looking for a topic, not a department. The section is organised around six
+        environmental themes and four strategy pages, with the same side menu on every page so nobody gets
+        lost.
+      </p>
+      <div class="ia" data-explorer>
+        <div class="tree" aria-label="Section structure">
+          <h3>Environment and Climate Change</h3>
+          <ul>
+            <li>
+              <button class="node" type="button" data-view="0" aria-pressed="true">
+                Grow Green home <span class="node__tag">landing</span>
+              </button>
+            </li>
+          </ul>
+          <h3>Themes</h3>
+          <ul>
+            {themes.map((t) => (
+              <li>
+                <span class="node">{t}</span>
+              </li>
+            ))}
+          </ul>
+          <h3>Our strategy</h3>
+          <ul>
+            <li>
+              <span class="node">Environmental Master Plan</span>
+            </li>
+            <li>
+              <button class="node" type="button" data-view="1" aria-pressed="false">
+                Plans and Initiatives <span class="node__tag">index</span>
+              </button>
+            </li>
+            <li>
+              <button class="node" type="button" data-view="2" aria-pressed="false">
+                All Projects <span class="node__tag">index</span>
+              </button>
+              <ul class="sub">
+                <li>
+                  <button class="node" type="button" data-view="3" aria-pressed="false">
+                    Loafers Lake Wetland <span class="node__tag">detail</span>
+                  </button>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <span class="node">Get Involved</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div class="tray">
+            <div class="win">
+              <div class="win__bar">
+                <span class="win__url" data-url>
+                  {views[0].url}
+                </span>
+              </div>
+              <div class="stage" tabindex="0" aria-label="Selected page, scroll to read">
+                {views.map((v, i) => (
+                  <Image
+                    src={v.src}
+                    alt={v.alt}
+                    widths={[640, 960, 1280]}
+                    width={1280}
+                    sizes="(min-width: 1024px) 760px, 100vw"
+                    class:list={{ 'is-on': i === 0 }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+          <p class="stage__note" aria-live="polite" data-note>
+            {views[0].note}
+          </p>
+          <template data-views set:html={JSON.stringify(views.map((v) => ({ url: v.url, note: v.note })))} />
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec--tight">
+      <div class="anim-title">
+        <h2 class="h2">Plan it, build it, check it</h2>
+      </div>
+      <ol class="flow" data-observe>
+        {flow.map((f, i) => (
+          <li style={`--i:${i}`}>
+            <b>{f.verb}</b>
+            <p>{f.text}</p>
+            <div class="mt-row">
+              {f.tags.map((t) => (
+                <span class="mt-tag">{t}</span>
+              ))}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="sec sec--tight voice">
+      <figure>
+        <blockquote>
+          "His contributions resulted in a website that was not only structurally improved and compliant with
+          brand standards but also user-friendly, inclusive, and accessible."
+        </blockquote>
+        <cite>Mara Garcia Lanz, Team Lead, Information Technology, City of Brampton</cite>
+      </figure>
+      <div>
+        <p class="body muted">
+          From my supervisor's written endorsement of the co-op term, which singles out the Grow Green
+          redesign.
+        </p>
+        <Proof href={docs.bramptonEndorsement}>Read the endorsement</Proof>
+      </div>
+    </section>
+
+    <NextCase current="growgreen" />
+  </div>
+</Base>
+
+<script>
+  function setupExplorer() {
+    document.querySelectorAll<HTMLElement>('[data-explorer]').forEach((root) => {
+      if (root.dataset.ready) return;
+      root.dataset.ready = '1';
+      const views = JSON.parse(
+        (root.querySelector('template[data-views]') as HTMLTemplateElement).innerHTML,
+      ) as { url: string; note: string }[];
+      const imgs = [...root.querySelectorAll<HTMLImageElement>('.stage img')];
+      const stage = root.querySelector<HTMLElement>('.stage')!;
+      const nodes = [...root.querySelectorAll<HTMLButtonElement>('button.node')];
+      nodes.forEach((n) =>
+        n.addEventListener('click', () => {
+          const i = Number(n.dataset.view);
+          nodes.forEach((m) => m.setAttribute('aria-pressed', String(m === n)));
+          imgs.forEach((im, j) => im.classList.toggle('is-on', j === i));
+          stage.scrollTop = 0;
+          root.querySelector('[data-url]')!.textContent = views[i].url;
+          root.querySelector('[data-note]')!.textContent = views[i].note;
+        }),
+      );
+    });
+  }
+  document.addEventListener('astro:page-load', setupExplorer);
+</script>
+
+<style>
+  .open {
+    padding: var(--space-5) 0 var(--space-5);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-5);
+    align-items: end;
+  }
+  .open__title {
+    font: 600 128px/0.9 var(--font-sans);
+    letter-spacing: -0.05em;
+    margin: var(--space-2) 0 0;
+    white-space: nowrap;
+  }
+  .hl,
+  .hl :global(span) {
+    color: var(--accent-ink);
+  }
+  .open__lead {
+    font-size: 19px;
+    line-height: 1.6;
+    max-width: 46ch;
+    margin: 0;
+  }
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    justify-content: start;
+    gap: var(--space-5);
+    margin: var(--space-4) 0 0;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--rule);
+  }
+  .meta dt {
+    font: 500 13px/1.4 var(--font-sans);
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .meta dd {
+    margin: 0.3rem 0 0;
+    font-size: 15px;
+  }
+  .scroll-sec {
+    padding-top: var(--space-5);
+  }
+  .scroller {
+    position: relative;
+    height: 560px;
+    overflow: hidden;
+  }
+  .scroller :global(img) {
+    width: 100%;
+    transform: translateY(0);
+    transition: transform 7s cubic-bezier(0.45, 0, 0.2, 1);
+  }
+  .scroller:hover :global(img),
+  .scroller:focus-visible :global(img) {
+    transform: translateY(calc(-100% + 560px));
+  }
+  .scroller:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: -2px;
+  }
+  .scroller__hint {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius-pill);
+    background: var(--ground);
+    color: var(--ink);
+    font: 500 13px/1 var(--font-sans);
+    border: 1px solid var(--rule-strong);
+    transition: opacity 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .scroller:hover .scroller__hint,
+  .scroller:focus-visible .scroller__hint {
+    opacity: 0;
+  }
+  .cap {
+    margin: 0.7rem 0 0;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .ia {
+    display: grid;
+    grid-template-columns: 4fr 8fr;
+    gap: var(--space-5);
+    align-items: start;
+    margin-top: var(--space-4);
+  }
+  .ia > * {
+    min-width: 0;
+  }
+  .tree {
+    position: sticky;
+    top: calc(var(--nav-height) + var(--space-3));
+  }
+  .tree h3 {
+    font: 500 13px/1.4 var(--font-sans);
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin: var(--space-3) 0 var(--space-1);
+  }
+  .tree h3:first-child {
+    margin-top: 0;
+  }
+  .tree ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 var(--space-2);
+    border-left: 1px solid var(--rule);
+    display: grid;
+    gap: 2px;
+  }
+  .tree .sub {
+    margin-top: 2px;
+  }
+  .node {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    font-size: 15px;
+    color: var(--muted);
+    background: none;
+    border: 0;
+    padding: 0.45rem 0.7rem;
+    border-radius: var(--radius-xs);
+  }
+  button.node {
+    color: var(--ink);
+    cursor: pointer;
+    transition:
+      background-color 280ms cubic-bezier(0.32, 0.72, 0, 1),
+      color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  button.node:hover {
+    background: var(--surface-sunken);
+  }
+  button.node[aria-pressed='true'] {
+    background: var(--surface-raised);
+    color: var(--accent-ink);
+    box-shadow: inset 2px 0 0 var(--accent);
+  }
+  .node__tag {
+    font: 500 13px/1 var(--font-sans);
+    color: var(--muted);
+  }
+  .stage {
+    height: 620px;
+    overflow: auto;
+    background: #fbfcfd;
+  }
+  .stage :global(img) {
+    display: none;
+    width: 100%;
+  }
+  .stage :global(img.is-on) {
+    display: block;
+    animation: fade 400ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .stage__note {
+    margin-top: 0.7rem;
+    font-size: 15px;
+    color: var(--muted);
+    min-height: 3em;
+    max-width: 70ch;
+  }
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: var(--space-4) 0 0;
+    padding: 0;
+  }
+  .flow li {
+    list-style: none;
+    position: relative;
+    padding: var(--space-3) var(--space-3) 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .flow li::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--ground);
+    border: 2px solid var(--accent);
+    z-index: 1;
+  }
+  .flow b {
+    display: block;
+    font: 600 24px/1.1 var(--font-sans);
+    letter-spacing: -0.015em;
+    margin-bottom: 0.5rem;
+  }
+  .flow p {
+    margin: 0 0 var(--space-2);
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 30ch;
+  }
+  .flow .mt-row {
+    gap: 0.4rem;
+  }
+  :global(.js-anim) .flow li {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 700ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 700ms cubic-bezier(0.32, 0.72, 0, 1);
+    transition-delay: calc(var(--i) * 120ms);
+  }
+  :global(.js-anim) .flow:global(.is-in) li {
+    opacity: 1;
+    transform: none;
+  }
+  :global(.js-anim) .flow li::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 900ms cubic-bezier(0.32, 0.72, 0, 1);
+    transition-delay: calc(var(--i) * 120ms + 200ms);
+  }
+  :global(.js-anim) .flow:global(.is-in) li::after {
+    transform: scaleX(1);
+  }
+  .voice {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-5);
+    align-items: end;
+  }
+  .voice figure {
+    margin: 0;
+  }
+  .voice blockquote {
+    margin: 0;
+    font: 500 32px/1.25 var(--font-sans);
+    letter-spacing: -0.015em;
+    max-width: 26ch;
+  }
+  .voice cite {
+    display: block;
+    margin-top: var(--space-3);
+    font: 500 13px/1.5 var(--font-sans);
+    color: var(--muted);
+    font-style: normal;
+  }
+  .scope {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: var(--space-5);
+  }
+  @media (max-width: 1023px) {
+    .open {
+      grid-template-columns: 1fr;
+    }
+    .open__title {
+      font-size: 88px;
+    }
+    .meta {
+      grid-template-columns: repeat(2, auto);
+      gap: var(--space-3) var(--space-5);
+    }
+    .ia,
+    .voice,
+    .scope {
+      grid-template-columns: 1fr;
+    }
+    .tree {
+      position: static;
+    }
+    .flow {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: var(--space-4);
+    }
+  }
+  @media (max-width: 767px) {
+    .open__title {
+      font-size: 60px;
+    }
+    .meta {
+      grid-template-columns: 1fr 1fr;
+    }
+    .scroller {
+      height: 420px;
+    }
+    .scroller:hover :global(img),
+    .scroller:focus-visible :global(img) {
+      transform: translateY(calc(-100% + 420px));
+    }
+    .stage {
+      height: 460px;
+    }
+    .flow {
+      grid-template-columns: 1fr;
+    }
+    .voice blockquote {
+      font-size: 24px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scroller {
+      overflow: auto;
+    }
+    .scroller :global(img),
+    .scroller:hover :global(img),
+    .scroller:focus-visible :global(img) {
+      transform: none;
+    }
+    .scroller__hint {
+      display: none;
+    }
+  }
+</style>

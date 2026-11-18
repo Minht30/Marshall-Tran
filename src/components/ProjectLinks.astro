@@ -1,0 +1,91 @@
+---
+// A project's outside links as clear buttons: GitHub, live site or PDF, each with its own icon.
+import Icon from './Icon.astro';
+
+interface Props {
+  links: { label: string; href: string; pdf?: boolean }[];
+  /** Why there is no public code, e.g. private City of Brampton work. */
+  note?: string;
+}
+const { links, note } = Astro.props;
+const kind = (l: Props['links'][number]) => (l.pdf ? 'pdf' : l.href.includes('github.com') ? 'code' : 'live');
+const icons = { pdf: 'file-pdf', code: 'github-logo', live: 'globe-simple' } as const;
+---
+
+{(links.length > 0 || note) && (
+  <div class="pl">
+    {links.map((l) => {
+      const k = kind(l);
+      return (
+        <a
+          class:list={['pl__btn', `pl__btn--${k}`]}
+          href={l.href}
+          target="_blank"
+          rel="noopener"
+          {...(k === 'pdf' ? { 'data-doc-pdf': l.href, 'data-doc-caption': l.label } : {})}
+        >
+          <Icon name={icons[k]} size={18} />
+          {l.label}
+          <Icon name="arrow-up-right" size={14} />
+        </a>
+      );
+    })}
+    {note && (
+      <span class="pl__note">
+        <Icon name="lock-simple" size={16} />
+        {note}
+      </span>
+    )}
+  </div>
+)}
+
+<style>
+  .pl__note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    height: 40px;
+    padding: 0 0.9rem;
+    border-radius: var(--radius-pill);
+    border: 1px dashed var(--rule-strong);
+    color: var(--muted);
+    font: 500 14px/1 var(--font-sans);
+  }
+  .pl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .pl__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    height: 40px;
+    padding: 0 0.95rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--rule-strong);
+    color: var(--ink);
+    text-decoration: none;
+    font: 600 14px/1 var(--font-sans);
+    transition:
+      background-color 280ms cubic-bezier(0.32, 0.72, 0, 1),
+      border-color 280ms,
+      transform 180ms;
+  }
+  .pl__btn:hover {
+    border-color: var(--accent);
+    background: var(--mark-bg);
+  }
+  .pl__btn:active {
+    transform: scale(0.98);
+  }
+  .pl__btn--live {
+    background: var(--action);
+    border-color: var(--action);
+    color: var(--on-action);
+  }
+  .pl__btn--live:hover {
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
+  }
+</style>

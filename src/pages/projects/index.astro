@@ -1,0 +1,210 @@
+---
+// Every project in one place: the four case studies first, then the rest, newest first.
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import SelectedWork from '../../components/home/SelectedWork.astro';
+
+const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const workGroup: Record<string, string> = {
+  'outdoor-cat-tracker': 'coursework',
+  growgreen: 'brampton',
+  findyourself: 'personal',
+  'the-clean-divorce': 'client',
+};
+const cards = [
+  ...work.map((w) => ({
+    href: `/work/${w.id}`,
+    title: w.data.title,
+    tagline: w.data.summary,
+    context: w.data.context,
+    role: w.data.role,
+    status: w.data.status,
+    stack: w.data.tags,
+    cover: w.data.cover,
+    coverAlt: w.data.coverAlt,
+    links: w.data.links,
+    codeNote: w.data.codeNote,
+    group: workGroup[w.id] ?? 'personal',
+    flagship: true,
+    vtId: w.id,
+  })),
+  ...projects.map((p) => ({
+    href: `/projects/${p.id}`,
+    title: p.data.title,
+    tagline: p.data.tagline,
+    context: p.data.context,
+    role: p.data.role,
+    status: p.data.status,
+    stack: p.data.stack,
+    cover: p.data.cover,
+    coverAlt: p.data.coverAlt,
+    links: p.data.links,
+    codeNote: p.data.codeNote,
+    group: p.data.group,
+    flagship: false,
+  })),
+];
+const filters = [
+  { id: 'all', label: 'All' },
+  { id: 'flagship', label: 'Case studies' },
+  { id: 'coursework', label: 'Engineering coursework' },
+  { id: 'brampton', label: 'City of Brampton' },
+  { id: 'client', label: 'Client work' },
+  { id: 'personal', label: 'Personal products' },
+  { id: 'code', label: 'Has source code' },
+  { id: 'in-progress', label: 'In progress' },
+];
+const count = (f: string) =>
+  cards.filter((c) =>
+    f === 'all'
+      ? true
+      : f === 'flagship'
+        ? c.flagship
+        : f === 'in-progress'
+          ? c.status === 'in-progress'
+          : f === 'code'
+            ? hasCode(c.links)
+            : c.group === f,
+  ).length;
+const hasCode = (links: { href: string }[]) => links.some((l) => l.href.includes('github.com'));
+const done = cards.filter((c) => c.status === 'completed').length;
+---
+
+<Base
+  title="Projects"
+  description="Every project Minh Tran has built: case studies, City of Brampton work, client projects and engineering coursework, with screenshots, tools and links."
+>
+  <div class="pg">
+    <header class="intro anim-title">
+      <h1 class="h1">Projects</h1>
+      <p class="lead">
+        {cards.length} projects: {done} completed and {cards.length - done} in progress. Four case studies
+        first, then everything else. Select any image to see it full size.
+      </p>
+    </header>
+  </div>
+
+  <SelectedWork />
+
+  <div class="pg">
+    <div class="all-head">
+      <h2 class="h2" id="all-projects">
+        All projects
+      </h2>
+      <p class="lead muted">
+        Filter by where it was built, whether the code is public, or what is still in progress.
+      </p>
+    </div>
+
+    <div class="pf" role="group" aria-label="Filter projects" data-pf>
+      {filters.map((f) => (
+        <button type="button" data-f={f.id} aria-pressed={f.id === 'all' ? 'true' : 'false'}>
+          {f.label} <span class="n">{count(f.id)}</span>
+        </button>
+      ))}
+    </div>
+    <p class="sr-only" aria-live="polite" data-pf-status></p>
+
+    <div class="grid" data-pgrid>
+      {cards.map((c) => (
+        <ProjectCard {...c} />
+      ))}
+    </div>
+  </div>
+</Base>
+
+<script>
+  function setupProjectFilter() {
+    const bar = document.querySelector<HTMLElement>('[data-pf]');
+    if (!bar || bar.dataset.ready) return;
+    bar.dataset.ready = '1';
+    const cards = [...document.querySelectorAll<HTMLElement>('[data-pgrid] .pc')];
+    const status = document.querySelector<HTMLElement>('[data-pf-status]')!;
+    bar.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button');
+      if (!b) return;
+      const f = b.dataset.f!;
+      bar.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      let shown = 0;
+      cards.forEach((c) => {
+        const on =
+          f === 'all' ||
+          (f === 'flagship' && c.dataset.flagship === 'true') ||
+          (f === 'in-progress' && c.dataset.status === 'in-progress') ||
+          (f === 'code' && c.dataset.code === 'true') ||
+          c.dataset.group === f;
+        c.hidden = !on;
+        if (on) shown++;
+      });
+      status.textContent = `${shown} projects shown`;
+    });
+  }
+  document.addEventListener('astro:page-load', setupProjectFilter);
+</script>
+
+<style>
+  .intro {
+    padding: var(--space-6) 0 var(--space-4);
+    max-width: 62ch;
+  }
+  .intro .lead {
+    margin-top: var(--space-3);
+  }
+  .all-head {
+    padding-top: var(--space-6);
+  }
+  .all-head .lead {
+    margin: var(--space-2) 0 var(--space-4);
+  }
+  .pf {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 4px;
+    margin-bottom: var(--space-4);
+    border-radius: var(--radius-lg);
+    background: var(--surface-sunken);
+    border: 1px solid var(--rule);
+  }
+  .pf button {
+    height: 38px;
+    padding: 0 1rem;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--muted);
+    font: 500 15px/1 var(--font-sans);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition:
+      background-color 280ms cubic-bezier(0.32, 0.72, 0, 1),
+      color 280ms;
+  }
+  .pf button:hover {
+    color: var(--ink);
+  }
+  .pf button[aria-pressed='true'] {
+    background: var(--surface-raised);
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--rule-strong);
+  }
+  .n {
+    font-weight: 700;
+    color: var(--accent-ink);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+    padding-bottom: var(--space-7);
+  }
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

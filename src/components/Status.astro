@@ -1,0 +1,54 @@
+---
+// Project status: green when finished, amber while I am still building it.
+interface Props {
+  status: 'completed' | 'in-progress';
+}
+const { status } = Astro.props;
+---
+
+<span class:list={['status', `status--${status}`]}>
+  <span class="status__dot" aria-hidden="true"></span>
+  {status === 'completed' ? 'Completed' : 'In progress'}
+</span>
+
+<style>
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    height: 30px;
+    padding: 0 0.8rem;
+    border-radius: var(--radius-pill);
+    font: 600 14px/1 var(--font-sans);
+    white-space: nowrap;
+  }
+  .status__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .status--completed {
+    background: var(--ok-bg);
+    color: var(--ok-ink);
+    border: 1px solid var(--ok-line);
+  }
+  .status--in-progress {
+    background: var(--wip-bg);
+    color: var(--wip-ink);
+    border: 1px solid var(--wip-line);
+  }
+  .status--in-progress .status__dot {
+    animation: blink 1.6s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0.25;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .status--in-progress .status__dot {
+      animation: none;
+    }
+  }
+</style>

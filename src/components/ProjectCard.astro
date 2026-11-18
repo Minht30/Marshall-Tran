@@ -1,0 +1,216 @@
+---
+// One project on the Projects page: whole image, status, what it is, my role, tools and links.
+import type { ImageMetadata } from 'astro';
+import Zoomable from './Zoomable.astro';
+import Status from './Status.astro';
+import TechTag from './TechTag.astro';
+import ProjectLinks from './ProjectLinks.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  href: string;
+  title: string;
+  tagline: string;
+  context: string;
+  role?: string;
+  status: 'completed' | 'in-progress';
+  stack: string[];
+  cover: ImageMetadata;
+  coverAlt: string;
+  links: { label: string; href: string; pdf?: boolean }[];
+  codeNote?: string;
+  group: string;
+  flagship?: boolean;
+  vtId?: string;
+}
+const p = Astro.props;
+---
+
+<article
+  class:list={['pc', { 'pc--flagship': p.flagship }]}
+  data-group={p.group}
+  data-status={p.status}
+  data-flagship={p.flagship ? 'true' : 'false'}
+  data-code={p.links.some((l) => l.href.includes('github.com')) ? 'true' : 'false'}
+>
+  <div class="pc__media">
+    <Zoomable
+      src={p.cover}
+      alt={p.coverAlt}
+      caption={`${p.title}: ${p.coverAlt}`}
+      widths={[480, 800]}
+      sizes="(min-width: 1024px) 560px, 100vw"
+      vt={p.vtId ? `cover-${p.vtId}` : undefined}
+    />
+  </div>
+  <div class="pc__body">
+    <div class="pc__top">
+      <span class="pc__ctx">{p.context}</span>
+      <Status status={p.status} />
+    </div>
+    <h3 class="pc__title">
+      <a href={p.href}>{p.title}</a>
+      {p.flagship && <span class="pc__flag">Case study</span>}
+    </h3>
+    <p class="pc__tag">{p.tagline}</p>
+    {p.role && (
+      <p class="pc__role">
+        <Icon name="user" size={16} />
+        {p.role}
+      </p>
+    )}
+    <div class="pc__stack">
+      {p.stack.map((t) => (
+        <TechTag name={t} />
+      ))}
+    </div>
+    <div class="pc__actions">
+      <a class="pc__more" href={p.href}>
+        {p.flagship ? 'Read the case study' : 'Project details'}
+        <Icon name="arrow-right" size={16} />
+      </a>
+      <ProjectLinks links={p.links} note={p.codeNote} />
+    </div>
+  </div>
+</article>
+
+<style>
+  .pc {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    border-radius: calc(var(--radius-lg) + 6px);
+    padding: 6px;
+    background: var(--surface-raised);
+    border: 1px solid var(--rule);
+    transition:
+      border-color 400ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 400ms cubic-bezier(0.32, 0.72, 0, 1),
+      box-shadow 400ms;
+  }
+  .pc:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+  .pc[hidden] {
+    display: none;
+  }
+  .pc--flagship {
+    border-color: var(--rule-strong);
+  }
+  .pc__media {
+    display: grid;
+    place-items: center;
+    height: 320px;
+    padding: var(--space-2);
+    border-radius: var(--radius-lg);
+    background: radial-gradient(closest-side, var(--mark-bg), transparent), var(--surface-sunken);
+    overflow: hidden;
+  }
+  .pc__media :global(.zoom) {
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: var(--radius-sm, 8px);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .pc__media :global(.zoom img) {
+    width: auto;
+    max-width: 100%;
+    max-height: 288px;
+  }
+  .pc__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: var(--space-3);
+  }
+  .pc__top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .pc__ctx {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-ink);
+  }
+  .pc__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0;
+    font: 700 26px/1.15 var(--font-sans);
+    letter-spacing: -0.02em;
+  }
+  .pc__title a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .pc__title a:hover {
+    color: var(--accent-ink);
+  }
+  .pc__flag {
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius-pill);
+    background: var(--action);
+    color: var(--on-action);
+    font: 600 12px/1 var(--font-sans);
+    letter-spacing: 0;
+  }
+  .pc__tag {
+    margin: 0;
+    font-size: 16px;
+    color: var(--muted);
+  }
+  .pc__role {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .pc__role :global(svg) {
+    flex: none;
+    margin-top: 3px;
+    color: var(--accent-ink);
+  }
+  .pc__stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .pc__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--rule);
+  }
+  .pc__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .pc__more:hover {
+    color: var(--accent-ink);
+  }
+  @media (max-width: 767px) {
+    .pc__media {
+      height: 240px;
+    }
+    .pc__media :global(.zoom img) {
+      max-height: 210px;
+    }
+  }
+</style>

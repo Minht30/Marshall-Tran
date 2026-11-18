@@ -1,0 +1,205 @@
+---
+// The floating "get in touch" bar: brand-colour logos on white tiles, left edge on wide screens, bottom pill on smaller ones.
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import linkedin from '../icons/color/linkedin.svg?url';
+import github from '../icons/color/github.svg?url';
+import discord from '../icons/color/discord.svg?url';
+import gmail from '../icons/color/gmail.svg?url';
+
+const links = [
+  { label: 'LinkedIn', href: site.contact.linkedin, logo: linkedin, glow: '#0a66c2' },
+  { label: 'GitHub', href: site.contact.github, logo: github, glow: '#8b949e' },
+  { label: 'Discord', href: site.contact.discord, logo: discord, glow: '#5865f2' },
+  { label: 'Email', href: `mailto:${site.contact.email}`, logo: gmail, glow: '#ea4335' },
+  { label: 'Resume', href: site.resume, icon: 'file-text', glow: '#46c8d2' },
+];
+---
+
+<aside class="social" id="social-bar" aria-label="Get in touch">
+  <ul class="social__list" id="social-list">
+    {links.map((l) => (
+      <li>
+        <a
+          href={l.href}
+          {...(l.href.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})}
+          aria-label={l.label}
+          data-tip={l.label}
+          style={`--glow:${l.glow}`}
+        >
+          {l.logo ? <img src={l.logo} alt="" width="22" height="22" /> : <Icon name={l.icon!} size={20} />}
+        </a>
+      </li>
+    ))}
+  </ul>
+  <button
+    class="social__toggle"
+    type="button"
+    id="social-toggle"
+    aria-expanded="true"
+    aria-controls="social-list"
+    aria-label="Hide contact links"
+  >
+    <Icon name="caret-left" size={16} />
+  </button>
+</aside>
+
+<script>
+  function setupSocial() {
+    const bar = document.getElementById('social-bar');
+    const btn = document.getElementById('social-toggle');
+    if (!bar || !btn || btn.dataset.ready) return;
+    btn.dataset.ready = '1';
+    const set = (open: boolean) => {
+      bar.classList.toggle('is-collapsed', !open);
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? 'Hide contact links' : 'Show contact links');
+      try {
+        localStorage.setItem('social', open ? 'open' : 'closed');
+      } catch {}
+    };
+    let saved = 'open';
+    try {
+      saved = localStorage.getItem('social') ?? 'open';
+    } catch {}
+    set(saved !== 'closed');
+    btn.addEventListener('click', () => set(bar.classList.contains('is-collapsed')));
+  }
+  document.addEventListener('astro:page-load', setupSocial);
+</script>
+
+<style>
+  .social {
+    position: fixed;
+    z-index: var(--z-nav);
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 8px;
+    border-radius: var(--radius-pill);
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--accent) 14%, transparent), transparent 60%),
+      color-mix(in srgb, var(--surface-raised) 80%, transparent);
+    border: 1px solid var(--rule-strong);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.06) inset,
+      0 18px 40px -16px rgb(0 0 0 / 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .social__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: opacity 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .social a {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #fff;
+    color: #061334;
+    box-shadow: inset 0 0 0 1px rgb(10 25 60 / 0.08);
+    transition:
+      background-color 280ms cubic-bezier(0.32, 0.72, 0, 1),
+      color 280ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .social a img {
+    display: block;
+    width: 22px;
+    height: 22px;
+  }
+  .social a:hover,
+  .social a:focus-visible {
+    transform: translateX(3px) scale(1.08);
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--glow) 45%, transparent),
+      0 8px 22px -6px var(--glow);
+  }
+  .social a::after {
+    content: attr(data-tip);
+    position: absolute;
+    left: calc(100% + 12px);
+    top: 50%;
+    transform: translate(-6px, -50%);
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius-xs);
+    background: var(--ink);
+    color: var(--ground);
+    font: 500 13px/1 var(--font-sans);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 200ms,
+      transform 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .social a:hover::after,
+  .social a:focus-visible::after {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+  .social__toggle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--rule-strong);
+    background: transparent;
+    color: var(--muted);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: transform 400ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .social.is-collapsed .social__list {
+    display: none;
+  }
+  .social.is-collapsed .social__toggle {
+    transform: rotate(180deg);
+  }
+  @media (max-width: 1379px) {
+    .social {
+      top: auto;
+      bottom: 16px;
+      left: 16px;
+      transform: none;
+      flex-direction: row;
+      padding: 6px 8px;
+    }
+    .social__list {
+      flex-direction: row;
+    }
+    .social a {
+      width: 40px;
+      height: 40px;
+    }
+    .social a::after {
+      display: none;
+    }
+    .social a:hover {
+      transform: translateY(-2px);
+    }
+    .social__toggle {
+      transform: rotate(0deg);
+    }
+    .social.is-collapsed .social__toggle {
+      transform: rotate(180deg);
+    }
+  }
+  @media print {
+    .social {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,706 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Cta from '../../components/Cta.astro';
+import NextCase from '../../components/NextCase.astro';
+import CaseFacts from '../../components/CaseFacts.astro';
+import ttDay from '../../../Images/findyourself/timetable-day.webp';
+import ttNight from '../../../Images/findyourself/timetable-night.webp';
+import diDay from '../../../Images/findyourself/diary-day.webp';
+import diNight from '../../../Images/findyourself/diary-night.webp';
+import foDay from '../../../Images/findyourself/focus-day.webp';
+import foNight from '../../../Images/findyourself/focus-night.webp';
+
+const entry = (await getEntry('work', 'findyourself'))!;
+const shots = [
+  { k: 'timetable-day', src: ttDay },
+  { k: 'diary-day', src: diDay },
+  { k: 'focus-day', src: foDay },
+  { k: 'timetable-night', src: ttNight },
+  { k: 'diary-night', src: diNight },
+  { k: 'focus-night', src: foNight },
+];
+const notes = {
+  timetable:
+    'Timetable: a week grid. Drag to make a block, drag again to move or stretch it, colour it by category, or copy yesterday when today looks the same.',
+  diary:
+    'Diary: one page for each day, with a mood and a few prompts. It saves as you type, and a map of the year shows the days you wrote.',
+  focus:
+    'Focus: a timer that keeps running while you move around the app, with a flower for every session you finish.',
+};
+const features = [
+  [
+    'Timetable',
+    'Drag-to-create week grid, colour categories, copy yesterday, a month calendar to jump weeks.',
+  ],
+  [
+    'Tasks',
+    'Today, Tomorrow and Backlog, with one "Focus first" task pinned in the header until it is done.',
+  ],
+  [
+    'Diary',
+    'A page per day with mood, gentle prompts, autosave with an offline safety net, and a year heatmap.',
+  ],
+  ['Focus', 'A round Pomodoro timer that keeps running across pages, and a dimmed Focus Mode.'],
+  ['Chill', 'Five ambient layers generated in the browser with the Web Audio API, or your own music.'],
+  ['Streak', 'Kept by one diary line or one finished task. Miss a day and it simply says welcome back.'],
+];
+const docsLinks = [
+  ['Product requirements', 'PRD', 'docs/PRD.md'],
+  ['User stories', 'MD', 'docs/USER_STORIES.md'],
+  ['Architecture', 'MD', 'docs/ARCHITECTURE.md'],
+  ['Database schema', 'ERD', 'docs/ERD.md'],
+  ['Design system', 'MD', 'docs/DESIGN_SYSTEM.md'],
+  ['Decision log', 'MD', 'docs/DECISIONS.md'],
+];
+const repo = 'https://github.com/Minht30/FindYourself';
+---
+
+<Base title="FindYourself" description={entry.data.summary}>
+  <div class="pg">
+    <p class="crumb">
+      <a href="/projects">Projects</a>
+      <span aria-hidden="true">/</span>
+      <span>FindYourself</span>
+    </p>
+
+    <header class="open">
+      <div class="anim-title">
+        <p class="label">Personal product, 2026</p>
+        <h1 class="open__title" transition:name="title-findyourself">
+          FindYourself
+        </h1>
+        <p class="open__tag">Plan your day. Find yourself.</p>
+        <p class="body">
+          A calm, full-stack web app that puts a timetable, a diary, a focus timer and ambient sound in one
+          place. I designed it, built it and shipped it, from the product spec to the database rules.
+        </p>
+        <div class="ctas">
+          <Cta href="https://findyourself-mu.vercel.app/" external>
+            Try the live demo
+          </Cta>
+          <Cta href={repo} variant="ghost" external>
+            Source code
+          </Cta>
+        </div>
+      </div>
+
+      <div class="reveal" data-product>
+        <div class="tray product">
+          <div class="win">
+            <div class="win__bar">
+              <span class="win__url" data-url>
+                findyourself-mu.vercel.app / timetable
+              </span>
+            </div>
+            <div
+              class="shots"
+              role="img"
+              aria-live="polite"
+              aria-label="FindYourself timetable, day theme"
+              data-shots
+            >
+              {shots.map((s, i) => (
+                <Image
+                  src={s.src}
+                  alt=""
+                  widths={[480, 720]}
+                  width={720}
+                  sizes="(min-width: 1024px) 680px, 100vw"
+                  data-k={s.k}
+                  class:list={{ 'is-on': i === 0 }}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  transition:name={i === 3 ? 'cover-findyourself' : undefined}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+        <div class="controls">
+          <div class="seg" role="group" aria-label="Screen">
+            <button type="button" data-screen="timetable" aria-pressed="true">
+              Timetable
+            </button>
+            <button type="button" data-screen="diary" aria-pressed="false">
+              Diary
+            </button>
+            <button type="button" data-screen="focus" aria-pressed="false">
+              Focus
+            </button>
+          </div>
+          <div class="seg" role="group" aria-label="Theme of the app">
+            <button type="button" data-mode="day" aria-pressed="true">
+              Day
+            </button>
+            <button type="button" data-mode="night" aria-pressed="false">
+              Night
+            </button>
+          </div>
+        </div>
+        <p class="shot-note" data-note>
+          {notes.timetable}
+        </p>
+        <template data-notes set:html={JSON.stringify(notes)} />
+      </div>
+    </header>
+    <CaseFacts
+      objective="One calm place to plan the day, write a diary and focus, designed and shipped end to end as a real product."
+      role="Product design, engineering and deployment. Built by me, with Claude as a coding assistant."
+      duration="2026, personal product"
+      team="Solo"
+      tech={[
+        'Next.js',
+        'TypeScript',
+        'React',
+        'Supabase',
+        'PostgreSQL',
+        'Tailwind CSS',
+        'Web Audio API',
+        'Vitest',
+        'Vercel',
+      ]}
+      results={[
+        { value: '961', label: 'tests' },
+        { value: '100', label: 'Lighthouse accessibility score' },
+        { value: 'Live', label: 'with a guest demo, no sign-up' },
+      ]}
+      live={{ label: 'Try the live demo', href: 'https://findyourself-mu.vercel.app/' }}
+    />
+
+    <section class="sec">
+      <div class="anim-title">
+        <h2 class="h2">Everything for a day, in one calm place</h2>
+      </div>
+      <div class="feats">
+        {features.map(([t, d]) => (
+          <div class="feat">
+            <b>{t}</b>
+            <p>{d}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="sec sec--tight">
+      <div class="anim-title">
+        <h2 class="h2">Measured, not assumed</h2>
+      </div>
+      <p class="lead">
+        The interesting work is under the surface: where the rules live, what gets tested, and what happens
+        when something breaks.
+      </p>
+      <div class="bento" data-observe>
+        <div class="cell c-a">
+          <div class="cell__in">
+            <div>
+              <p class="label">Lighthouse, every page</p>
+              <h3>9 pages, 3 screen shapes, both themes</h3>
+            </div>
+            <div class="scores" aria-hidden="true">
+              {['Accessibility', 'Best practices', 'SEO'].map((s, i) => (
+                <div class="score" style={`--i:${i}`}>
+                  <svg class="ring" viewBox="0 0 100 100">
+                    <circle class="track" cx="50" cy="50" r="42" />
+                    <circle class="bar" cx="50" cy="50" r="42" />
+                    <text x="50" y="50">
+                      100
+                    </text>
+                  </svg>
+                  <span>{s}</span>
+                </div>
+              ))}
+            </div>
+            <p class="sr-only">Accessibility 100, best practices 100 and SEO 100 on all 54 audits.</p>
+            <p>
+              100 on all 54 audits. The audit also caught a real contrast failure on the Today page and a slow
+              Chill page on phones; both were fixed.
+            </p>
+          </div>
+        </div>
+        <div class="cell c-b">
+          <div class="cell__in">
+            <p class="big">961</p>
+            <h3>Unit tests, plus SQL tests</h3>
+            <p>
+              Colour contrast is tested against the real theme tokens, over the painting each panel sits on.
+            </p>
+          </div>
+        </div>
+        <div class="cell c-c">
+          <div class="cell__in">
+            <h3>The database is the security boundary</h3>
+            <p>
+              Row-level security on every table, and each rule has a SQL test that proves it by the reason it
+              refuses.
+            </p>
+          </div>
+        </div>
+        <div class="cell c-d">
+          <div class="cell__in">
+            <h3>A streak you cannot fake</h3>
+            <p>
+              A trigger recomputes it from your own rows in your own time zone, so the client can never write
+              it.
+            </p>
+          </div>
+        </div>
+        <div class="cell c-e">
+          <div class="cell__in">
+            <h3>A guest demo that cleans up after itself</h3>
+            <p>
+              "Try the demo" creates a temporary anonymous account seeded with sample data by a database
+              function, and deletes it after 24 hours. The theme is chosen on the server from your clock, so
+              the first byte is already the right scene.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec--tight stack">
+      <div>
+        <div class="anim-title">
+          <h2 class="h2">Built like a product</h2>
+        </div>
+        <p class="body">
+          Before the code, a written product spec, user stories, an architecture and a database design. After
+          it, a dated decision log of what was built, how it was checked and what was left out.
+        </p>
+        <div class="ai-note">
+          <b>How it was made.</b> I built FindYourself with Claude (Anthropic) as a coding assistant, and the
+          repository's commit history shows it.
+        </div>
+      </div>
+      <div class="layers">
+        <h3 class="docs__title">The project documents</h3>
+        <ul class="docs" aria-label="Project documents on GitHub">
+          {docsLinks.map(([t, tag, path]) => (
+            <li>
+              <a href={`${repo}/blob/main/${path}`} target="_blank" rel="noopener">
+                {t} <span>{tag}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="sec sec--tight scope">
+      <h2 class="h3">Still open</h2>
+      <ul class="caveats">
+        <li>
+          The landing page scores 79 to 81 for performance on a phone over slow 4G, because of its full-bleed
+          painting. A blurred placeholder is the next step.
+        </li>
+        <li>Two more scenes, sharper wallpapers and real wind recordings are planned.</li>
+        <li>Image credits still need to be added.</li>
+      </ul>
+    </section>
+
+    <NextCase current="findyourself" />
+  </div>
+</Base>
+
+<script>
+  function setupProduct() {
+    document.querySelectorAll<HTMLElement>('[data-product]').forEach((root) => {
+      if (root.dataset.ready) return;
+      root.dataset.ready = '1';
+      const notes = JSON.parse(
+        (root.querySelector('template[data-notes]') as HTMLTemplateElement).innerHTML,
+      ) as Record<string, string>;
+      const state = { screen: 'timetable', mode: 'day' };
+      const shots = root.querySelector<HTMLElement>('[data-shots]')!;
+      const render = () => {
+        const key = `${state.screen}-${state.mode}`;
+        shots
+          .querySelectorAll<HTMLImageElement>('img')
+          .forEach((i) => i.classList.toggle('is-on', i.dataset.k === key));
+        shots.setAttribute('aria-label', `FindYourself ${state.screen}, ${state.mode} theme`);
+        root.querySelector('[data-url]')!.textContent = `findyourself-mu.vercel.app / ${state.screen}`;
+        root.querySelector('[data-note]')!.textContent = notes[state.screen];
+        root
+          .querySelectorAll<HTMLButtonElement>('[data-screen]')
+          .forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.screen === state.screen)));
+        root
+          .querySelectorAll<HTMLButtonElement>('[data-mode]')
+          .forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === state.mode)));
+      };
+      root.querySelectorAll<HTMLButtonElement>('[data-screen]').forEach((b) =>
+        b.addEventListener('click', () => {
+          state.screen = b.dataset.screen!;
+          render();
+        }),
+      );
+      root.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach((b) =>
+        b.addEventListener('click', () => {
+          state.mode = b.dataset.mode!;
+          render();
+        }),
+      );
+    });
+  }
+  document.addEventListener('astro:page-load', setupProduct);
+</script>
+
+<style>
+  .open {
+    display: grid;
+    grid-template-columns: 6fr 6fr;
+    gap: var(--space-5);
+    align-items: center;
+    padding: var(--space-5) 0 var(--space-6);
+  }
+  .open > * {
+    min-width: 0;
+  }
+  .open__title {
+    font: 700 clamp(48px, 5vw, 80px)/0.95 var(--font-sans);
+    overflow-wrap: anywhere;
+    letter-spacing: -0.045em;
+    margin: var(--space-2) 0 var(--space-3);
+  }
+  .open__tag {
+    font: 500 22px/1.35 var(--font-sans);
+    color: var(--accent-ink);
+    margin: 0 0 var(--space-3);
+  }
+  .meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3) var(--space-4);
+    margin: var(--space-4) 0;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--rule);
+  }
+  .meta dt {
+    font: 500 13px/1.4 var(--font-sans);
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .meta dd {
+    margin: 0.3rem 0 0;
+    font-size: 15px;
+  }
+  .ctas {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .product {
+    box-shadow: var(--shadow-md);
+  }
+  .shots {
+    position: relative;
+    aspect-ratio: 720 / 455;
+    background: var(--surface-sunken);
+  }
+  .shots :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.015);
+    transition:
+      opacity 600ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 900ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .shots :global(img.is-on) {
+    opacity: 1;
+    transform: none;
+  }
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-top: var(--space-2);
+  }
+  .seg {
+    display: inline-flex;
+    padding: 4px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-sunken);
+    border: 1px solid var(--rule);
+    gap: 2px;
+  }
+  .seg button {
+    height: 36px;
+    padding: 0 1rem;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--muted);
+    font: 500 14px/1 var(--font-sans);
+    cursor: pointer;
+    transition:
+      background-color 280ms cubic-bezier(0.32, 0.72, 0, 1),
+      color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .seg button:hover {
+    color: var(--ink);
+  }
+  .seg button[aria-pressed='true'] {
+    background: var(--surface-raised);
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--rule-strong);
+  }
+  .shot-note {
+    margin: var(--space-2) 0 0;
+    font-size: 15px;
+    color: var(--muted);
+    min-height: 3em;
+    max-width: 70ch;
+  }
+  .feats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 var(--space-6);
+    margin-top: var(--space-4);
+  }
+  .docs__title {
+    margin: 0 0 var(--space-2);
+    font: 700 17px/1.2 var(--font-sans);
+  }
+  .feat {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: var(--space-2);
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--rule);
+  }
+  .feat b {
+    font-weight: 500;
+  }
+  .feat p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(150px, auto);
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+  .cell {
+    border-radius: calc(var(--radius-md) + 6px);
+    padding: 6px;
+    background: var(--surface-sunken);
+    border: 1px solid var(--rule);
+  }
+  .cell__in {
+    height: 100%;
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    background: var(--surface-raised);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .cell h3 {
+    font: 600 20px/1.25 var(--font-sans);
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .cell p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .c-a {
+    grid-column: span 7;
+    grid-row: span 2;
+  }
+  .c-b,
+  .c-c {
+    grid-column: span 5;
+  }
+  .c-d {
+    grid-column: span 4;
+  }
+  .c-e {
+    grid-column: span 8;
+  }
+  .c-a .cell__in {
+    background: var(--slab);
+    color: var(--on-slab);
+    justify-content: space-between;
+  }
+  .c-a .cell__in p,
+  .c-a .label {
+    color: inherit;
+    opacity: 0.8;
+  }
+  .scores {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin: var(--space-3) 0;
+  }
+  .score {
+    display: grid;
+    justify-items: start;
+    gap: 0.5rem;
+  }
+  .score span {
+    font: 500 14px/1.3 var(--font-sans);
+  }
+  .ring {
+    width: 96px;
+    height: 96px;
+  }
+  .ring circle {
+    fill: none;
+    stroke-width: 6;
+  }
+  .ring .track {
+    stroke: currentColor;
+    opacity: 0.18;
+  }
+  .ring .bar {
+    stroke: currentColor;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    stroke-dasharray: 264;
+    stroke-dashoffset: 0;
+  }
+  .ring text {
+    fill: currentColor;
+    font: 500 24px var(--font-sans);
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+  :global(.js-anim) .bento .ring .bar {
+    stroke-dashoffset: 264;
+    transition: stroke-dashoffset 1400ms cubic-bezier(0.32, 0.72, 0, 1);
+    transition-delay: calc(var(--i) * 150ms);
+  }
+  :global(.js-anim) .bento:global(.is-in) .ring .bar {
+    stroke-dashoffset: 0;
+  }
+  .cell .big {
+    font: 500 56px/1 var(--font-sans);
+    letter-spacing: -0.03em;
+    color: var(--accent-ink);
+  }
+  .stack {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: var(--space-5);
+  }
+  .layers {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .layer {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: var(--space-2);
+    align-items: start;
+  }
+  .layer .mt-row {
+    gap: 0.4rem;
+  }
+  .docs {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 var(--space-4);
+  }
+  .docs a {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    text-decoration: none;
+    transition:
+      border-color 280ms cubic-bezier(0.32, 0.72, 0, 1),
+      color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .docs a:hover {
+    border-bottom-color: var(--accent);
+    color: var(--accent-ink);
+  }
+  .docs span {
+    font: 500 13px/1.8 var(--font-sans);
+    color: var(--muted);
+  }
+  .ai-note {
+    margin-top: var(--space-4);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--rule-strong);
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 60ch;
+  }
+  .ai-note b {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .scope {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: var(--space-5);
+  }
+  @media (max-width: 1023px) {
+    .open,
+    .stack,
+    .scope {
+      grid-template-columns: 1fr;
+    }
+    .bento {
+      grid-template-columns: 1fr 1fr;
+    }
+    .c-a,
+    .c-e,
+    .c-d {
+      grid-column: 1 / -1;
+      grid-row: auto;
+    }
+    .c-b,
+    .c-c {
+      grid-column: span 1;
+    }
+  }
+  @media (max-width: 767px) {
+    .open__title {
+      font-size: 48px;
+    }
+    .feats,
+    .docs {
+      grid-template-columns: 1fr;
+    }
+    .bento {
+      grid-template-columns: 1fr;
+    }
+    .c-b,
+    .c-c {
+      grid-column: 1 / -1;
+    }
+    .ring {
+      width: 72px;
+      height: 72px;
+    }
+    .controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .seg button {
+      flex: 1;
+      padding: 0 0.5rem;
+    }
+  }
+</style>

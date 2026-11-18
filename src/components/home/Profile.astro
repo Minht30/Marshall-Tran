@@ -1,0 +1,183 @@
+---
+// The 10-second scan: four headline facts, a short summary with the key facts marked, and quick facts.
+import Icon from '../Icon.astro';
+
+const facts = [
+  { value: '12', count: '12', unit: 'months', label: 'Co-op at the City of Brampton' },
+  { value: '1,500+', count: '1500', unit: '', label: 'Public pages maintained' },
+  { value: 'Top 5%', count: '5', unit: '', label: 'Siteimprove users worldwide, 2024' },
+  { value: '2026', count: '', unit: '', label: 'B.Eng. Computer Engineering and Iron Ring' },
+];
+---
+
+<section class="facts" aria-label="At a glance" data-observe>
+  {facts.map((f) => (
+    <div class="fact">
+      <p class="fact__value">
+        {f.count ? <span data-countup={f.count}>{f.value}</span> : <span>{f.value}</span>}
+        {f.unit && <small>{f.unit}</small>}
+      </p>
+      <p class="fact__label">{f.label}</p>
+    </div>
+  ))}
+</section>
+
+<section class="sec profile" id="profile" aria-labelledby="profile-title">
+  <div class="profile__text">
+    <div class="anim-title">
+      <h2 class="h2" id="profile-title">
+        Between design and code
+      </h2>
+    </div>
+    <p class="lead">
+      I'm a <mark>Computer Engineering graduate</mark> of <mark>Toronto Metropolitan University</mark>. I turn
+      designs into <mark>accessible, working pages</mark> and apps.
+    </p>
+    <p class="body">
+      For <mark>12 months at the City of Brampton</mark> I built and maintained pages on a{' '}
+      <mark>1,500+ page</mark> public platform in SharePoint, and audited them for accessibility. That work
+      ranked me in the <mark>top 5% of Siteimprove users</mark> in 2024.
+    </p>
+    <p class="body">
+      Before that, I delivered two client sites through Riipen, both rated <mark>5.0</mark>. Now I'm looking
+      for a <mark>front-end or full-stack role</mark>.
+    </p>
+  </div>
+  <dl class="quick">
+    <div>
+      <dt>
+        <Icon name="graduation-cap" size={20} />
+        Education
+      </dt>
+      <dd>B.Eng. (Honours) Computer Engineering, Co-op, TMU, June 2026</dd>
+    </div>
+    <div>
+      <dt>
+        <Icon name="briefcase" size={20} />
+        Experience
+      </dt>
+      <dd>City of Brampton co-op, 2 Riipen client projects</dd>
+    </div>
+    <div>
+      <dt>
+        <Icon name="code" size={20} />
+        Focus
+      </dt>
+      <dd>Front-end, UI/UX, accessibility, QA</dd>
+    </div>
+    <div>
+      <dt>
+        <Icon name="seal-check" size={20} />
+        Next
+      </dt>
+      <dd>Working toward my P.Eng licence</dd>
+    </div>
+    <div>
+      <dt>
+        <Icon name="map-pin" size={20} />
+        Based in
+      </dt>
+      <dd>Toronto, Ontario. Open to relocating anywhere in Canada</dd>
+    </div>
+  </dl>
+</section>
+
+<style>
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .fact {
+    padding: var(--space-4) var(--space-3);
+    border-left: 1px solid var(--rule);
+  }
+  .fact:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .fact__value {
+    margin: 0;
+    font: 700 clamp(40px, 4.4vw, 60px)/1 var(--font-sans);
+    letter-spacing: -0.04em;
+    color: var(--ink);
+  }
+  .fact__value small {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0;
+    margin-left: 0.35rem;
+    color: var(--muted);
+  }
+  .fact:first-child .fact__value {
+    color: var(--accent-ink);
+  }
+  .fact__label {
+    margin: 0.6rem 0 0;
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 22ch;
+  }
+
+  .profile {
+    display: grid;
+    grid-template-columns: 7fr 4fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+  mark {
+    padding: 0.08em 0.3em;
+    border-radius: 4px;
+    background: var(--mark-bg);
+    color: var(--ink);
+    font-weight: 650;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .profile .body {
+    font-size: 17px;
+  }
+  .quick {
+    margin: 0;
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--surface-raised);
+    border: 1px solid var(--rule);
+  }
+  .quick dt {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-ink);
+  }
+  .quick dd {
+    margin: 0.25rem 0 0;
+    font-size: 16px;
+  }
+
+  @media (max-width: 1023px) {
+    .facts {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .fact:nth-child(3) {
+      border-left: 0;
+      padding-left: 0;
+    }
+    .fact:nth-child(n + 3) {
+      border-top: 1px solid var(--rule);
+    }
+    .profile {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 767px) {
+    .fact {
+      padding: var(--space-3) var(--space-2);
+    }
+  }
+</style>

@@ -1,0 +1,19 @@
+---
+// A measured outcome. Only use figures that a published source supports.
+interface Props {
+  value: string;
+  label: string;
+  source?: string;
+  accent?: boolean;
+}
+const { value, label, source, accent = false } = Astro.props;
+---
+
+<div class="mt-metric">
+  <div class="mt-metric__value">
+    <span class:list={{ 'mt-metric__to': accent }}>{value}</span>
+  </div>
+  <p class="mt-metric__label">{label}</p>
+  {source && <p class="mt-metric__source">{source}</p>}
+  <slot />
+</div>

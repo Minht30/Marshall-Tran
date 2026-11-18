@@ -1,0 +1,290 @@
+---
+// How a location travels from the collar to the phone. Built from the team's specification page.
+const nodes = [
+  {
+    x: 12,
+    y: 44,
+    w: 200,
+    title: 'Tracker',
+    sub: 'RAK3172 + L80-R GPS',
+    note: '1. Tracker on the collar: a RAK3172 for control and long-range LoRa, a Quectel L80-R for GPS, a patch antenna sized for a cat and a 600 mAh Li-Po. About 35 g. Built by Muhammad Al-lami.',
+  },
+  {
+    x: 302,
+    y: 44,
+    w: 200,
+    title: 'Home base',
+    sub: 'RAK3172 + Pico 2 W',
+    note: "2. Home base: a RAK3172 listens for the collar's LoRa packets and a Raspberry Pi Pico 2 W relays them over Wi-Fi. USB-powered, so it never runs flat. Built by Louis Chevalier.",
+  },
+  {
+    x: 592,
+    y: 44,
+    w: 196,
+    title: 'Flask API',
+    sub: 'Python, REST',
+    note: '3. Flask API: receives tracker pings, validates and stores them, and serves device-specific data to the app. Built by Nicholas Muttoo.',
+  },
+  {
+    x: 592,
+    y: 214,
+    w: 196,
+    title: 'Firebase',
+    sub: 'Auth + data',
+    note: '4. Firebase: authentication and cloud-backed app data.',
+  },
+  {
+    x: 302,
+    y: 214,
+    w: 200,
+    title: 'Mobile app',
+    sub: 'React Native, Expo',
+    mine: true,
+    note: '5. The mobile app, my part: React Native and Expo. The owner sees home, the safe-zone circle and the cat on one map, and gets an alert when the cat leaves or returns.',
+  },
+];
+---
+
+<div class="dg-wrap" data-diagram>
+  <div class="dg-head">
+    <slot />
+    <div class="stepper">
+      <button class="step" type="button" data-step="-1" aria-label="Previous part">
+        &larr;
+      </button>
+      <span class="count" data-count>
+        0 / {nodes.length}
+      </span>
+      <button class="step step--next" type="button" data-step="1" aria-label="Next part">
+        Next &rarr;
+      </button>
+    </div>
+  </div>
+  <figure class="mt-diagram" data-observe>
+    <svg
+      viewBox="0 0 800 330"
+      role="group"
+      aria-label="Outdoor Cat Tracker architecture: the collar tracker sends GPS fixes over LoRa to the home base, which relays them over Wi-Fi to a Flask API; Flask stores data with Firebase and serves it to the React Native app, which signs in with Firebase Auth"
+    >
+      <defs>
+        <marker
+          id="arw"
+          viewBox="0 0 10 10"
+          refX="9"
+          refY="5"
+          markerWidth="7"
+          markerHeight="7"
+          orient="auto-start-reverse"
+        >
+          <path d="M0,0 L10,5 L0,10 z" class="arrowhead" />
+        </marker>
+      </defs>
+      <rect class="zone" x="0" y="24" width="222" height="104" />
+      <text class="zone-label" x="2" y="16">
+        Collar
+      </text>
+      <rect class="zone" x="290" y="24" width="222" height="104" />
+      <text class="zone-label" x="292" y="16">
+        Home
+      </text>
+      <rect class="zone" x="580" y="24" width="220" height="290" />
+      <text class="zone-label" x="582" y="16">
+        Cloud
+      </text>
+      <rect class="zone" x="290" y="194" width="222" height="120" />
+      <text class="zone-label" x="292" y="186">
+        Phone
+      </text>
+      <path class="edge" style="--i:0" d="M212 76 H298" marker-end="url(#arw)" />
+      <path class="packet" style="--i:0" d="M212 76 H298" aria-hidden="true" />
+      <text class="edge-label" x="255" y="66" text-anchor="middle">
+        LoRa
+      </text>
+      <path class="edge" style="--i:1" d="M502 76 H588" marker-end="url(#arw)" />
+      <path class="packet" style="--i:1" d="M502 76 H588" aria-hidden="true" />
+      <text class="edge-label" x="545" y="66" text-anchor="middle">
+        Wi-Fi
+      </text>
+      <path class="edge" style="--i:2" d="M690 112 V212" marker-end="url(#arw)" />
+      <path class="packet" style="--i:2" d="M690 112 V212" aria-hidden="true" />
+      <text class="edge-label" x="698" y="166">
+        stores
+      </text>
+      <path class="edge" style="--i:3" d="M596 108 L506 214" marker-end="url(#arw)" />
+      <path class="packet" style="--i:3" d="M596 108 L506 214" aria-hidden="true" />
+      <text class="edge-label" x="520" y="156" text-anchor="end">
+        device data
+      </text>
+      <path class="edge" style="--i:4" d="M588 262 H504" marker-end="url(#arw)" />
+      <path class="packet" style="--i:4" d="M588 262 H504" aria-hidden="true" />
+      <text class="edge-label" x="546" y="252" text-anchor="middle">
+        sign-in
+      </text>
+      {nodes.map((n) => (
+        <g
+          class:list={['node', { 'is-mine': n.mine }]}
+          tabindex="0"
+          role="button"
+          aria-pressed="false"
+          data-note={n.note}
+        >
+          <rect x={n.x} y={n.y} width={n.w} height="68" />
+          <text x={n.x + 14} y={n.y + 28}>
+            {n.title}
+          </text>
+          <text class="sub" x={n.x + 14} y={n.y + 50}>
+            {n.sub}
+          </text>
+        </g>
+      ))}
+    </svg>
+    <figcaption class="mt-diagram__note" aria-live="polite" data-note-out>
+      Select a part, or press Next to follow a location from the collar to the phone.
+    </figcaption>
+  </figure>
+</div>
+
+<script>
+  function setupDiagram() {
+    document.querySelectorAll<HTMLElement>('[data-diagram]').forEach((root) => {
+      if (root.dataset.ready) return;
+      root.dataset.ready = '1';
+      const nodes = [...root.querySelectorAll<SVGGElement>('.node')];
+      const out = root.querySelector<HTMLElement>('[data-note-out]')!;
+      const count = root.querySelector<HTMLElement>('[data-count]')!;
+      let cur = -1;
+      const pick = (i: number) => {
+        cur = i;
+        nodes.forEach((n, j) => {
+          n.classList.toggle('is-active', j === i);
+          n.setAttribute('aria-pressed', String(j === i));
+        });
+        out.textContent = nodes[i].dataset.note ?? '';
+        count.textContent = `${i + 1} / ${nodes.length}`;
+      };
+      nodes.forEach((n, i) => {
+        n.addEventListener('click', () => pick(i));
+        n.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            pick(i);
+          }
+        });
+      });
+      root
+        .querySelectorAll<HTMLButtonElement>('[data-step]')
+        .forEach((b) =>
+          b.addEventListener('click', () =>
+            pick((cur + Number(b.dataset.step) + nodes.length) % nodes.length),
+          ),
+        );
+    });
+  }
+  document.addEventListener('astro:page-load', setupDiagram);
+</script>
+
+<style>
+  .dg-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-3);
+  }
+  .stepper {
+    display: flex;
+    gap: var(--space-1);
+    align-items: center;
+  }
+  .count {
+    font: 500 13px/1.4 var(--font-sans);
+    color: var(--muted);
+    min-width: 4.5em;
+    text-align: center;
+  }
+  .step {
+    height: 44px;
+    padding: 0 1.1rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--muted);
+    background: transparent;
+    color: var(--ink);
+    font: 500 15px/1 var(--font-sans);
+    cursor: pointer;
+    transition:
+      border-color 180ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 180ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .step:hover {
+    border-color: var(--ink);
+  }
+  .step:active {
+    transform: scale(0.98);
+  }
+  .step--next {
+    background: var(--action);
+    border-color: var(--action);
+    color: var(--on-action);
+  }
+  .arrowhead {
+    fill: var(--accent);
+  }
+  .mt-diagram :global(.edge) {
+    stroke-dasharray: none;
+  }
+  :global(.js-anim) .mt-diagram:not(:global(.is-in)) .edge {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+  }
+  :global(.js-anim) .mt-diagram:global(.is-in) .edge {
+    stroke-dasharray: 400;
+    animation: draw 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 220ms);
+  }
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 400;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  /* Data packets that keep flowing along each link once the diagram is drawn. */
+  .packet {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 2 26;
+    opacity: 0;
+  }
+  :global(.js-anim) .mt-diagram:global(.is-in) .packet {
+    animation: flow 1.6s linear infinite;
+    animation-delay: calc(var(--i, 0) * 220ms + 900ms);
+  }
+  @keyframes flow {
+    from {
+      stroke-dashoffset: 28;
+      opacity: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .packet {
+      display: none;
+    }
+  }
+  @media (max-width: 767px) {
+    .mt-diagram {
+      padding: var(--space-2);
+      overflow-x: auto;
+    }
+    .mt-diagram svg {
+      min-width: 560px;
+    }
+  }
+</style>

@@ -1,0 +1,726 @@
+---
+// One Story chapter. The MDX body is the narrative; the frontmatter variant picks the composition.
+import { Image } from 'astro:assets';
+import { render, type CollectionEntry } from 'astro:content';
+import BrowserFrame from './BrowserFrame.astro';
+import DocFrame from './DocFrame.astro';
+import Proof from './Proof.astro';
+import { docKeyFor } from '../data/docs';
+import Cta from './Cta.astro';
+import Metric from './Metric.astro';
+import Zoomable from './Zoomable.astro';
+import NameNote from './NameNote.astro';
+
+interface Props {
+  entry: CollectionEntry<'milestones'>;
+}
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const num = String(d.order).padStart(2, '0');
+const [img0, img1] = d.images;
+const id = `ch-${d.order}`;
+---
+
+<section class:list={['ch', `ch--${d.variant}`]} id={id} aria-labelledby={`${id}-t`}>
+  {d.variant === 'beginning' && (
+    <div class="begin">
+      <div class="anim-title">
+        <div class="ch__meta">
+          <span class="ch__num">{num}</span>
+          <span class="label">{d.label}</span>
+        </div>
+        <p class="begin__date" aria-hidden="true">
+          {d.bigDate}
+          <small>{d.bigDateNote}</small>
+        </p>
+        <h2 class="h2" id={`${id}-t`}>
+          {d.title}
+        </h2>
+      </div>
+      <div class="reveal">
+        <div class="prose">
+          <Content />
+        </div>
+        <div class="mt-row tags">
+          {d.tags.map((t) => (
+            <span class="mt-tag">{t}</span>
+          ))}
+        </div>
+        {img0 && (
+          <figure class="framed">
+            <div class="bezel">
+              <Image
+                src={img0.src}
+                alt={img0.alt}
+                widths={[480, 720]}
+                width={720}
+                sizes="(min-width: 1024px) 520px, 100vw"
+              />
+            </div>
+            {img0.caption && <figcaption>{img0.caption}</figcaption>}
+          </figure>
+        )}
+      </div>
+    </div>
+  )}
+
+  {d.variant === 'split' && (
+    <>
+      <div class="anim-title">
+        <div class="ch__meta">
+          <span class="ch__num">{num}</span>
+          <span class="label">{d.label}</span>
+        </div>
+        <h2 class="h2" id={`${id}-t`}>
+          {d.title}
+        </h2>
+      </div>
+      <div class="split">
+        {img0 && (
+          <div class="reveal">
+            <BrowserFrame
+              src={img0.src}
+              alt={img0.alt}
+              url={img0.url}
+              caption={img0.caption}
+              sizes="(min-width: 1024px) 640px, 100vw"
+            />
+          </div>
+        )}
+        <div>
+          <div class="prose">
+            <Content />
+          </div>
+          {d.quote && (
+            <blockquote class="quote">
+              <p>"{d.quote.text}"</p>
+              <cite>{d.quote.by}</cite>
+              {d.quote.text.includes('Maris') && <NameNote />}
+            </blockquote>
+          )}
+          {d.quote?.proof && <Proof doc={docKeyFor(d.quote.proof)} />}
+        </div>
+      </div>
+    </>
+  )}
+
+  {d.variant === 'layered' && (
+    <div class="layered">
+      <div>
+        <div class="anim-title">
+          <div class="ch__meta">
+            <span class="ch__num">{num}</span>
+            <span class="label">{d.label}</span>
+          </div>
+          <h2 class="h2" id={`${id}-t`}>
+            {d.title}
+          </h2>
+        </div>
+        <div class="prose">
+          <Content />
+        </div>
+        {d.quote && (
+          <blockquote class="quote">
+            <p>"{d.quote.text}"</p>
+            <cite>{d.quote.by}</cite>
+            {d.quote.text.includes('Maris') && <NameNote />}
+          </blockquote>
+        )}
+        {d.quote?.proof && <Proof doc={docKeyFor(d.quote.proof)} />}
+      </div>
+      <div class="stack reveal">
+        {d.images.map((im, i) => (
+          <figure class:list={['stack__item', `stack__item--${i}`]}>
+            <div class="tray">
+              <div class="win">
+                <Image
+                  src={im.src}
+                  alt={im.alt}
+                  widths={[480, 720]}
+                  width={720}
+                  sizes="(min-width: 1024px) 460px, 100vw"
+                />
+              </div>
+            </div>
+          </figure>
+        ))}
+      </div>
+    </div>
+  )}
+
+  {d.variant === 'city' && (
+    <>
+      <div class="anim-title">
+        <div class="ch__meta">
+          <span class="ch__num">{num}</span>
+          <span class="label">{d.label}</span>
+        </div>
+        <h2 class="h2" id={`${id}-t`}>
+          {d.title}
+        </h2>
+      </div>
+      <div class="prose">
+        <Content />
+      </div>
+      {img0 && (
+        <figure class="city__team reveal">
+          <Image
+            src={img0.src}
+            alt={img0.alt}
+            widths={[640, 960, 1280, 1800]}
+            width={1800}
+            sizes="(min-width: 1240px) 1030px, 100vw"
+          />
+          {img0.caption && <figcaption>{img0.caption}</figcaption>}
+        </figure>
+      )}
+      <div class="city__facts">
+        {d.facts.map((f, i) => (
+          <Metric value={f.value} label={f.label} accent={i === 0}>
+            {f.proof && (
+              <Proof href={f.proof} small>
+                Certificate
+              </Proof>
+            )}
+          </Metric>
+        ))}
+      </div>
+      <div class="city__work">
+        {img1 && (
+          <div class="reveal">
+            <BrowserFrame
+              src={img1.src}
+              alt={img1.alt}
+              url={img1.url}
+              caption={img1.caption}
+              height={340}
+              sizes="(min-width: 1024px) 560px, 100vw"
+            />
+          </div>
+        )}
+        <div>
+          <ul class="city__list">
+            <li>
+              <span class="label">GrowGreen</span>
+              <span>
+                Page structure planned in Adobe XD and Visio, then 65+ pages built in SharePoint Online.
+              </span>
+            </li>
+            <li>
+              <span class="label">Accessibility</span>
+              <span>WCAG audits in Siteimprove and targeted fixes across the platform.</span>
+            </li>
+            <li>
+              <span class="label">Also shipped</span>
+              <span>The waste sorter, the BEMO emergency pages and an internal audit portal.</span>
+            </li>
+          </ul>
+          {d.quote && (
+            <blockquote class="quote">
+              <p>"{d.quote.text}"</p>
+              <cite>{d.quote.by}</cite>
+              {d.quote.text.includes('Maris') && <NameNote />}
+            </blockquote>
+          )}
+          {d.quote?.proof && <Proof doc={docKeyFor(d.quote.proof)} />}
+        </div>
+      </div>
+    </>
+  )}
+
+  {d.variant === 'capstone' && (
+    <div class="cap">
+      {img0 && (
+        <figure class="cap__img reveal">
+          <Zoomable
+            src={img0.src}
+            alt={img0.alt}
+            widths={[400, 640, 900]}
+            sizes="(min-width: 1024px) 380px, 100vw"
+          />
+        </figure>
+      )}
+      <div>
+        <div class="anim-title">
+          <div class="ch__meta">
+            <span class="ch__num">{num}</span>
+            <span class="label">{d.label}</span>
+          </div>
+          <h2 class="h2" id={`${id}-t`}>
+            {d.title}
+          </h2>
+        </div>
+        <div class="prose">
+          <Content />
+        </div>
+        <div class="mt-row tags">
+          {d.tags.map((t, i) => (
+            <span class:list={['mt-tag', { 'mt-tag--accent': i === 0 }]}>{t}</span>
+          ))}
+        </div>
+        {d.cta && <Cta href={d.cta.href}>{d.cta.label}</Cta>}
+      </div>
+    </div>
+  )}
+
+  {d.variant === 'ring' && (
+    <div class="ring">
+      <div>
+        <svg class="ring__mark" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="22" />
+          <circle cx="32" cy="32" r="17" />
+        </svg>
+        <div class="anim-title">
+          <div class="ch__meta">
+            <span class="ch__num">{num}</span>
+            <span class="label">{d.label}</span>
+          </div>
+          <p class="ring__date">{d.bigDate}</p>
+          <h2 class="h2" id={`${id}-t`}>
+            {d.title}
+          </h2>
+        </div>
+        <div class="prose">
+          <Content />
+        </div>
+        {img0 && (
+          <figure class="ring__photo reveal">
+            <div class="ring__crop">
+              <Image
+                src={img0.src}
+                alt={img0.alt}
+                widths={[640, 960, 1280]}
+                width={1280}
+                sizes="(min-width: 1024px) 560px, 100vw"
+              />
+            </div>
+            {img0.caption && <figcaption>{img0.caption}</figcaption>}
+          </figure>
+        )}
+      </div>
+      {d.doc && (
+        <div class="ring__doc reveal">
+          <DocFrame {...d.doc} tone="slab" />
+        </div>
+      )}
+    </div>
+  )}
+
+  {d.variant === 'graduation' && (
+    <>
+      <div class="anim-title">
+        <div class="ch__meta">
+          <span class="ch__num">{num}</span>
+          <span class="label">{d.label}</span>
+        </div>
+        <h2 class="h2" id={`${id}-t`}>
+          {d.title}
+        </h2>
+      </div>
+      <div class="grad">
+        {img0 && (
+          <figure class="grad__hall reveal">
+            <Image
+              src={img0.src}
+              alt={img0.alt}
+              widths={[640, 960, 1280, 1600]}
+              width={1600}
+              sizes="(min-width: 1240px) 1030px, 100vw"
+            />
+            {img0.caption && <figcaption>{img0.caption}</figcaption>}
+          </figure>
+        )}
+        {d.doc && (
+          <div class="grad__doc reveal">
+            <DocFrame {...d.doc} />
+          </div>
+        )}
+        <div class="grad__text">
+          <div class="prose">
+            <Content />
+          </div>
+          <article class="mt-cred" data-kind="academic">
+            <span class="mt-cred__kind">Academic recognition</span>
+            <h3 class="mt-cred__name">Dean's List</h3>
+            <p class="mt-cred__issuer">Toronto Metropolitan University, 2025 - 2026</p>
+          </article>
+        </div>
+      </div>
+    </>
+  )}
+</section>
+
+<style>
+  .ch {
+    padding: 0 0 var(--space-8);
+    scroll-margin-top: calc(var(--nav-height) + var(--space-3));
+  }
+  .ch--graduation {
+    padding-bottom: var(--space-6);
+  }
+  .ch__meta {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    margin-bottom: var(--space-2);
+  }
+  .ch__num {
+    font: 500 13px/1.4 var(--font-sans);
+    color: var(--accent-ink);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .ch__num::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: currentColor;
+    transform-origin: left center;
+  }
+  :global(.js-anim) .ch__num {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 500ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 500ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  :global(.js-anim) .ch__num::after {
+    transform: scaleX(0);
+    transition: transform 700ms cubic-bezier(0.32, 0.72, 0, 1) 120ms;
+  }
+  :global(.js-anim) .ch__meta .label {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition:
+      opacity 600ms cubic-bezier(0.32, 0.72, 0, 1) 380ms,
+      transform 600ms cubic-bezier(0.32, 0.72, 0, 1) 380ms;
+  }
+  :global(.js-anim) :global(.is-in) .ch__num,
+  :global(.js-anim) :global(.is-in) .ch__meta .label {
+    opacity: 1;
+    transform: none;
+  }
+  :global(.js-anim) :global(.is-in) .ch__num::after {
+    transform: scaleX(1);
+  }
+
+  .prose :global(p) {
+    max-width: var(--measure);
+    margin: 0 0 var(--space-2);
+  }
+  .prose :global(.lead) {
+    font-size: 19px;
+    line-height: 1.6;
+    max-width: 56ch;
+    margin-bottom: var(--space-3);
+  }
+  .prose :global(.subhead) {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .tags {
+    margin: var(--space-3) 0;
+    gap: 0.4rem;
+  }
+  .quote {
+    margin: var(--space-3) 0 0;
+    padding-left: var(--space-3);
+    border-left: 2px solid var(--accent);
+  }
+  .quote p {
+    margin: 0 0 0.4rem;
+    font-size: 18px;
+    line-height: 1.55;
+  }
+  .quote cite {
+    font: 500 13px/1.4 var(--font-sans);
+    color: var(--muted);
+    font-style: normal;
+  }
+  figcaption {
+    margin-top: 0.6rem;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .bezel {
+    padding: 6px;
+    border-radius: calc(var(--radius-md) + 6px);
+    background: var(--surface-sunken);
+    border: 1px solid var(--rule);
+  }
+  .bezel :global(img) {
+    width: 100%;
+    border-radius: var(--radius-md);
+  }
+  .framed {
+    margin: var(--space-4) 0 0;
+  }
+
+  .begin {
+    display: grid;
+    grid-template-columns: 6fr 5fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+  .begin__date {
+    font: 500 104px/0.9 var(--font-sans);
+    letter-spacing: -0.04em;
+    margin: 0 0 var(--space-3);
+  }
+  .begin__date small {
+    display: block;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin-top: var(--space-2);
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+
+  .layered {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+  .stack {
+    position: relative;
+    min-height: 480px;
+  }
+  .stack__item {
+    position: absolute;
+    width: 70%;
+    margin: 0;
+  }
+  .stack__item--0 {
+    top: 0;
+    right: 0;
+  }
+  .stack__item--1 {
+    bottom: 0;
+    left: 0;
+    filter: drop-shadow(var(--shadow-md));
+  }
+  .stack__item :global(img) {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .city__team {
+    margin: var(--space-4) 0;
+  }
+  .city__team :global(img) {
+    width: 100%;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--rule);
+  }
+  .city__facts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    padding: var(--space-4) 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .city__work {
+    display: grid;
+    grid-template-columns: 6fr 5fr;
+    gap: var(--space-5);
+    margin-top: var(--space-5);
+    align-items: start;
+  }
+  .city__list {
+    margin: 0 0 var(--space-4);
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .city__list li {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: var(--space-2);
+  }
+
+  .cap {
+    display: grid;
+    grid-template-columns: 4fr 8fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+  .cap__img {
+    margin: 0;
+  }
+  .cap__img :global(.zoom) {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+
+  .ring {
+    background: var(--slab);
+    color: var(--on-slab);
+    border-radius: var(--radius-md);
+    padding: var(--space-5) var(--space-4);
+    display: grid;
+    grid-template-columns: 6fr 5fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+  .ring .label,
+  .ring .ch__num {
+    color: inherit;
+    opacity: 0.8;
+  }
+  .ring .h2 {
+    color: inherit;
+  }
+  .ring__mark {
+    width: 64px;
+    height: 64px;
+    margin-bottom: var(--space-2);
+  }
+  .ring__mark circle {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+  .ring__date {
+    font: 500 64px/1 var(--font-sans);
+    letter-spacing: -0.03em;
+    margin: var(--space-2) 0 var(--space-3);
+  }
+  .ring__photo {
+    margin: var(--space-4) 0 0;
+  }
+  .ring__photo figcaption {
+    color: inherit;
+    opacity: 0.85;
+  }
+  .ring__crop {
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    aspect-ratio: 4 / 3;
+  }
+  .ring__crop :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.45);
+    transform-origin: 52% 66%;
+  }
+  .ring__doc {
+    position: sticky;
+    top: calc(var(--nav-height) + var(--space-4));
+  }
+
+  .grad {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    column-gap: var(--space-5);
+    align-items: start;
+  }
+  .grad__hall {
+    grid-column: 1 / -1;
+    margin: 0;
+  }
+  .grad__hall :global(img) {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: 50% 58%;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--rule);
+  }
+  .grad__doc {
+    grid-column: 2;
+    grid-row: 2;
+    margin: -200px var(--space-3) 0 0;
+    position: relative;
+  }
+  .grad__text {
+    grid-column: 1;
+    grid-row: 2;
+    padding-top: var(--space-4);
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 1023px) {
+    .begin,
+    .split,
+    .layered,
+    .city__work,
+    .cap,
+    .ring {
+      grid-template-columns: 1fr;
+    }
+    .city__facts {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .stack {
+      min-height: 0;
+      display: grid;
+      gap: var(--space-3);
+    }
+    .stack__item {
+      position: static;
+      width: 100%;
+      filter: none;
+    }
+    .stack__item :global(img) {
+      height: 240px;
+    }
+    .ring__doc {
+      position: static;
+    }
+    .grad {
+      grid-template-columns: 1fr;
+    }
+    .grad__doc {
+      grid-column: 1;
+      grid-row: 2;
+      margin: -80px var(--space-3) 0;
+    }
+    .grad__text {
+      grid-row: 3;
+    }
+    .cap__img {
+      max-width: 360px;
+    }
+  }
+  @media (max-width: 767px) {
+    .begin__date {
+      font-size: 64px;
+    }
+    .ring {
+      padding: var(--space-4) var(--space-3);
+    }
+    .ring__date {
+      font-size: 44px;
+    }
+    .city__list li {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+    .grad__doc {
+      margin: -40px 0 0;
+    }
+    .grad__hall figcaption {
+      display: none;
+    }
+    .ch {
+      padding-bottom: var(--space-6);
+    }
+  }
+</style>

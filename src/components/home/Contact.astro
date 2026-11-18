@@ -1,0 +1,279 @@
+---
+// The way to reach me: a personal note, a one-click email copy, and real logos for every channel.
+import { Image } from 'astro:assets';
+import Icon from '../Icon.astro';
+import { site } from '../../data/site';
+import linkedin from '../../icons/color/linkedin.svg?url';
+import github from '../../icons/color/github.svg?url';
+import discord from '../../icons/color/discord.svg?url';
+import portrait from '../../../Images/story/profile-iron-ring.jpg';
+
+const channels = [
+  { label: 'LinkedIn', handle: 'in/minht30', href: site.contact.linkedin, logo: linkedin, glow: '#0a66c2' },
+  { label: 'GitHub', handle: 'Minht30', href: site.contact.github, logo: github, glow: '#8b949e' },
+  {
+    label: 'Discord',
+    handle: 'Send me a message',
+    href: site.contact.discord,
+    logo: discord,
+    glow: '#5865f2',
+  },
+];
+---
+
+<section class="sec contact" id="contact" aria-labelledby="contact-title">
+  <div class="contact__intro">
+    <div class="contact__who">
+      <Image src={portrait} alt="" widths={[120, 240]} width={240} sizes="72px" class="contact__face" />
+      <p>
+        Hi, I'm Minh Marshall Tran. I like turning messy content into clear pages, and I'm happiest when
+        there's a real person using what I build.
+      </p>
+    </div>
+    <div class="anim-title">
+      <h2 class="h2" id="contact-title">
+        Hiring for front&#8209;end or full&#8209;stack?
+      </h2>
+    </div>
+    <p class="lead">
+      I'm open to new-grad roles in Toronto or remote, and I'm happy to relocate anywhere in Canada. Email is
+      the fastest way to reach me.
+    </p>
+
+    <div class="mail" data-copy-root>
+      <a class="mail__addr" href={`mailto:${site.contact.email}`}>
+        <Icon name="envelope-simple" size={24} />
+        <span>{site.contact.email}</span>
+      </a>
+      <button class="mail__copy" type="button" data-copy={site.contact.email} aria-label="Copy email address">
+        <span class="mail__copy-idle">
+          <Icon name="copy" size={18} /> Copy
+        </span>
+        <span class="mail__copy-done">
+          <Icon name="check" size={18} /> Copied
+        </span>
+      </button>
+      <span class="sr-only" aria-live="polite" data-copy-status></span>
+    </div>
+    <a class="contact__cv" href={site.resume} target="_blank" rel="noopener">
+      <Icon name="file-text" size={18} /> Download my resume (PDF)
+    </a>
+  </div>
+
+  <ul class="channels">
+    {channels.map((c) => (
+      <li>
+        <a href={c.href} target="_blank" rel="noopener" class="channel" style={`--glow:${c.glow}`}>
+          <span class="channel__logo">
+            <img src={c.logo} alt="" width="24" height="24" />
+          </span>
+          <span class="channel__text">
+            <span class="channel__name">{c.label}</span>
+            <span class="channel__handle">{c.handle}</span>
+          </span>
+          <span class="channel__arrow">
+            <Icon name="arrow-up-right" size={18} />
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<script>
+  document.addEventListener('click', async (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-copy]');
+    if (!btn) return;
+    const status = btn.parentElement?.querySelector<HTMLElement>('[data-copy-status]');
+    try {
+      await navigator.clipboard.writeText(btn.dataset.copy ?? '');
+      btn.classList.add('is-done');
+      if (status) status.textContent = 'Email address copied';
+      setTimeout(() => btn.classList.remove('is-done'), 1800);
+    } catch {
+      if (status) status.textContent = 'Copy failed. The address is ' + btn.dataset.copy;
+    }
+  });
+</script>
+
+<style>
+  .contact {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-6);
+    align-items: end;
+    border-top: 1px solid var(--rule);
+  }
+  .contact__who {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    margin-bottom: var(--space-4);
+    max-width: 52ch;
+  }
+  .contact__who :global(.contact__face) {
+    width: 64px;
+    height: 64px;
+    flex: none;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 55% 22%;
+    border: 2px solid var(--accent);
+  }
+  .contact__who p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 16px;
+  }
+  .mail {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-top: var(--space-2);
+  }
+  .mail__addr {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.9rem 1.4rem;
+    border-radius: var(--radius-pill);
+    background: var(--action);
+    color: var(--on-action);
+    text-decoration: none;
+    font: 600 clamp(17px, 1.8vw, 22px)/1 var(--font-sans);
+    transition:
+      background-color 280ms,
+      transform 180ms;
+  }
+  .mail__addr:hover {
+    background: var(--accent-strong);
+  }
+  .mail__addr:active {
+    transform: scale(0.98);
+  }
+  .mail__copy {
+    position: relative;
+    height: 52px;
+    padding: 0 1.2rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--muted);
+    background: transparent;
+    color: var(--ink);
+    font: 500 15px/1 var(--font-sans);
+    cursor: pointer;
+  }
+  .mail__copy:hover {
+    border-color: var(--ink);
+  }
+  .mail__copy span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition:
+      opacity 200ms,
+      transform 300ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .mail__copy-done {
+    position: absolute;
+    inset: 0;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(8px);
+    color: var(--accent-ink);
+  }
+  .mail__copy.is-done .mail__copy-idle {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  .mail__copy.is-done .mail__copy-done {
+    opacity: 1;
+    transform: none;
+  }
+  .channels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .channel {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--rule);
+    background: var(--surface-raised);
+    color: var(--ink);
+    text-decoration: none;
+    transition:
+      border-color 280ms,
+      transform 400ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .channel:hover {
+    border-color: var(--accent);
+    transform: translateX(6px);
+  }
+  .channel__logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #fff;
+    box-shadow: inset 0 0 0 1px rgb(10 25 60 / 0.08);
+    transition:
+      box-shadow 280ms,
+      transform 400ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .channel__logo img {
+    display: block;
+  }
+  .channel:hover .channel__logo {
+    transform: rotate(-8deg) scale(1.06);
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--glow) 45%, transparent),
+      0 8px 22px -6px var(--glow);
+  }
+  .contact__cv {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: var(--space-3);
+    color: var(--accent-ink);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .contact__cv:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .channel__text {
+    display: grid;
+    gap: 0.15rem;
+  }
+  .channel__name {
+    font: 600 18px/1.2 var(--font-sans);
+  }
+  .channel__handle {
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .channel__arrow {
+    color: var(--muted);
+    transition:
+      transform 400ms cubic-bezier(0.32, 0.72, 0, 1),
+      color 280ms;
+  }
+  .channel:hover .channel__arrow {
+    transform: translate(3px, -3px);
+    color: var(--accent-ink);
+  }
+  @media (max-width: 1023px) {
+    .contact {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

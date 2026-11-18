@@ -1,0 +1,1353 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Cta from '../../components/Cta.astro';
+import BrowserFrame from '../../components/BrowserFrame.astro';
+import CatSystemDiagram from '../../components/CatSystemDiagram.astro';
+import NextCase from '../../components/NextCase.astro';
+import CaseFacts from '../../components/CaseFacts.astro';
+import Icon from '../../components/Icon.astro';
+import Zoomable from '../../components/Zoomable.astro';
+import DocPreview from '../../components/DocPreview.astro';
+import poster from '../../../Images/outdoor-cat-tracker/capstone-poster.png';
+import TechTag from '../../components/TechTag.astro';
+import hero from '../../../Images/outdoor-cat-tracker/site-hero-image.png';
+import hardware from '../../../Images/outdoor-cat-tracker/site-Hardware-component.png';
+import home from '../../../Images/outdoor-cat-tracker/app-dashboard-screen.png';
+import live from '../../../Images/outdoor-cat-tracker/site-livetrack.png';
+import alerts from '../../../Images/outdoor-cat-tracker/site-Alert-image.png';
+import settings from '../../../Images/outdoor-cat-tracker/site-Setting-image.png';
+import flow from '../../../Images/outdoor-cat-tracker/prototype-flow-map.png';
+
+const entry = (await getEntry('work', 'outdoor-cat-tracker'))!;
+const screens = [
+  {
+    key: 'home',
+    label: 'Home',
+    src: home,
+    alt: 'Home screen: cat Halo outside the safe zone, 1.06 km away, last seen 1 minute ago, with a map from home to the cat',
+    note: 'Status first. Safe zone, distance and last seen sit above the map, so the answer comes before the detail. This capture is the 1.06 km field test.',
+  },
+  {
+    key: 'live',
+    label: 'Live map',
+    src: live,
+    alt: "Live map screen: the cat's position inside the safe-zone circle near TMU, with a live tracking card",
+    note: "Home marker, safe-zone circle and the cat's position on one map, with a card that spells out device, status and distance.",
+  },
+  {
+    key: 'alerts',
+    label: 'Alerts',
+    src: alerts,
+    alt: 'Alerts screen: a list of left safe zone and back safe events for Halo with dates and times',
+    note: 'Every exit and return in plain words with a time stamp, colour-coded and labelled so the state never depends on colour alone.',
+  },
+  {
+    key: 'account',
+    label: 'Account',
+    src: settings,
+    alt: 'Settings screen: profile, pet profiles, and safe zone with a radius slider set to 150 metres',
+    note: 'Pets, the home point and the safe-zone radius in one place, with a slider instead of typing distances.',
+  },
+];
+---
+
+<Base title="Outdoor Cat Tracker" description={entry.data.summary}>
+  <div class="pg">
+    <p class="crumb">
+      <a href="/projects">Projects</a>
+      <span aria-hidden="true">/</span>
+      <span>Outdoor Cat Tracker</span>
+    </p>
+  </div>
+
+  <header class="bleed" aria-labelledby="ct-title">
+    <Image class="bleed__bg" src={hero} alt="" widths={[640]} width={640} sizes="100vw" loading="eager" />
+    <div class="bleed__scrim" aria-hidden="true"></div>
+    <div class="pg bleed__in">
+      <div class="bleed__copy">
+        <div class="anim-title">
+          <p class="bleed__ctx">TMU capstone, team MS-11, Sep 2025 - Apr 2026</p>
+          <h1 class="bleed__title" id="ct-title" transition:name="title-outdoor-cat-tracker">
+            Outdoor Cat Tracker
+          </h1>
+          <p class="bleed__lead">
+            A LoRa collar, a home base and a mobile app that show where an outdoor cat is and alert the owner
+            when it leaves a safe zone, with no cellular plan on the collar.
+          </p>
+        </div>
+        <div class="bleed__links reveal">
+          <Cta href="https://oct-tmu.netlify.app/" external>
+            Project site
+          </Cta>
+          <Cta href="https://github.com/Minht30/Outdoor-CatTracker" variant="ghost" external>
+            Source code
+          </Cta>
+        </div>
+      </div>
+      <div class="bleed__media">
+        <div class="geo" aria-hidden="true">
+          <span class="geo__fence"></span>
+          <span class="geo__pulse"></span>
+          <span class="geo__pulse"></span>
+          <span class="geo__pulse"></span>
+        </div>
+        <ol class="trail" aria-hidden="true">
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <li style={`--i:${i}`}>
+              <Icon name="paw-print" size={24} />
+            </li>
+          ))}
+        </ol>
+        <Zoomable
+          class="bleed__photo"
+          src={hero}
+          alt="A white cat wearing a blue harness with the tracker prototype attached, beside the app's welcome screen and the bare tracker board with its GPS antenna"
+          caption="The prototype on a real cat, with the app's welcome screen and the tracker board."
+          widths={[400, 640, 900]}
+          sizes="(min-width: 1024px) 440px, 80vw"
+          eager
+          vt="cover-outdoor-cat-tracker"
+        />
+      </div>
+    </div>
+  </header>
+
+  <div class="pg">
+    <CaseFacts
+      objective="Show an owner where their outdoor cat is, and alert them the moment it leaves a safe zone, without a monthly cellular plan."
+      role="I designed and built the mobile app: the screens, live tracking, pet management and the branding, from Figma to React Native."
+      duration="Sep 2025 - Apr 2026, two terms"
+      team="4 Computer Engineering students, team MS-11, supervised by Dr. Meranda Salem"
+      tech={['React Native', 'Expo', 'Firebase', 'Figma', 'LoRa']}
+      results={[
+        { value: '1.06 km', label: 'best tracking range in the field' },
+        { value: '2', label: 'platforms, iOS and Android, one codebase' },
+        { value: '4', label: 'core app screens I designed and built' },
+      ]}
+    />
+
+    <section class="field" aria-label="Field results" data-observe>
+      <div class="fr fr--range">
+        <div class="radar" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <i class="radar__base"></i>
+          <i class="radar__cat">
+            <Icon name="paw-print" size={16} />
+          </i>
+        </div>
+        <p class="fr__v">
+          <span data-countup="1.06">1.06</span>
+          <small>km</small>
+        </p>
+        <p class="fr__l">Best LoRa range, suburban field test</p>
+      </div>
+      <div class="fr">
+        <span class="fr__icon">
+          <Icon name="tree-evergreen" size={24} />
+        </span>
+        <p class="fr__v">
+          <span data-countup="200">200</span>
+          <small>m</small>
+        </p>
+        <p class="fr__l">Range through a forest, where an AirTag lost the cat at about 30 m</p>
+      </div>
+      <div class="fr">
+        <span class="fr__icon">
+          <Icon name="feather" size={24} />
+        </span>
+        <p class="fr__v">
+          <span data-countup="35">~35</span>
+          <small>g</small>
+        </p>
+        <p class="fr__l">Tracker weight, light enough for a harness</p>
+        <span class="scale" aria-hidden="true">
+          <i></i>
+        </span>
+      </div>
+      <div class="fr">
+        <span class="battery" aria-hidden="true">
+          <i></i>
+        </span>
+        <p class="fr__v">
+          <span data-countup="7.5">~7.5</span>
+          <small>h</small>
+        </p>
+        <p class="fr__l">Battery runtime on a 600 mAh cell</p>
+      </div>
+      <p class="field__src">
+        All figures come from the team's field tests in Pickering, Ontario, as reported on the capstone
+        poster.
+      </p>
+    </section>
+
+    <section class="sec why">
+      <div>
+        <div class="anim-title">
+          <h2 class="h2">It started with a lost cat</h2>
+        </div>
+        <blockquote class="quote">
+          <p>
+            One of our teammates, Louis, once lost a cat while visiting France and spent a long time trying to
+            find him.
+          </p>
+          <cite>Team MS-11, project site</cite>
+        </blockquote>
+      </div>
+      <div>
+        <p class="lead">
+          So we built for the moment a cat does not come home on time: a clear answer to "where is my cat" and
+          an alert the minute it leaves the yard.
+        </p>
+        <ul class="choices">
+          <li>
+            <span class="label">LoRa, not Bluetooth</span>
+            <span>
+              A long-range local link, so the cat stays visible beyond the few metres a Bluetooth tag reaches.
+            </span>
+          </li>
+          <li>
+            <span class="label">Own base, not a crowd</span>
+            <span>An owner-controlled home base instead of relying on strangers' phones passing by.</span>
+          </li>
+          <li>
+            <span class="label">No subscription</span>
+            <span>No cellular modem on the collar, so nothing to pay every month.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="sec sec--tight">
+      <CatSystemDiagram>
+        <div>
+          <div class="anim-title">
+            <h2 class="h2" style="margin-bottom:var(--space-2)">
+              From collar to phone
+            </h2>
+          </div>
+          <p class="body muted" style="margin:0">
+            Step through the path a location takes, or select any part.
+          </p>
+        </div>
+      </CatSystemDiagram>
+    </section>
+
+    <section class="sec sec--tight hw">
+      <figure class="hw__img reveal">
+        <Image
+          src={hardware}
+          alt="The tracker prototype: a square ceramic GPS patch antenna on a cable, above the taped board stack with its battery wiring"
+          widths={[480, 720]}
+          width={720}
+          sizes="(min-width: 1024px) 560px, 100vw"
+        />
+      </figure>
+      <div>
+        <p class="label">Team work: hardware by Muhammad and Louis</p>
+        <h2 class="h3" style="margin-top:var(--space-1)">
+          Small enough for a cat
+        </h2>
+        <p class="body">
+          Every part was picked for weight and size first, because the tracker rides on a harness.
+        </p>
+        <ul class="parts">
+          <li>
+            <span class="mt-tag">RAK3172</span>
+            <span>Control and long-range LoRa in one compact module.</span>
+          </li>
+          <li>
+            <span class="mt-tag">Quectel L80-R</span>
+            <span>Outdoor GPS that fits the tracker's footprint.</span>
+          </li>
+          <li>
+            <span class="mt-tag">Patch antenna</span>
+            <span>Chosen over a long whip antenna to suit a cat-mounted form.</span>
+          </li>
+          <li>
+            <span class="mt-tag">600 mAh Li-Po</span>
+            <span>Light enough for untethered field testing.</span>
+          </li>
+          <li>
+            <span class="mt-tag">TP4056 + MCP1700</span>
+            <span>Charging and voltage regulation.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="sec sec--tight" id="app">
+      <div class="anim-title">
+        <h2 class="h2">My part: the app</h2>
+      </div>
+      <p class="lead">
+        I designed and built the owner's side: what someone who is worried about their cat needs to see first,
+        and how quickly they can see it. Pick a tab, the same four the app has.
+      </p>
+      <div class="app" data-app-tabs>
+        <div class="tabs" role="tablist" aria-label="App screens">
+          {screens.map((s, i) => (
+            <button
+              class="tab"
+              role="tab"
+              id={`tab-${s.key}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              aria-controls="app-phone"
+              tabindex={i === 0 ? 0 : -1}
+            >
+              <span class="label">{String(i + 1).padStart(2, '0')}</span>
+              <b>{s.label}</b>
+              <p>{s.note}</p>
+            </button>
+          ))}
+        </div>
+        <figure class="phone" id="app-phone" role="tabpanel" aria-live="polite">
+          {screens.map((s, i) => (
+            <Image
+              src={s.src}
+              alt={s.alt}
+              widths={[320, 480, 640]}
+              width={640}
+              sizes="300px"
+              class:list={{ 'is-on': i === 0 }}
+            />
+          ))}
+        </figure>
+        <div class="app__aside">
+          <div>
+            <p class="label">Stack</p>
+            <div class="mt-row" style="margin-top:.5rem">
+              <TechTag name="React Native" accent />
+              <TechTag name="Expo" />
+              <TechTag name="Firebase" />
+              <TechTag name="Figma" />
+            </div>
+          </div>
+          <div>
+            <p class="label">Accessibility intent</p>
+            <p class="small">
+              Designed to WCAG 2.1 AA guidance for contrast, touch targets, readability and navigation.
+            </p>
+          </div>
+          <div>
+            <p class="label">Also built</p>
+            <p class="small">
+              Device verification and active-pet selection, so one owner can track more than one cat.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="figma">
+        <BrowserFrame
+          src={flow}
+          alt="Figma flow map connecting the app's screens"
+          caption="The flow mapped in Figma before any code."
+          sizes="(min-width: 1024px) 680px, 100vw"
+        />
+        <div>
+          <h3 class="h3">Figma first</h3>
+          <p class="body">
+            I mapped every screen and how they connect, then prototyped it so the team could walk the flow
+            before the hardware was ready.
+          </p>
+          <Cta
+            href="https://www.figma.com/proto/qc7LfpBLeTip5umEKkEOqn/Outdoor-Cat-Tracker-_-Prototype"
+            variant="ghost"
+            external
+          >
+            Open the prototype
+          </Cta>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec--tight">
+      <h2 class="h3">See it working</h2>
+      <div class="videos">
+        <a class="video" href="https://www.youtube.com/watch?v=_vvbE5-ArkA" target="_blank" rel="noopener">
+          <span class="video__play" aria-hidden="true">
+            &#9654;&#xFE0E;
+          </span>
+          <b>Prototype demo in Figma</b>
+          <span class="label">YouTube</span>
+        </a>
+        <a class="video" href="https://www.youtube.com/watch?v=PewyX6b5mvA" target="_blank" rel="noopener">
+          <span class="video__play" aria-hidden="true">
+            &#9654;&#xFE0E;
+          </span>
+          <b>Demo and AirTag comparison</b>
+          <span class="label">YouTube</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="sec sec--tight">
+      <div class="anim-title">
+        <h2 class="h2">Two terms, start to finish</h2>
+      </div>
+      <div class="phases" data-observe>
+        <div class="phase">
+          <h3 class="h3">Fall 2025: research and prototype</h3>
+          <ol>
+            <li>
+              <span class="paw" aria-hidden="true">
+                <Icon name="paw-print" size={16} />
+              </span>
+              <p class="label">Sep 15 - 28</p>Fundamentals research, power management and flow definition
+            </li>
+            <li>
+              <span class="paw" aria-hidden="true">
+                <Icon name="paw-print" size={16} />
+              </span>
+              <p class="label">Sep 29 - Oct 19</p>GPS integration planning, system prototyping
+            </li>
+            <li>
+              <span class="paw" aria-hidden="true">
+                <Icon name="paw-print" size={16} />
+              </span>
+              <p class="label">Oct 20 - Nov 2</p>System architecture and integration logic
+            </li>
+            <li>
+              <span class="paw" aria-hidden="true">
+                <Icon name="paw-print" size={16} />
+              </span>
+              <p class="label">Nov 3 - 23</p>Full-scale integration, prototype finalized
+            </li>
+          </ol>
+        </div>
+        <div class="phase">
+          <h3 class="h3">Winter 2026: build and stabilize</h3>
+          <ol>
+            <li>
+              <span class="paw" aria-hidden="true">
+                <Icon name="paw-print" size={16} />
+              </span>
+              <p class="label">Jan 6 - 26</p>Foundation and first end-to-end paths
+            </li>
+            <li>
+              <span class="paw" aria-hidden="true">
+                <Icon name="paw-print" size={16} />
+              </span>
+              <p class="label">Jan 27 - Feb 16</p>Receiver integration, app features expanded
+            </li>
+            <li>
+              <span class="paw" aria-hidden="true">
+                <Icon name="paw-print" size={16} />
+              </span>
+              <p class="label">Feb 17 - Mar 9</p>PCB iteration, API hardening, full-system debugging
+            </li>
+            <li>
+              <span class="paw" aria-hidden="true">
+                <Icon name="paw-print" size={16} />
+              </span>
+              <p class="label">Mar 10 - 30</p>Stabilization, multi-cat support, final deliverables
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec--tight poster" aria-labelledby="poster-title">
+      <div class="poster__img reveal">
+        <Zoomable
+          src={poster}
+          alt="The Outdoor Cat Tracker capstone poster: approach, motivation, hardware, testing, app UI and conclusions"
+          caption="Capstone poster, team MS-11, TMU Computer Engineering, 2026."
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 1024px) 460px, 100vw"
+        />
+      </div>
+      <div class="poster__text">
+        <div class="anim-title">
+          <h2 class="h2" id="poster-title">
+            The research poster
+          </h2>
+        </div>
+        <p class="lead">
+          Our capstone research, on one page: why outdoor cat owners need this, how the tracker, home base and
+          app fit together, and what the field tests showed.
+        </p>
+        <dl class="poster__facts">
+          <div>
+            <dt>1 km</dt>
+            <dd>along a straight suburban road in Pickering</dd>
+          </div>
+          <div>
+            <dt>200 m</dt>
+            <dd>through a nearby forest</dd>
+          </div>
+          <div>
+            <dt>~30 m</dt>
+            <dd>where an Apple AirTag lost the same cat in the forest</dd>
+          </div>
+        </dl>
+        <p class="body">
+          The tracker polls GPS every 10 seconds and broadcasts over LoRa peer-to-peer to the home base, which
+          sends the position on to the server and the app. Select the poster to read it in full.
+        </p>
+      </div>
+    </section>
+
+    <section class="sec sec--tight ref" aria-labelledby="ref-title">
+      <div>
+        <h2 class="h3" id="ref-title">
+          From our capstone supervisor
+        </h2>
+        <blockquote class="ref__quote">
+          "He completed all project tasks in a timely and responsible manner and performed well on both the
+          terms."
+        </blockquote>
+        <p class="ref__by">Dr. Meranda Salem, P.Eng., Capstone Projects Administrator, April 2026</p>
+      </div>
+      <DocPreview doc="salemReference" size="compact" />
+    </section>
+
+    <section class="sec sec--tight honest">
+      <h2 class="h3">Still a prototype</h2>
+      <ul class="caveats">
+        <li>Coverage is centred on the home base, not citywide.</li>
+        <li>Battery life is prototype-scale, not a commercial runtime.</li>
+        <li>Testing was mostly manual; there is no full automated test suite yet.</li>
+        <li>Late reliability issues on the custom board still separate it from production.</li>
+      </ul>
+    </section>
+
+    <section class="sec sec--tight">
+      <h2 class="h3">Team MS-11</h2>
+      <div class="team">
+        <div>
+          <b>Muhammad Al-lami</b>
+          <p>Tracker hardware, PCB, antenna, power</p>
+        </div>
+        <div>
+          <b>Louis Chevalier</b>
+          <p>Home base, receiver firmware, relay</p>
+        </div>
+        <div class="me">
+          <b>Minh Tran</b>
+          <p>Mobile app, UX, branding, presentation</p>
+        </div>
+        <div>
+          <b>Nicholas Muttoo</b>
+          <p>Backend and API</p>
+        </div>
+      </div>
+      <p class="thanks">
+        Supervised by Dr. Meranda Salem. Thanks to Tom Croux for help with PCB soldering and equipment.
+      </p>
+    </section>
+
+    <NextCase current="outdoor-cat-tracker" />
+  </div>
+</Base>
+
+<script>
+  function setupTabs() {
+    document.querySelectorAll<HTMLElement>('[data-app-tabs]').forEach((root) => {
+      if (root.dataset.ready) return;
+      root.dataset.ready = '1';
+      const tabs = [...root.querySelectorAll<HTMLButtonElement>('.tab')];
+      const shots = [...root.querySelectorAll<HTMLImageElement>('.phone img')];
+      const show = (i: number, focus = false) => {
+        tabs.forEach((t, j) => {
+          t.setAttribute('aria-selected', String(j === i));
+          t.tabIndex = j === i ? 0 : -1;
+          shots[j].classList.toggle('is-on', j === i);
+        });
+        if (focus) tabs[i].focus();
+      };
+      tabs.forEach((t, i) => {
+        t.addEventListener('click', () => show(i));
+        t.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            show((i + 1) % tabs.length, true);
+          }
+          if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            show((i - 1 + tabs.length) % tabs.length, true);
+          }
+        });
+      });
+    });
+  }
+  document.addEventListener('astro:page-load', setupTabs);
+</script>
+
+<style>
+  .bleed {
+    position: relative;
+    isolation: isolate;
+    margin-top: var(--space-3);
+    overflow: hidden;
+    color: #f4f7fb;
+    background: #0b1530;
+  }
+  .bleed :global(.bleed__bg) {
+    position: absolute;
+    inset: -40px;
+    z-index: -2;
+    width: calc(100% + 80px);
+    height: calc(100% + 80px);
+    object-fit: cover;
+    filter: blur(28px) saturate(1.2);
+    opacity: 0.45;
+  }
+  .bleed__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      90deg,
+      rgba(8, 16, 40, 0.95) 0%,
+      rgba(8, 16, 40, 0.82) 50%,
+      rgba(8, 16, 40, 0.55) 100%
+    );
+  }
+  .bleed__in {
+    position: relative;
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-5);
+    align-items: center;
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-6);
+  }
+  .bleed__ctx {
+    margin: 0 0 var(--space-2);
+    font-size: 16px;
+    font-weight: 600;
+    color: #8fd8d2;
+  }
+  .bleed__title {
+    margin: 0;
+    max-width: 9ch;
+    font: 700 clamp(52px, 7vw, 120px)/0.92 var(--font-sans);
+    letter-spacing: -0.045em;
+  }
+  .bleed__lead {
+    margin: var(--space-3) 0 0;
+    max-width: 44ch;
+    font-size: 19px;
+    line-height: 1.6;
+    color: rgba(244, 247, 251, 0.88);
+  }
+  .bleed__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+  .bleed__links :global(.cta--ghost) {
+    color: #f4f7fb;
+    border-color: rgba(244, 247, 251, 0.7);
+  }
+  .bleed__media {
+    position: relative;
+    justify-self: center;
+    width: min(100%, 440px);
+  }
+  .bleed__media :global(.bleed__photo) {
+    position: relative;
+    z-index: 1;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.7);
+    outline: 1px solid rgba(143, 216, 210, 0.35);
+    animation: rise 1200ms cubic-bezier(0.32, 0.72, 0, 1) both;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Geofence: a dashed safe zone that slowly turns behind the photo, with LoRa pulses from the collar. */
+  .geo {
+    position: absolute;
+    z-index: 0;
+    left: 50%;
+    top: 46%;
+    width: 150%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .geo__fence {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px dashed rgba(143, 216, 210, 0.55);
+    animation: spin 50s linear infinite;
+  }
+  .geo__pulse {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    border-radius: 50%;
+    border: 2px solid #8fd8d2;
+    opacity: 0;
+    animation: pulse 3.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  }
+  .geo__pulse:nth-child(3) {
+    animation-delay: 1.2s;
+  }
+  .geo__pulse:nth-child(4) {
+    animation-delay: 2.4s;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(22);
+      opacity: 0;
+    }
+  }
+
+  /* A paw-print trail that walks out of the safe zone, step by step. */
+  .trail {
+    position: absolute;
+    z-index: 2;
+    left: -130px;
+    bottom: -10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 200px;
+    height: 160px;
+    pointer-events: none;
+  }
+  .trail li {
+    position: absolute;
+    left: calc(var(--i) * 15%);
+    bottom: calc(var(--i) * 13%);
+    color: #8fd8d2;
+    opacity: 0;
+    animation: step 6s infinite;
+    animation-delay: calc(var(--i) * 0.45s);
+  }
+  .trail li:nth-child(odd) {
+    margin-left: 16px;
+    transform: rotate(30deg);
+  }
+  .trail li:nth-child(even) {
+    transform: rotate(50deg);
+  }
+  @keyframes step {
+    0% {
+      opacity: 0;
+    }
+    6% {
+      opacity: 0.95;
+    }
+    55% {
+      opacity: 0.95;
+    }
+    75%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bleed__media :global(.bleed__photo),
+    .geo__fence,
+    .geo__pulse,
+    .trail li {
+      animation: none;
+    }
+    .trail li {
+      opacity: 0.8;
+    }
+  }
+  @media (max-width: 1023px) {
+    .bleed__in {
+      grid-template-columns: 1fr;
+    }
+    .bleed__media {
+      width: min(100%, 380px);
+    }
+    .trail {
+      display: none;
+    }
+  }
+
+  /* Field results: each number gets its own small piece of motion. */
+  .field {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+  }
+  .fr {
+    position: relative;
+    display: grid;
+    align-content: end;
+    gap: 0.4rem;
+    min-height: 240px;
+    padding: var(--space-4) var(--space-3) var(--space-3);
+    border-radius: var(--radius-lg);
+    background: var(--surface-raised);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .fr__v {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    font: 700 clamp(44px, 4.6vw, 64px)/1 var(--font-sans);
+    letter-spacing: -0.04em;
+  }
+  .fr__v small {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--muted);
+  }
+  .fr__l {
+    margin: 0;
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 26ch;
+  }
+  .fr__icon {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: var(--surface-sunken);
+    color: var(--accent-ink);
+  }
+  .fr--range {
+    background: var(--slab);
+    color: var(--on-slab);
+    border-color: var(--slab);
+  }
+  .fr--range .fr__v small,
+  .fr--range .fr__l {
+    color: var(--on-slab);
+    opacity: 0.8;
+  }
+  .radar {
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    width: 300px;
+    aspect-ratio: 1;
+  }
+  .radar span {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--on-slab) 35%, transparent);
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  :global(.is-in) .radar span {
+    animation: ring 3.2s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  }
+  :global(.is-in) .radar span:nth-child(2) {
+    animation-delay: 1.05s;
+  }
+  :global(.is-in) .radar span:nth-child(3) {
+    animation-delay: 2.1s;
+  }
+  @keyframes ring {
+    0% {
+      transform: scale(0.15);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+  .radar__base {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    margin: -7px;
+    border-radius: 4px;
+    background: var(--on-slab);
+  }
+  .radar__cat {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: grid;
+    color: var(--on-slab);
+    transform: translate(-50%, -50%);
+  }
+  :global(.is-in) .radar__cat {
+    animation: roam 2.4s cubic-bezier(0.32, 0.72, 0, 1) 0.2s both;
+  }
+  @keyframes roam {
+    from {
+      transform: translate(-50%, -50%);
+    }
+    to {
+      transform: translate(-260%, 70px) rotate(-20deg);
+    }
+  }
+  .scale {
+    position: absolute;
+    top: calc(var(--space-3) + 21px);
+    right: var(--space-3);
+    width: 40%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--surface-sunken);
+    overflow: hidden;
+  }
+  .scale i {
+    display: block;
+    height: 100%;
+    width: 12%;
+    background: var(--accent);
+    border-radius: 3px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1200ms cubic-bezier(0.32, 0.72, 0, 1) 300ms;
+  }
+  :global(.is-in) .scale i {
+    transform: scaleX(1);
+  }
+  .battery {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    width: 64px;
+    height: 30px;
+    padding: 3px;
+    border-radius: 7px;
+    border: 2px solid var(--ink);
+  }
+  .battery::after {
+    content: '';
+    position: absolute;
+    right: -7px;
+    top: 8px;
+    width: 4px;
+    height: 10px;
+    border-radius: 0 2px 2px 0;
+    background: var(--ink);
+  }
+  .battery i {
+    display: block;
+    height: 100%;
+    border-radius: 3px;
+    background: var(--accent);
+    transform: scaleX(0.08);
+    transform-origin: left;
+    transition: transform 1600ms cubic-bezier(0.32, 0.72, 0, 1) 200ms;
+  }
+  :global(.is-in) .battery i {
+    transform: scaleX(1);
+  }
+  .field__src {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  @media (max-width: 1023px) {
+    .field {
+      grid-template-columns: 1fr 1fr;
+    }
+    .fr--range {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 767px) {
+    .field {
+      grid-template-columns: 1fr;
+    }
+  }
+  .poster {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+  .poster__img :global(.zoom) {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow-md);
+  }
+  .poster__facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin: var(--space-4) 0;
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .poster__facts dt {
+    font: 700 clamp(30px, 3vw, 42px)/1 var(--font-sans);
+    letter-spacing: -0.03em;
+  }
+  .poster__facts div:last-child dt {
+    color: var(--accent-ink);
+  }
+  .poster__facts dd {
+    margin: 0.4rem 0 0;
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .ref {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-5);
+    align-items: center;
+  }
+  .ref__quote {
+    margin: var(--space-3) 0 0;
+    font: 600 clamp(22px, 2.4vw, 32px)/1.3 var(--font-sans);
+    letter-spacing: -0.015em;
+    max-width: 36ch;
+  }
+  .ref__by {
+    margin: var(--space-2) 0 0;
+    color: var(--muted);
+  }
+  @media (max-width: 1023px) {
+    .poster,
+    .ref {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 767px) {
+    .poster__facts {
+      grid-template-columns: 1fr;
+    }
+  }
+  .why {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: var(--space-5);
+  }
+  .quote {
+    margin: 0;
+    padding-left: var(--space-3);
+    border-left: 2px solid var(--accent);
+  }
+  .quote p {
+    margin: 0 0 0.5rem;
+    font-size: 19px;
+    line-height: 1.6;
+  }
+  .quote cite {
+    font: 500 13px/1.4 var(--font-sans);
+    color: var(--muted);
+    font-style: normal;
+  }
+  .choices {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .choices li {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: var(--space-3);
+  }
+  .hw {
+    display: grid;
+    grid-template-columns: 6fr 6fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+  .hw__img {
+    background: var(--surface-sunken);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin: 0;
+  }
+  .parts {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .parts li {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: var(--space-2);
+    font-size: 15px;
+  }
+  .parts .mt-tag {
+    justify-self: start;
+  }
+  .app {
+    display: grid;
+    grid-template-columns: 5fr 4fr 3fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+  .tabs {
+    display: grid;
+    gap: var(--space-1);
+  }
+  .tab {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.25rem var(--space-2);
+    text-align: left;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    font: inherit;
+    transition:
+      border-color 180ms cubic-bezier(0.32, 0.72, 0, 1),
+      background-color 180ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .tab:hover {
+    border-color: var(--rule);
+  }
+  .tab[aria-selected='true'] {
+    border-color: var(--accent);
+    background: var(--surface-raised);
+  }
+  .tab b {
+    font-weight: 500;
+    font-size: 18px;
+  }
+  .tab .label {
+    grid-row: span 2;
+    padding-top: 4px;
+  }
+  .tab p {
+    grid-column: 2;
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+    display: none;
+  }
+  .tab[aria-selected='true'] p {
+    display: block;
+  }
+  .phone {
+    position: relative;
+    margin: 0;
+    justify-self: center;
+    width: 300px;
+    max-width: 100%;
+    aspect-ratio: 337 / 680;
+  }
+  .phone :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .phone :global(img.is-on) {
+    opacity: 1;
+  }
+  .app__aside {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .small {
+    font-size: 15px;
+    margin: 0.5rem 0 0;
+  }
+  .figma {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+    align-items: start;
+  }
+  .videos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+  .video {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2) var(--space-3);
+    align-items: center;
+    padding: var(--space-3);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 180ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .video:hover {
+    border-color: var(--accent);
+  }
+  .video__play {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-pill);
+    background: var(--action);
+    color: var(--on-action);
+    display: grid;
+    place-items: center;
+    grid-row: span 2;
+  }
+  .video b {
+    font-weight: 500;
+    font-size: 18px;
+  }
+  .phases {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+  .phase ol {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    border-left: 1px solid var(--rule);
+  }
+  .phase li {
+    position: relative;
+    padding: 0 0 var(--space-3) var(--space-3);
+  }
+  .phase li {
+    padding-left: var(--space-4);
+  }
+  .paw {
+    position: absolute;
+    left: -15px;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--ground);
+    border: 1px solid var(--accent);
+    color: var(--accent-ink);
+  }
+  .phase li:nth-child(odd) .paw :global(svg) {
+    transform: rotate(-14deg);
+  }
+  .phase li:nth-child(even) .paw :global(svg) {
+    transform: rotate(14deg);
+  }
+  .phase li:last-child .paw {
+    background: var(--action);
+    color: var(--on-action);
+    border-color: var(--action);
+  }
+  :global(.js-anim) .phases .paw {
+    opacity: 0;
+    transform: scale(0.4);
+    transition:
+      opacity 500ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  :global(.js-anim) .phases:global(.is-in) .paw {
+    opacity: 1;
+    transform: none;
+  }
+  :global(.js-anim) .phases:global(.is-in) li:nth-child(2) .paw {
+    transition-delay: 150ms;
+  }
+  :global(.js-anim) .phases:global(.is-in) li:nth-child(3) .paw {
+    transition-delay: 300ms;
+  }
+  :global(.js-anim) .phases:global(.is-in) li:nth-child(4) .paw {
+    transition-delay: 450ms;
+  }
+  .phase .label {
+    margin-bottom: 0.2rem;
+  }
+  .honest {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: var(--space-5);
+  }
+  .team {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rule);
+  }
+  .team b {
+    display: block;
+    font-weight: 500;
+  }
+  .team p {
+    margin: 0.25rem 0 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .team .me b {
+    color: var(--accent-ink);
+  }
+  .thanks {
+    margin-top: var(--space-4);
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 70ch;
+  }
+  @media (max-width: 1023px) {
+    .why,
+    .hw,
+    .app,
+    .figma,
+    .honest {
+      grid-template-columns: 1fr;
+    }
+    .team {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 767px) {
+    .videos,
+    .phases {
+      grid-template-columns: 1fr;
+    }
+    .choices li,
+    .parts li {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+    .phone {
+      width: 240px;
+    }
+  }
+</style>

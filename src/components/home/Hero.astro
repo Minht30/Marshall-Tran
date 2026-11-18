@@ -1,0 +1,185 @@
+---
+// Who I am in one screen: name, role, one sentence, two actions, and my photo.
+import { Image } from 'astro:assets';
+import Cta from '../Cta.astro';
+import Icon from '../Icon.astro';
+import { site } from '../../data/site';
+import portrait from '../../../Images/story/profile-iron-ring.jpg';
+---
+
+<section class="hero" aria-labelledby="hero-name">
+  <div class="hero__copy anim-title">
+    <div class="hero__pills">
+      <p class="hero__status">
+        <span class="live" aria-hidden="true"></span>
+        {site.status}
+      </p>
+      <p class="hero__status">
+        <Icon name="map-pin" size={16} />
+        {site.relocation}
+      </p>
+    </div>
+    <h1 class="hero__name" id="hero-name">
+      Minh Marshall <em>Tran</em>
+    </h1>
+    <p class="hero__role">Front-end developer. Computer Engineering graduate, TMU 2026.</p>
+    <p class="hero__value reveal">
+      I build accessible, working interfaces: 1,500+ public pages at the City of Brampton, and a GPS cat
+      collar app.
+    </p>
+    <div class="hero__ctas reveal">
+      <Cta href="/projects">View my projects</Cta>
+      <Cta href={site.resume} variant="ghost" icon="file-text" pdf>
+        Resume
+      </Cta>
+      <Cta href="#contact" variant="ghost" icon="envelope-simple">
+        Get in touch
+      </Cta>
+    </div>
+  </div>
+
+  <figure class="hero__photo reveal">
+    <div class="hero__frame">
+      <Image
+        src={portrait}
+        alt="Minh Tran in a navy blazer and blue shirt, raising a hand to show the Iron Ring on the little finger, in front of a large blue and white painting"
+        widths={[360, 540, 720]}
+        width={720}
+        sizes="(min-width: 1024px) 440px, 90vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </figure>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-5);
+    align-items: center;
+    min-height: min(calc(100dvh - var(--nav-height)), 860px);
+    padding: var(--space-5) 0 var(--space-6);
+  }
+  .hero__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0 0 var(--space-3);
+  }
+  .hero__status :global(svg) {
+    color: var(--accent-ink);
+  }
+  .hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--rule-strong);
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .live {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 var(--accent);
+    animation: live 2.4s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+  }
+  @keyframes live {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
+    }
+    70%,
+    100% {
+      box-shadow: 0 0 0 10px transparent;
+    }
+  }
+  .hero__name {
+    max-width: 8ch;
+    font: 700 clamp(52px, 6.6vw, 104px)/0.92 var(--font-sans);
+    letter-spacing: -0.055em;
+    margin: 0 0 var(--space-3);
+  }
+  .hero__name em {
+    font-style: normal;
+    color: var(--accent-ink);
+  }
+  .hero__role {
+    font: 500 clamp(20px, 2vw, 26px)/1.3 var(--font-sans);
+    letter-spacing: -0.01em;
+    margin: 0 0 var(--space-3);
+  }
+  .hero__value {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 44ch;
+    margin: 0 0 var(--space-4);
+  }
+  .hero__ctas {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .hero__photo {
+    margin: 0;
+    justify-self: end;
+    width: min(440px, 100%);
+    position: relative;
+  }
+  /* A soft glow behind the photo instead of a second outline. */
+  .hero__photo::before {
+    content: '';
+    position: absolute;
+    inset: 8% -6% -4% 6%;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      color-mix(in srgb, var(--accent) 45%, transparent),
+      transparent
+    );
+    filter: blur(40px);
+    opacity: 0.7;
+    z-index: -1;
+  }
+  .hero__frame {
+    position: relative;
+    padding: 8px;
+    border-radius: calc(var(--radius-lg) + 8px);
+    background: var(--surface-raised);
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow-md);
+  }
+  .hero__frame :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 55% 35%;
+    border-radius: var(--radius-lg);
+  }
+  @media (max-width: 1023px) {
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+    .hero__photo {
+      justify-self: start;
+      width: min(380px, 100%);
+    }
+  }
+  @media (max-width: 767px) {
+    .hero {
+      padding-top: var(--space-4);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .live {
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,347 @@
+---
+// Experience in the order a recruiter scans it: organization, position, duration, responsibilities, skills, impact.
+// Each file in src/content/experience is one role; `size` decides how much space it gets.
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Icon from '../Icon.astro';
+import NameNote from '../NameNote.astro';
+import TechTag from '../TechTag.astro';
+import DocPreview from '../DocPreview.astro';
+import bramptonTeam from '../../../Images/story/brampton-council-team.jpg';
+
+// Bullets mark skills and ATS keywords with **double asterisks**; they render as highlighted words.
+const esc = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const keywords = (t: string) => esc(t).replace(/\*\*(.+?)\*\*/g, '<strong class="kw">$1</strong>');
+const roles = (await getCollection('experience')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="sec exp" id="experience" aria-labelledby="exp-title">
+  <div class="anim-title">
+    <h2 class="h2" id="exp-title">
+      Experience
+    </h2>
+  </div>
+  <p class="lead muted">
+    Four roles in five years, from a sandwich counter in Toronto to a city's public website.
+  </p>
+  <NameNote />
+
+  <ol class="exp__list">
+    {roles.map(({ data: r }) => (
+      <li class:list={['role', `role--${r.size}`, 'reveal']}>
+        <div class="role__when">
+          <p class="role__dates">
+            {r.start} - {r.end}
+          </p>
+          <p class="role__length">{r.length}</p>
+          <p class="role__where">
+            <Icon name="map-pin" size={16} />
+            {r.location}
+          </p>
+        </div>
+
+        <div class="role__main">
+          <p class="role__org">{r.organization}</p>
+          <h3 class="role__position">{r.position}</h3>
+          <p class="role__type">{r.type}</p>
+
+          {r.size === 'feature' && (
+            <figure class="role__photo">
+              <Image
+                src={bramptonTeam}
+                alt="City of Brampton staff and co-op students together in Council Chambers"
+                widths={[640, 960]}
+                width={960}
+                sizes="(min-width: 1024px) 600px, 100vw"
+              />
+            </figure>
+          )}
+
+          <ul class="role__duties">
+            {r.responsibilities.map((x) => (
+              <li set:html={keywords(x)} />
+            ))}
+          </ul>
+
+          {r.learningApplied && (
+            <p class="role__learned">
+              <Icon name="book-open-text" size={18} />
+              <span>
+                <b>Learning applied.</b> {r.learningApplied}
+              </span>
+            </p>
+          )}
+
+          {r.skills.length > 0 && (
+            <div class="role__skills" aria-label="Skills and tools">
+              {r.skills.map((s) => (
+                <TechTag name={s} />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {(r.impact.length > 0 || r.caseStudy || r.proof || r.live) && (
+          <div class="role__side">
+            {r.impact.length > 0 && (
+              <dl class="role__impact">
+                {r.impact.map((m) => (
+                  <div>
+                    <dt>{m.value}</dt>
+                    <dd>{m.label}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+            <div class="role__links">
+              {r.caseStudy && (
+                <a class="role__link role__link--main" href={r.caseStudy.href}>
+                  {r.caseStudy.label}
+                  <Icon name="arrow-right" size={16} />
+                </a>
+              )}
+              {r.live && (
+                <a class="role__link" href={r.live} target="_blank" rel="noopener">
+                  Visit the live site
+                  <Icon name="arrow-square-out" size={16} />
+                </a>
+              )}
+            </div>
+            {r.proof && <DocPreview doc={r.proof} size="compact" />}
+          </div>
+        )}
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .exp__list {
+    list-style: none;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .role {
+    display: grid;
+    grid-template-columns: 170px 1fr 300px;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    background: var(--surface-raised);
+    border: 1px solid var(--rule);
+    transition: border-color 400ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .role:hover {
+    border-color: var(--rule-strong);
+  }
+  .role--feature {
+    border-color: var(--accent);
+  }
+  .role--compact {
+    grid-template-columns: 170px 1fr;
+    background: transparent;
+    padding: var(--space-3) var(--space-4);
+  }
+  .role__when p {
+    margin: 0;
+  }
+  .role__dates {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .role__length {
+    display: inline-block;
+    margin-top: 0.5rem !important;
+    padding: 0.3rem 0.7rem;
+    border-radius: var(--radius-pill);
+    background: var(--surface-sunken);
+    border: 1px solid var(--rule-strong);
+    color: var(--accent-ink);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .role__where {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.7rem !important;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .role__org {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent-ink);
+  }
+  .role__position {
+    margin: 0.2rem 0 0.2rem;
+    font: 700 clamp(24px, 2.4vw, 32px)/1.1 var(--font-sans);
+    letter-spacing: -0.02em;
+  }
+  .role--compact .role__position {
+    font-size: 22px;
+  }
+  .role__type {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .role__photo {
+    margin: var(--space-3) 0 0;
+  }
+  .role__photo :global(img) {
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    object-position: 50% 62%;
+    border-radius: var(--radius-md);
+  }
+  .role__duties {
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .role__duties :global(.kw) {
+    font-weight: 700;
+    color: var(--accent-ink);
+  }
+  .role__duties li {
+    position: relative;
+    padding-left: 1.4rem;
+    font-size: 16px;
+    line-height: 1.55;
+    max-width: 64ch;
+  }
+  .role__duties li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+  .role__learned {
+    display: flex;
+    gap: 0.6rem;
+    margin: var(--space-3) 0 0;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--surface-sunken);
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.5;
+    max-width: 64ch;
+  }
+  .role__learned :global(svg) {
+    flex: none;
+    margin-top: 2px;
+    color: var(--accent-ink);
+  }
+  .role__learned b {
+    color: var(--ink);
+  }
+  .role__skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: var(--space-3);
+  }
+  .role__side {
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+  }
+  .role__impact {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3) var(--space-2);
+  }
+  .role__impact dt {
+    font: 700 32px/1 var(--font-sans);
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+  .role__impact div:first-child dt {
+    color: var(--accent-ink);
+  }
+  .role__impact dd {
+    margin: 0.35rem 0 0;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+  .role__links {
+    display: grid;
+    gap: 0.5rem;
+  }
+  .role__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--rule-strong);
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition:
+      border-color 280ms,
+      background-color 280ms;
+  }
+  .role__link:hover {
+    border-color: var(--accent);
+  }
+  .role__link--main {
+    background: var(--action);
+    border-color: var(--action);
+    color: var(--on-action);
+  }
+  .role__link--main:hover {
+    background: var(--accent-strong);
+  }
+  .role__side :global(.dp) {
+    margin-top: 0;
+  }
+  @media (max-width: 1100px) {
+    .role {
+      grid-template-columns: 150px 1fr;
+    }
+    .role__side {
+      grid-column: 2;
+    }
+  }
+  @media (max-width: 767px) {
+    .role,
+    .role--compact {
+      grid-template-columns: 1fr;
+      padding: var(--space-3);
+      gap: var(--space-2);
+    }
+    .role__side {
+      grid-column: auto;
+    }
+    .role__when {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      align-items: center;
+    }
+    .role__length,
+    .role__where {
+      margin-top: 0 !important;
+    }
+    .role__photo :global(img) {
+      aspect-ratio: 16 / 9;
+    }
+  }
+</style>
