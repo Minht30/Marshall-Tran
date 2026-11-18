@@ -8,7 +8,15 @@ import github from '../../icons/color/github.svg?url';
 import discord from '../../icons/color/discord.svg?url';
 import portrait from '../../../Images/story/profile-iron-ring.jpg';
 
-const channels = [
+const channels: {
+  label: string;
+  handle: string;
+  href: string;
+  logo?: string;
+  icon?: string;
+  glow: string;
+}[] = [
+  { label: 'Resume', handle: 'Download the PDF', href: site.resume, icon: 'file-text', glow: '#46c8d2' },
   { label: 'LinkedIn', handle: 'in/minht30', href: site.contact.linkedin, logo: linkedin, glow: '#0a66c2' },
   { label: 'GitHub', handle: 'Minht30', href: site.contact.github, logo: github, glow: '#8b949e' },
   {
@@ -55,17 +63,14 @@ const channels = [
       </button>
       <span class="sr-only" aria-live="polite" data-copy-status></span>
     </div>
-    <a class="contact__cv" href={site.resume} target="_blank" rel="noopener">
-      <Icon name="file-text" size={18} /> Download my resume (PDF)
-    </a>
   </div>
 
   <ul class="channels">
     {channels.map((c) => (
       <li>
         <a href={c.href} target="_blank" rel="noopener" class="channel" style={`--glow:${c.glow}`}>
-          <span class="channel__logo">
-            <img src={c.logo} alt="" width="24" height="24" />
+          <span class:list={['channel__logo', { 'channel__logo--icon': !c.logo }]}>
+            {c.logo ? <img src={c.logo} alt="" width="24" height="24" /> : <Icon name={c.icon!} size={24} />}
           </span>
           <span class="channel__text">
             <span class="channel__name">{c.label}</span>
@@ -228,6 +233,11 @@ const channels = [
       box-shadow 280ms,
       transform 400ms cubic-bezier(0.32, 0.72, 0, 1);
   }
+  .channel__logo--icon {
+    background: var(--action);
+    color: var(--on-action);
+    box-shadow: none;
+  }
   .channel__logo img {
     display: block;
   }
@@ -236,19 +246,6 @@ const channels = [
     box-shadow:
       0 0 0 3px color-mix(in srgb, var(--glow) 45%, transparent),
       0 8px 22px -6px var(--glow);
-  }
-  .contact__cv {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    margin-top: var(--space-3);
-    color: var(--accent-ink);
-    font-weight: 700;
-    text-decoration: none;
-  }
-  .contact__cv:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
   }
   .channel__text {
     display: grid;
