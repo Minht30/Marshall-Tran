@@ -17,6 +17,8 @@ highlights:
 gallery:
   - { src: '../../../Images/bemo/BEMO-Homepage.png', alt: 'The Brampton Emergency Management homepage', caption: 'The BEMO homepage.' }
   - { src: '../../../Images/bemo/BEMO-Personal Preparedness.png', alt: 'The Personal Preparedness page with checklists', caption: 'The Personal Preparedness page.' }
+links:
+  - { label: Live site, href: 'https://www.brampton.ca/EN/residents/Emergency-Management' }
 codeNote: 'Source code: private, City of Brampton'
 ---
 

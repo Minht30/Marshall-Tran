@@ -8,7 +8,6 @@ context: City of Brampton, Apr - Sep 2025
 stack: [SharePoint Online, JavaScript, SharePoint APIs]
 cover: ../../../Images/internal-audit/InternalAudit-Homepage.png
 coverAlt: The Internal Audit portal homepage
-note: Internal to the City, so there is no public link.
 role: 'Built the portal, the search and the content pages'
 highlights:
   - 'A SharePoint Online portal for 300+ internal audit reports from 2018 onward, with metadata-driven search.'
@@ -18,6 +17,8 @@ gallery:
   - { src: '../../../Images/internal-audit/InternalAudit-Homepage.png', alt: 'The Internal Audit portal homepage', caption: 'The portal homepage.' }
   - { src: '../../../Images/internal-audit/InternalAudit-Searching.png', alt: 'The Internal Audit search with filters', caption: 'Searching reports by metadata.' }
   - { src: '../../../Images/internal-audit/InternalAudit-Report.png', alt: 'An Internal Audit report page', caption: 'A report page.' }
+links:
+  - { label: Live site, href: 'https://www.brampton.ca/EN/City-Hall/Office-Internal-Audit' }
 codeNote: 'Source code: private, City of Brampton'
 ---
 
