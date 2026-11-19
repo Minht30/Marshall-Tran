@@ -78,7 +78,7 @@ const id = `ch-${d.order}`;
       </div>
       <div class="split">
         {img0 && (
-          <div class="reveal">
+          <div class="split__media reveal">
             <BrowserFrame
               src={img0.src}
               alt={img0.alt}
@@ -99,7 +99,11 @@ const id = `ch-${d.order}`;
               {d.quote.text.includes('Maris') && <NameNote />}
             </blockquote>
           )}
-          {d.quote?.proof && <Proof doc={docKeyFor(d.quote.proof)} />}
+          {d.quote?.proof && (
+            <div class="split__doc">
+              <Proof doc={docKeyFor(d.quote.proof)} />
+            </div>
+          )}
         </div>
       </div>
     </>
@@ -127,24 +131,30 @@ const id = `ch-${d.order}`;
             {d.quote.text.includes('Maris') && <NameNote />}
           </blockquote>
         )}
-        {d.quote?.proof && <Proof doc={docKeyFor(d.quote.proof)} />}
       </div>
-      <div class="stack reveal">
-        {d.images.map((im, i) => (
-          <figure class:list={['stack__item', `stack__item--${i}`]}>
-            <div class="tray">
-              <div class="win">
-                <Image
-                  src={im.src}
-                  alt={im.alt}
-                  widths={[480, 720]}
-                  width={720}
-                  sizes="(min-width: 1024px) 460px, 100vw"
-                />
+      <div class="layered__side">
+        <div class="stack reveal">
+          {d.images.map((im, i) => (
+            <figure class:list={['stack__item', `stack__item--${i}`]}>
+              <div class="tray">
+                <div class="win">
+                  <Image
+                    src={im.src}
+                    alt={im.alt}
+                    widths={[480, 720]}
+                    width={720}
+                    sizes="(min-width: 1024px) 460px, 100vw"
+                  />
+                </div>
               </div>
-            </div>
-          </figure>
-        ))}
+            </figure>
+          ))}
+        </div>
+        {d.quote?.proof && (
+          <div class="layered__doc reveal">
+            <Proof doc={docKeyFor(d.quote.proof)} />
+          </div>
+        )}
       </div>
     </div>
   )}
@@ -177,13 +187,7 @@ const id = `ch-${d.order}`;
       )}
       <div class="city__facts">
         {d.facts.map((f, i) => (
-          <Metric value={f.value} label={f.label} accent={i === 0}>
-            {f.proof && (
-              <Proof href={f.proof} small>
-                Certificate
-              </Proof>
-            )}
-          </Metric>
+          <Metric value={f.value} label={f.label} accent={i === 0} />
         ))}
       </div>
       <div class="city__work">
@@ -223,7 +227,14 @@ const id = `ch-${d.order}`;
               {d.quote.text.includes('Maris') && <NameNote />}
             </blockquote>
           )}
-          {d.quote?.proof && <Proof doc={docKeyFor(d.quote.proof)} />}
+          <div class="city__docs">
+            {d.quote?.proof && <Proof doc={docKeyFor(d.quote.proof)} />}
+            {d.facts
+              .filter((f) => f.proof)
+              .map((f) => (
+                <Proof doc={docKeyFor(f.proof!)} />
+              ))}
+          </div>
         </div>
       </div>
     </>
@@ -482,14 +493,25 @@ const id = `ch-${d.order}`;
     display: grid;
     grid-template-columns: 7fr 5fr;
     gap: var(--space-5);
-    align-items: center;
+    align-items: start;
+  }
+  .split__doc {
+    width: min(100%, 380px);
   }
 
   .layered {
     display: grid;
     grid-template-columns: 5fr 7fr;
     gap: var(--space-5);
-    align-items: center;
+    align-items: start;
+  }
+  .layered__side {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .layered__doc {
+    justify-self: end;
+    width: min(100%, 320px);
   }
   .stack {
     position: relative;
@@ -538,6 +560,13 @@ const id = `ch-${d.order}`;
     gap: var(--space-5);
     margin-top: var(--space-5);
     align-items: start;
+  }
+  .city__docs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    align-items: start;
+    margin-top: var(--space-3);
   }
   .city__list {
     margin: 0 0 var(--space-4);
@@ -667,6 +696,12 @@ const id = `ch-${d.order}`;
     }
     .city__facts {
       grid-template-columns: repeat(2, 1fr);
+    }
+    .split__doc {
+      width: 100%;
+    }
+    .layered__doc {
+      justify-self: stretch;
     }
     .stack {
       min-height: 0;
