@@ -256,23 +256,23 @@ const screens = [
         </p>
         <ul class="parts">
           <li>
-            <span class="mt-tag">RAK3172</span>
+            <TechTag name="RAK3172" />
             <span>Control and long-range LoRa in one compact module.</span>
           </li>
           <li>
-            <span class="mt-tag">Quectel L80-R</span>
+            <TechTag name="Quectel L80-R" />
             <span>Outdoor GPS that fits the tracker's footprint.</span>
           </li>
           <li>
-            <span class="mt-tag">Patch antenna</span>
+            <TechTag name="Patch antenna" />
             <span>Chosen over a long whip antenna to suit a cat-mounted form.</span>
           </li>
           <li>
-            <span class="mt-tag">600 mAh Li-Po</span>
+            <TechTag name="600 mAh Li-Po" />
             <span>Light enough for untethered field testing.</span>
           </li>
           <li>
-            <span class="mt-tag">TP4056 + MCP1700</span>
+            <TechTag name="TP4056 + MCP1700" />
             <span>Charging and voltage regulation.</span>
           </li>
         </ul>
@@ -1106,7 +1106,7 @@ const screens = [
     gap: var(--space-2);
     font-size: 15px;
   }
-  .parts .mt-tag {
+  .parts :global(.tt) {
     justify-self: start;
   }
   .app {

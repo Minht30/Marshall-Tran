@@ -10,6 +10,7 @@ import Cta from './Cta.astro';
 import Metric from './Metric.astro';
 import Zoomable from './Zoomable.astro';
 import NameNote from './NameNote.astro';
+import TechTag from './TechTag.astro';
 
 interface Props {
   entry: CollectionEntry<'milestones'>;
@@ -44,7 +45,7 @@ const id = `ch-${d.order}`;
         </div>
         <div class="mt-row tags">
           {d.tags.map((t) => (
-            <span class="mt-tag">{t}</span>
+            <TechTag name={t} />
           ))}
         </div>
         {img0 && (
@@ -267,7 +268,7 @@ const id = `ch-${d.order}`;
         </div>
         <div class="mt-row tags">
           {d.tags.map((t, i) => (
-            <span class:list={['mt-tag', { 'mt-tag--accent': i === 0 }]}>{t}</span>
+            <TechTag name={t} accent={i === 0} />
           ))}
         </div>
         {d.cta && <Cta href={d.cta.href}>{d.cta.label}</Cta>}

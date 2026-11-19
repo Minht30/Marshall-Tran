@@ -5,6 +5,7 @@ import Base from '../../layouts/Base.astro';
 import Proof from '../../components/Proof.astro';
 import NextCase from '../../components/NextCase.astro';
 import CaseFacts from '../../components/CaseFacts.astro';
+import TechTag from '../../components/TechTag.astro';
 import { docs } from '../../data/site';
 import homeShot from '../../../Images/growgreen/GrowGreen_homepage.png';
 import plansShot from '../../../Images/growgreen/Environment-Pages-Programs.png';
@@ -241,7 +242,7 @@ const flow = [
             <p>{f.text}</p>
             <div class="mt-row">
               {f.tags.map((t) => (
-                <span class="mt-tag">{t}</span>
+                <TechTag name={t} />
               ))}
             </div>
           </li>

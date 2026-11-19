@@ -78,6 +78,13 @@ export const tech: Record<string, { logo?: string; icon?: string }> = {
   PBKDF2: { icon: 'password' },
   'TCP sockets': { icon: 'plugs' },
   'Multi-threading': { icon: 'arrows-split' },
+  SEO: { icon: 'magnifying-glass' },
+  'Stakeholder reviews': { icon: 'chats' },
+  RAK3172: { icon: 'cpu' },
+  'Quectel L80-R': { icon: 'crosshair' },
+  'Patch antenna': { icon: 'cell-signal-high' },
+  '600 mAh Li-Po': { icon: 'battery-high' },
+  'TP4056 + MCP1700': { icon: 'battery-charging' },
   'UX research': { icon: 'magnifying-glass' },
   'Data migration': { icon: 'database' },
 };
